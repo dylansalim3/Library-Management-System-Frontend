@@ -36,7 +36,13 @@ class Login extends Component {
           console.log(res.data.token);
           localStorage.setItem('usertoken', res.data.token);
           console.log('Successfully logging in');
-          this.props.history.push('/profile');
+          console.log(this.state.role);
+          if(this.state.role==="admin"){
+            this.props.history.push('/admindashboard');
+          }else if(this.state.role==="student"||this.state.role==="teacher"){
+            this.props.history.push('/studentdashboard');
+          }
+          
         }
       })
       .catch((err) => {

@@ -15,7 +15,6 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-
         if(localStorage.usertoken){
             var token = localStorage.usertoken;
             var decoded = jwt_decode(token);
@@ -25,17 +24,15 @@ class Profile extends Component {
                 email: decoded.email,
                 token: decoded,
             });
+            console.log(decoded);
         }else{
             this.props.history.push('/');
             console.log("you are not logged in");
         }
-        
-
-
     }
 
     render(){
-        if (localStorage.usertoken) {
+        
           return (
             <div className="container">
               <div className="jumbotron mt-5">
@@ -61,9 +58,7 @@ class Profile extends Component {
               </div>
             </div>
           );
-        } else {
-          return <div>You're not logged in</div>;
-        }
+
     }
 }
 

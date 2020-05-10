@@ -21,6 +21,16 @@ class Navbar extends Component {
                 Register
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/sidemenu" className="nav-link">
+                Sidemenu
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/dashboard" className="nav-link">
+                Dashboard
+              </Link>
+            </li>
           </ul>
         );
 
