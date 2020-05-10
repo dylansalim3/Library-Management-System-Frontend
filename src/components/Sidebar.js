@@ -78,6 +78,7 @@ function Sidebar(props) {
     color: 'white',
   };
 
+  //route is the path props defined for each route in App.js
   const adminmenuArray = [
     { name: 'Dashboard', route: 'admindashboard' },
     { name: 'Add book', route: 'add_book' },
