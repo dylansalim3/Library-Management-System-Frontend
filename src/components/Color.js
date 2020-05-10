@@ -1,1 +1,0 @@
-export const topgreen = '#2C8B96';

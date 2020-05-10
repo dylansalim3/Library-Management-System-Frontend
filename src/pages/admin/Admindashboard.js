@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Sidebar from '../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
 import '../../style/Style.css';
-import { Container } from '@material-ui/core';
 
 export default class Admindashboard extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -32,12 +32,12 @@ export default class Admindashboard extends Component {
 
   render() {
     return (
-      <Container maxWidth="false">
+      <div>
         <Sidebar role={this.state.role} selected="admindashboard" />
         <div className="content">
           <h1>this is dashboard for admin and librarian</h1>
         </div>
-      </Container>
+      </div>
     );
   }
 }

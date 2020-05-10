@@ -2,8 +2,9 @@
     .content {
         margin-left: 240px;
     }
+
 }
 
-.container {
-    max-width: none;
+.content {
+    padding: 20px
 }

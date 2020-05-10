@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { Link, withRouter } from 'react-router-dom';
-import {topgreen} from './Color';
+import { topgreen, drawergreen } from '../style/Color';
 
 const drawerWidth = 240;
 
@@ -49,8 +49,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  overrides: {
+    MuiContainer: {
+      maxWidth: false,
+    },
+  },
 }));
-
 
 function Sidebar(props) {
   const { window } = props;
@@ -69,7 +73,6 @@ function Sidebar(props) {
     localStorage.removeItem('usertoken');
     props.history.push('/');
   };
-
 
   const style = {
     color: 'white',
@@ -98,7 +101,6 @@ function Sidebar(props) {
     { name: 'Borrow History', route: 'borrowhistory' },
     { name: 'Extend Borrow', route: 'extendborrow' },
     { name: 'Student Registration', route: 'studentregistration' },
-
   ];
 
   const returnMenus = (role) => {
@@ -107,7 +109,7 @@ function Sidebar(props) {
       arr = adminmenuArray;
     } else if (role === 'student') {
       arr = studentmenuArray;
-    }else if(role === 'teacher'){
+    } else if (role === 'teacher') {
       arr = teachermenuArray;
     }
 
@@ -123,7 +125,7 @@ function Sidebar(props) {
               ...style,
               ...{
                 backgroundColor:
-                  props.selected === data.route ? '#2F8C97' : '#339CA8',
+                  props.selected === data.route ? topgreen : drawergreen,
               },
             }}
           >
@@ -136,11 +138,11 @@ function Sidebar(props) {
             ...{
               position: 'fixed',
               bottom: 10,
-              backgroundColor: 'red',
+              backgroundColor: 'white',
               width: '200px',
-              color:'black',
-              marginLeft: 20
-
+              color: 'black',
+              marginLeft: 20,
+              textAlign: 'center',
             },
           }}
           button
@@ -153,13 +155,21 @@ function Sidebar(props) {
   };
 
   const drawer = (
-    <div style={{ backgroundColor: '#339CA8', height: '100%' }}>
-      <div className={classes.toolbar}>
-        <h2>E-library</h2>
+    <div style={{ backgroundColor: drawergreen, height: '100%' }}>
+      <div
+        className={classes.toolbar}
+        style={{
+          backgroundColor: topgreen,
+          paddingLeft: '20px',
+          alignItems: 'center',
+          display: 'flex',
+        }}
+      >
+        <h2 style={{ color: 'white' }}>E-library</h2>
       </div>
       <Divider />
 
-      <List>{returnMenus(props.role)}</List>
+      <List style={{ marginTop: '30px' }}>{returnMenus(props.role)}</List>
     </div>
   );
 
@@ -168,60 +178,87 @@ function Sidebar(props) {
 
   return (
     <div>
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" style={{backgroundColor:topgreen}}className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Responsive drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden mdUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar
+            style={{
+              backgroundColor: topgreen,
+              justifyContent: 'space-between',
             }}
           >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-         <div className={classes.toolbar} /> 
-      </main>
-    </div>
-            
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Hidden smDown>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                  <Typography variant="h6" noWrap>
+                    Hi,John
+                  </Typography>
+              </div>
+            </Hidden>
+            <Hidden mdUp>
+              <div
+                style={{
+                  width: '100%',
+                  paddingRight: '30px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                  <Typography variant="h6" noWrap>
+                    E-library
+                  </Typography>
+              </div>
+            </Hidden>
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          <Hidden mdUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <div>
+          <div className={classes.toolbar} />
+        </div>
+      </div>
     </div>
   );
 }
