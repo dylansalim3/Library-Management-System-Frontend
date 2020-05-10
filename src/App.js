@@ -1,12 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-import Navbar from './components/Navbar';
-import Landing from './components/Landing';
-import Login from './components/Login';
-import Register from './components/Register';
-import Profile from './components/Profile';
-import Sidemenu from './components/Sidemenu';
+import Login from './pages/Login';
+
 //admin pages
 import Admindashboard from './pages/admin/Admindashboard';
 import Addbook from './pages/admin/Addbook';
@@ -21,11 +17,7 @@ function App() {
         {/* <Navbar /> */}
 
         <div className="container">
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/sidemenu" component={Sidemenu} />
+          <Route exact path="/" component={Login} />
 
           {/* admin paths */}
           <Route exact path="/admindashboard" component={Admindashboard} />

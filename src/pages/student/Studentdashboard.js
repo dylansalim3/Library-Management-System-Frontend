@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Sidebar from '../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
+import '../../style/Style.css';
 
 export default class Studentdashboard extends Component {
   constructor() {
     super();
     this.state = {
+      first_name: '',
+      last_name: '',
+      email: '',
       role: null,
     };
   }
@@ -15,6 +19,9 @@ export default class Studentdashboard extends Component {
       var token = localStorage.usertoken;
       var decoded = jwt_decode(token);
       this.setState({
+        first_name: decoded.first_name,
+        last_name: decoded.last_name,
+        email: decoded.email,
         role: decoded.role,
       });
       console.log('my role is ' + decoded.role);
@@ -33,8 +40,14 @@ export default class Studentdashboard extends Component {
   render() {
     return (
       <div>
-        <Sidebar role={this.state.role} selected="studentdashboard" />
-        <h1>this is dashboard for students and teachers</h1>
+        <Sidebar
+          role={this.state.role}
+          user={this.state.first_name}
+          selected="studentdashboard"
+        />
+        <div className="content">
+          <h1>this is dashboard for students and teachers</h1>
+        </div>
       </div>
     );
   }

@@ -8,7 +8,10 @@ export default class Admindashboard extends Component {
   constructor() {
     super();
     this.state = {
-      role: null
+      first_name: '',
+      last_name: '',
+      email: '',
+      role: null,
     };
   }
 
@@ -17,7 +20,10 @@ export default class Admindashboard extends Component {
       var token = localStorage.usertoken;
       var decoded = jwt_decode(token);
       this.setState({
-        role: decoded.role
+        first_name: decoded.first_name,
+        last_name: decoded.last_name,
+        email: decoded.email,
+        role: decoded.role,
       });
       console.log("my role is "+ decoded.role);
       if(decoded.role==="student"||decoded.role==="teacher"){
@@ -33,7 +39,7 @@ export default class Admindashboard extends Component {
   render() {
     return (
       <div>
-        <Sidebar role={this.state.role} selected="admindashboard" />
+        <Sidebar role={this.state.role} user={this.state.first_name} selected="admindashboard" />
         <div className="content">
           <h1>this is dashboard for admin and librarian</h1>
         </div>

@@ -205,7 +205,7 @@ function Sidebar(props) {
                 }}
               >
                   <Typography variant="h6" noWrap>
-                    Hi,John
+                    {`Hi ${props.user}`}
                   </Typography>
               </div>
             </Hidden>
