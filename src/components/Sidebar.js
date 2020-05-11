@@ -62,8 +62,6 @@ function Sidebar(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  console.log(props.role);
-  console.log(props.selected);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
