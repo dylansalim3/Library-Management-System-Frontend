@@ -10,6 +10,7 @@ import Borrowbook from './pages/admin/Borrowbook';
 
 //student pages 
 import Studentdashboard from './pages/student/Studentdashboard';
+import SearchBook from './pages/student/SearchBook';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/admindashboard" component={Admindashboard} />
           <Route exact path="/add_book" component={Addbook} />
           <Route exact path="/borrowbook" component={Borrowbook} />
+          <Route exact path="/searchbook" component={SearchBook}/>
           {/* student paths */}
           <Route exact path="/studentdashboard" component={Studentdashboard} />
         </div>
