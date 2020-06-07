@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 //admin pages
 import Admindashboard from './pages/admin/Admindashboard';
@@ -19,7 +20,7 @@ function App() {
 
         <div className="container">
           <Route exact path="/" component={Login} />
-
+          <Route exact path="/profile" component={Profile} />
           {/* admin paths */}
           <Route exact path="/admindashboard" component={Admindashboard} />
           <Route exact path="/add_book" component={Addbook} />

@@ -16,6 +16,11 @@
     width: 80%
 }
 
+.profileInput{
+    width: 80%;
+    max-width: 500px;
+}
+
 @media (max-width:600px){
     /* when smaller than 600px */
     .gridWidth{

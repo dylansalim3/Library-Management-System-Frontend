@@ -18,9 +18,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// var JsBarcode = require('jsbarcode');
-// var { createCanvas } = require('canvas');
-// var canvas = createCanvas(200,200);
 
 var Barcode = require('react-barcode');
 
@@ -86,7 +83,7 @@ export default class Addbook extends Component {
   };
 
   uploadImage = async (imageFormObj) => {
-    if(this.state.bookimgpath){
+    if(this.state.bookimg){
     await axios
       .post('/file', imageFormObj)
       .then((data) => {
@@ -128,7 +125,6 @@ export default class Addbook extends Component {
       .then((res) => {
         console.log(res);
         console.log(res.data.bookdetail.id);
-        // JsBarcode('#barcode', 'Hello');
         
         this.setState({
           addedBookID:res.data.bookdetail.id,
@@ -201,7 +197,7 @@ export default class Addbook extends Component {
               Please print the generated barcode below and paste it on the book.
               <Barcode
                 style={{ width: '100%' ,backgroundColor:'red'}}
-                value={this.state.addedBookID}
+                value={String(this.state.addedBookID)}
               />
             </DialogContentText>
           </DialogContent>
