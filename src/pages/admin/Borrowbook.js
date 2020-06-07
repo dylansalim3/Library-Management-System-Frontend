@@ -1,54 +1,77 @@
-import React, { Component } from 'react';
-import Sidebar from '../../components/Sidebar';
-import jwt_decode from 'jwt-decode';
+import React, {Component} from 'react';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import {Tab,Box,Typography} from '@material-ui/core';
 import '../../style/Style.css';
+import AdminBoilerplate from "./AdminBoilerplate";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+      <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+      >
+        {value === index && (
+            <Box p={3}>
+              <Typography>{children}</Typography>
+            </Box>
+        )}
+      </div>
+  );
+}
 
 export default class Borrowbook extends Component {
-  constructor() {
-    super();
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      role: null,
-    };
-  }
-
-  componentDidMount() {
-    if (localStorage.usertoken) {
-      var token = localStorage.usertoken;
-      var decoded = jwt_decode(token);
-      this.setState({
-        first_name: decoded.first_name,
-        last_name: decoded.last_name,
-        email: decoded.email,
-        role: decoded.role,
-      });
-      console.log('my role is ' + decoded.role);
-      if (decoded.role === 'student' || decoded.role === 'teacher') {
-        this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
-        console.log(
-          'Students and teachers are not allowed to access this page.'
-        );
-      }
-    } else {
-      this.props.history.push('/');
-      console.log('you are not logged in');
+    constructor(props) {
+        super(props);
+        this.state = {
+          tab:0
+        }
     }
-  }
 
-  render() {
-    return (
-      <div>
-        <Sidebar
-          role={this.state.role}
-          user={this.state.first_name}
-          selected="borrowbook"
-        />
-        <div className="content">
-          <h1>Borrow/Return/Extend</h1>
-        </div>
-      </div>
-    );
-  }
+    onChangeTabs = (e,value) =>{
+      console.log(e);
+      console.log(value);
+      this.setState({tab:value});
+    };
+
+
+
+
+    render() {
+        return (
+            <div>
+                <AdminBoilerplate page={"borrowbook"}/>
+                <div className="content">
+                  <Paper>
+                    <Tabs
+                        value={this.state.tab}
+                        onChange={this.onChangeTabs}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                      <Tab label="Borrow" id={'simple-tab-'+0} aria-controls={`simple-tabpanel-${0}`}/>
+                      <Tab label="Return" id={'simple-tab-'+1} aria-controls={`simple-tabpanel-${1}`}/>
+                      <Tab label="Renew" id={'simple-tab-'+2} aria-controls={`simple-tabpanel-${2}`}/>
+
+                    </Tabs>
+                    <TabPanel value={this.state.tab} index={0}>
+                      Item One
+                    </TabPanel>
+                    <TabPanel value={this.state.tab} index={1}>
+                      Item Two
+                    </TabPanel>
+                    <TabPanel value={this.state.tab} index={2}>
+                      Item Three
+                    </TabPanel>
+                  </Paper>
+                </div>
+            </div>
+        );
+    }
 }

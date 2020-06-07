@@ -35,7 +35,7 @@ class StudentBoilerplate extends Component {
             <Sidebar
           role={this.state.role}
           user={this.state.first_name}
-          selected="studentdashboard"
+          selected={this.props.page}
         /> </div> );
     }
 }

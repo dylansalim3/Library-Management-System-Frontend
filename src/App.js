@@ -11,6 +11,7 @@ import Borrowbook from './pages/admin/Borrowbook';
 //student pages 
 import Studentdashboard from './pages/student/Studentdashboard';
 import SearchBook from './pages/student/SearchBook';
+import LibrarianDashboard from "./pages/librarian/LibrarianDashboard";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/searchbook" component={SearchBook}/>
           {/* student paths */}
           <Route exact path="/studentdashboard" component={Studentdashboard} />
+          {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
         </div>
       </div>
     </Router>

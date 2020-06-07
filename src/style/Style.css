@@ -16,6 +16,35 @@
     width: 80%
 }
 
+.textCenter{
+    text-align:center;
+}
+
+.textRight{
+    text-align:right;
+}
+
+.center{
+    margin:auto;
+}
+
+.flex-justify-center{
+    display:flex;
+    justify-content: center;
+}
+
+.flexGrow{
+    flex-grow: 1;
+}
+
+.flex{
+    display:flex;
+}
+
+.flex-content-space-between{
+    justify-content: space-between;
+}
+
 @media (max-width:600px){
     /* when smaller than 600px */
     .gridWidth{
