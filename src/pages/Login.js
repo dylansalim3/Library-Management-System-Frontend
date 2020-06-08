@@ -4,6 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 class Login extends Component {
   constructor() {
@@ -12,6 +15,8 @@ class Login extends Component {
       email: '',
       password: '',
       role: 'admin',
+      dialog: false,
+      errormessage: '',
     };
   }
 
@@ -33,6 +38,10 @@ class Login extends Component {
       })
       .then((res) => {
         if (res.data.error) {
+          this.setState({
+            errormessage: res.data.error,
+            dialog: true
+          })
           console.log('Error : ' + res.data.error);
         } else {
           console.log(res.data.token);
@@ -116,6 +125,29 @@ class Login extends Component {
             </Button>
           </div>
         </form>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.dialog}
+          autoHideDuration={6000}
+          onClose={() => this.setState({ dialog: false })}
+          message={this.state.errormessage}
+          action={
+            <React.Fragment>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => this.setState({ dialog: false })}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </Grid>
     );
   }
