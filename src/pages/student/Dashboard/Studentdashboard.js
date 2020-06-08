@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
-import '../../style/Style.css';
+import '../../../style/Style.css';
 
 export default class Studentdashboard extends Component {
   constructor() {

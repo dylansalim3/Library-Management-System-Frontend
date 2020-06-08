@@ -9,9 +9,10 @@ import Addbook from './pages/admin/Addbook';
 import Borrowbook from './pages/admin/Borrowbook';
 
 //student pages 
-import Studentdashboard from './pages/student/Studentdashboard';
-import SearchBook from './pages/student/SearchBook';
+import Studentdashboard from './pages/student/Dashboard/Studentdashboard';
+import SearchBook from './pages/student/SearchBook/SearchBook';
 import LibrarianDashboard from "./pages/librarian/LibrarianDashboard";
+import BorrowHistoryPage from "./pages/student/BorrowHistory/BorrowHistoryPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/searchbook" component={SearchBook}/>
           {/* student paths */}
           <Route exact path="/studentdashboard" component={Studentdashboard} />
+          <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
           {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
         </div>
       </div>

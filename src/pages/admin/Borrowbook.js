@@ -4,6 +4,8 @@ import Tabs from '@material-ui/core/Tabs';
 import {Tab,Box,Typography} from '@material-ui/core';
 import '../../style/Style.css';
 import AdminBoilerplate from "./AdminBoilerplate";
+import BorrowBookTab from "./BorrowBookTab";
+import ReturnBookTab from "./ReturnBookTab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,7 +20,7 @@ function TabPanel(props) {
       >
         {value === index && (
             <Box p={3}>
-              <Typography>{children}</Typography>
+              <Typography component="span">{children}</Typography>
             </Box>
         )}
       </div>
@@ -61,10 +63,10 @@ export default class Borrowbook extends Component {
 
                     </Tabs>
                     <TabPanel value={this.state.tab} index={0}>
-                      Item One
+                      <BorrowBookTab/>
                     </TabPanel>
                     <TabPanel value={this.state.tab} index={1}>
-                      Item Two
+                      <ReturnBookTab/>
                     </TabPanel>
                     <TabPanel value={this.state.tab} index={2}>
                       Item Three

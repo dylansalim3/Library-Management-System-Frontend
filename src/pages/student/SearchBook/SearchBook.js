@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import StudentBoilerplate from './StudentBoilerplate';
+import StudentBoilerplate from '../StudentBoilerplate';
 import FormControl from '@material-ui/core/FormControl';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -147,7 +147,7 @@ class SearchBook extends Component {
     render() {
         return (
             <div>
-                <StudentBoilerplate page={'searchPage'}/>
+                <StudentBoilerplate page={'searchbook'}/>
                 <div className='content'>
                     <h2>Library Catalog</h2>
                     <Card style={{padding: 10}}>
