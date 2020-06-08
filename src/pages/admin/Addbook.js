@@ -394,18 +394,6 @@ export default class Addbook extends Component {
                       </Select>
                     </FormControl>
 
-                    {/* <TextField
-                      label="Genre"
-                      variant="outlined"
-                      name="genre"
-                      value={this.state.genre}
-                      onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
-                      select
-                    >
-                      <MenuItem value={1}>Mystery</MenuItem>
-                      <MenuItem value={2}>Fantasy</MenuItem>
-                    </TextField> */}
                   </Grid>
                   <Grid item xs={12}>
                     <TextField

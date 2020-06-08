@@ -9,14 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
-
-const DarkDisabledTextField = withStyles({
-  root: {
-    '& .MuiInputBase-root.Mui-disabled': {
-      color: 'rgba(0, 0, 0, 0.8)', // (default alpha is 0.38)
-    },
-  },
-})(TextField);
+import Avatar from '@material-ui/core/Avatar';
 
 const DarkerDisabledTextField = withStyles({
   root: {
@@ -37,35 +30,78 @@ export default class Profile extends Component {
       userid: '',
       dialog: false,
       editing: false,
+      profileimg: null,
+      uploadprofileimg: null,
+      profileimgpath: null,
+      imgchanged: false
     };
   }
+
+  uploadImage = async () => {
+    if(this.state.imgchanged){
+      let imageFormObj = new FormData();
+      imageFormObj.append('file', this.state.uploadprofileimg);
+
+          await axios
+            .post('/file', imageFormObj)
+            .then((data) => {
+              console.log(data.data);
+              this.setState({
+                profileimgpath: data.data,
+              });
+              return data.data;
+            })
+            .catch((err) => {
+              console.log(err);
+              return;
+            });
+    }else{
+      console.log('profile pic is not changed');
+    }
+
+    }
+
 
   getProfile = (userid) =>{
         axios.post('/users/profile', {
             userid: userid
         })
         .then(res=>{
-            console.log(res.data.userdata[0].first_name);
+            console.log(res.data.userdata[0]);
             this.setState({
               first_name: res.data.userdata[0].first_name,
               last_name: res.data.userdata[0].last_name,
+              profileimg: res.data.userdata[0].profileimg,
             });
         })
   }
 
-  updateProfile = () =>{
-      axios.post('/users/updateprofile',{
-          first_name: this.state.first_name,
-          last_name: this.state.last_name,
-          userid: this.state.userid
+  updateProfile = async() =>{
+    //upload img if changed
+    await this.uploadImage();
+
+    //update user profile
+    let uploadprofileimgpath;
+    if(this.state.imgchanged){
+      uploadprofileimgpath = this.state.profileimgpath
+    }else{
+      uploadprofileimgpath = this.state.profileimg
+    }
+    axios
+      .post('/users/updateprofile', {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        userid: this.state.userid,
+        profileimg: uploadprofileimgpath,
       })
-      .then(res=>{
-          console.log(res);
+      .then((res) => {
+        console.log(res);
       });
+
       this.setState({
           editing: false,
           dialog:true
-      })
+      });
   }
 
 
@@ -91,8 +127,17 @@ export default class Profile extends Component {
     }
   }
 
-    onChange = (e) => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  selectImage = (e) => {
+    console.log(e.target.files[0]);
+    this.setState({
+      uploadprofileimg: e.target.files[0],
+      profileimg: URL.createObjectURL(e.target.files[0]),
+      imgchanged: true
+    });
   };
 
   render() {
@@ -111,7 +156,21 @@ export default class Profile extends Component {
             alignItems: 'center',
           }}
         >
-          <h1>Profile</h1>
+          <h1>User Profile</h1>
+          <Button disabled={!this.state.editing} onClick={() => this.refs.fileUploader.click()}>
+            <Avatar
+              alt="profileimg"
+              src={this.state.profileimg}
+              style={{ width: '120px', height: '120px' }}
+            />
+          </Button>
+          <input
+            type="file"
+            id="file"
+            ref="fileUploader"
+            style={{ display: 'none' }}
+            onChange={(e) => this.selectImage(e)}
+          />
           <DarkerDisabledTextField
             disabled
             label="Role"
@@ -215,3 +274,4 @@ export default class Profile extends Component {
     );
   }
 }
+
