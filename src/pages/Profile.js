@@ -28,6 +28,8 @@ export default class Profile extends Component {
       email: '',
       role: null,
       userid: '',
+      address: null,
+      phonenum: null,
       dialog: false,
       editing: false,
       profileimg: null,
@@ -72,6 +74,8 @@ export default class Profile extends Component {
               first_name: res.data.userdata[0].first_name,
               last_name: res.data.userdata[0].last_name,
               profileimg: res.data.userdata[0].profileimg,
+              address: res.data.userdata[0].address,
+              phonenum: res.data.userdata[0].phonenum,
             });
         })
   }
@@ -93,6 +97,8 @@ export default class Profile extends Component {
         last_name: this.state.last_name,
         userid: this.state.userid,
         profileimg: uploadprofileimgpath,
+        address: this.state.address,
+        phonenum: this.state.phonenum
       })
       .then((res) => {
         console.log(res);
@@ -157,7 +163,10 @@ export default class Profile extends Component {
           }}
         >
           <h1>User Profile</h1>
-          <Button disabled={!this.state.editing} onClick={() => this.refs.fileUploader.click()}>
+          <Button
+            disabled={!this.state.editing}
+            onClick={() => this.refs.fileUploader.click()}
+          >
             <Avatar
               alt="profileimg"
               src={this.state.profileimg}
@@ -212,6 +221,27 @@ export default class Profile extends Component {
             variant="outlined"
             name="email"
             value={this.state.email}
+            onChange={this.onChange}
+            className="profileInput gridmargin"
+          />
+          <DarkerDisabledTextField
+            disabled={!this.state.editing}
+            label="Phone number"
+            variant="outlined"
+            name="phonenum"
+            value={String(this.state.phonenum)}
+            onChange={this.onChange}
+            className="profileInput gridmargin"
+          />
+          <DarkerDisabledTextField
+            disabled={!this.state.editing}
+            multiline
+            rows={4}
+            label="Home Address"
+            variant="outlined"
+            name="address"
+            // defaultValue={this.state.address}
+            value={String(this.state.address)}
             onChange={this.onChange}
             className="profileInput gridmargin"
           />

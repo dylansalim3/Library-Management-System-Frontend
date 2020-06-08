@@ -121,6 +121,7 @@ export default class Addbook extends Component {
         genre: this.state.genre,
         summary: this.state.summary,
         location: this.state.location,
+        author: this.state.author
       })
       .then((res) => {
         console.log(res);
@@ -393,6 +394,7 @@ export default class Addbook extends Component {
                         <option value={2}>Fantasy</option>
                       </Select>
                     </FormControl>
+
 
                   </Grid>
                   <Grid item xs={12}>
