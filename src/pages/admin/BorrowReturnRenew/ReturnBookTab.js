@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Grid, TextField} from "@material-ui/core";
 import axios from 'axios';
-import AlertDialog from "../../components/AlertDialog";
+import AlertDialog from "../../../components/AlertDialog";
 
 class ReturnBookTab extends Component {
     constructor(props) {

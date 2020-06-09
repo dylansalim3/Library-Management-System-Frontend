@@ -28,7 +28,7 @@ AlertDialog.propTypes = {
     showAlertModal: PropTypes.bool,
     onCloseConfirmationModal: PropTypes.func,
     title:PropTypes.string,
-    desc:PropTypes.string,
+    desc:PropTypes.string|PropTypes.array,
 };
 
 export default AlertDialog;

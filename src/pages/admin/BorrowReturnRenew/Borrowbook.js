@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import {Tab,Box,Typography} from '@material-ui/core';
-import '../../style/Style.css';
-import AdminBoilerplate from "./AdminBoilerplate";
+import '../../../style/Style.css';
+import AdminBoilerplate from "../AdminBoilerplate";
 import BorrowBookTab from "./BorrowBookTab";
 import ReturnBookTab from "./ReturnBookTab";
 

@@ -4,8 +4,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
 import {CheckCircle as CheckCircleIcon, Error as ErrorIcon} from '@material-ui/icons';
 import axios from 'axios';
-import AlertDialog from "../../components/AlertDialog";
-import {isEmpty} from '../../util/StringUtils'
+import AlertDialog from "../../../components/AlertDialog";
+import {isEmpty} from '../../../util/StringUtils'
 
 const ValidationField = props => {
     const {isValid, ...rest} = props;

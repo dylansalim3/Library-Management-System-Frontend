@@ -83,6 +83,7 @@ function Sidebar(props) {
     { name: 'Edit/Delete book', route: 'edit_book' },
     { name: 'Borrow/Return/Renew', route: 'borrowbook' },
     { name: 'Book Reservation', route: 'reservebook' },
+    {name:'Account Registration',route:'registration'},
   ];
 
   const studentmenuArray = [
