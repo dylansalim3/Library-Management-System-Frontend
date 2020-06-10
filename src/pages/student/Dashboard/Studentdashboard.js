@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
-import '../../style/Style.css';
+import '../../../style/Style.css';
 
-export default class Borrowbook extends Component {
+export default class Studentdashboard extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,10 +25,10 @@ export default class Borrowbook extends Component {
         role: decoded.role,
       });
       console.log('my role is ' + decoded.role);
-      if (decoded.role === 'student' || decoded.role === 'teacher') {
-        this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
+      if (decoded.role === 'admin' || decoded.role === 'librarian') {
+        this.props.history.push('/admindashboard'); //push to admin dashboard and librarian dashboard 
         console.log(
-          'Students and teachers are not allowed to access this page.'
+          'Only students and teachers are allowed to access this page.'
         );
       }
     } else {
@@ -43,10 +43,10 @@ export default class Borrowbook extends Component {
         <Sidebar
           role={this.state.role}
           user={this.state.first_name}
-          selected="borrowbook"
+          selected="studentdashboard"
         />
         <div className="content">
-          <h1>Borrow/Return/Extend</h1>
+          <h1>this is dashboard for students and teachers</h1>
         </div>
       </div>
     );

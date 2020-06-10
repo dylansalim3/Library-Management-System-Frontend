@@ -83,6 +83,7 @@ function Sidebar(props) {
     { name: 'Edit/Delete book', route: 'edit_book' },
     { name: 'Borrow/Return/Renew', route: 'borrowbook' },
     { name: 'Book Reservation', route: 'reservebook' },
+    {name:'Account Registration',route:'registration'},
     { name: 'Profile', route: 'profile' },
   ];
 
@@ -105,6 +106,14 @@ function Sidebar(props) {
     { name: 'Student Registration', route: 'studentregistration' },
   ];
 
+  const librarianmenuArray = [
+    { name: 'Dashboard', route: 'studentdashboard' },
+    { name: 'Add book', route: 'add_book' },
+    { name: 'Edit/Delete book', route: 'edit_book' },
+    { name: 'Borrow/Return/Renew', route: 'borrowbook' },
+    { name: 'Book Reservation', route: 'reservebook' }
+  ];
+
   const returnMenus = (role) => {
     var arr = [];
     if (role === 'admin') {
@@ -113,6 +122,8 @@ function Sidebar(props) {
       arr = studentmenuArray;
     } else if (role === 'teacher') {
       arr = teachermenuArray;
+    }else if(role === 'librarian'){
+      arr = librarianmenuArray;
     }
 
     return (

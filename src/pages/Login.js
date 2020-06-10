@@ -55,6 +55,8 @@ class Login extends Component {
             this.state.role === 'teacher'
           ) {
             this.props.history.push('/studentdashboard');
+          }else if(this.state.role === 'librarian'){
+            this.props.history.push('/librarian-dashboard');
           }
         }
       })
