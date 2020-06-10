@@ -84,6 +84,7 @@ function Sidebar(props) {
     { name: 'Borrow/Return/Renew', route: 'borrowbook' },
     { name: 'Book Reservation', route: 'reservebook' },
     {name:'Account Registration',route:'registration'},
+    { name: 'Profile', route: 'profile' },
   ];
 
   const studentmenuArray = [
@@ -92,6 +93,7 @@ function Sidebar(props) {
     { name: 'Pending Reservation', route: 'reservation' },
     { name: 'Borrow History', route: 'borrowhistory' },
     { name: 'Extend Borrow', route: 'extendborrow' },
+    { name: 'Profile', route: 'profile' },
   ];
 
   const teachermenuArray = [
@@ -100,6 +102,7 @@ function Sidebar(props) {
     { name: 'Pending Reservation', route: 'reservation' },
     { name: 'Borrow History', route: 'borrowhistory' },
     { name: 'Extend Borrow', route: 'extendborrow' },
+    { name: 'Profile', route: 'profile' },
     { name: 'Student Registration', route: 'studentregistration' },
   ];
 
