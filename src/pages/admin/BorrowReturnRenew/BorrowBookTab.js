@@ -80,13 +80,6 @@ class BorrowBookTab extends Component {
         }).then(res => {
             if (res.data.err) {
                 this.setState({
-                    errorDialog: {
-                        showErrorDialog: true,
-                        errorMessage: res.data.err,
-                    }
-                });
-            } else {
-                this.setState({
                     successDialog: {
                         showSuccessDialog: true,
                     }
@@ -98,7 +91,7 @@ class BorrowBookTab extends Component {
                     this.setState({
                         errorDialog: {
                             showErrorDialog: true,
-                            errorMessage: err.toString(),
+                            errorMessage: err.response.data.message,
                         }
                     });
                 }

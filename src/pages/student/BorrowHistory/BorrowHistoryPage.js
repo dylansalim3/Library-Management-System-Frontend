@@ -1,16 +1,6 @@
 import React, {Component} from 'react';
 import StudentBoilerplate from "../StudentBoilerplate";
-import {
-    Button,
-    Card,
-    CardContent,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow
-} from "@material-ui/core";
+import {Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import {formatDate} from "../../../util/DateUtils";
@@ -67,7 +57,7 @@ class BorrowHistoryPage extends Component {
                                             <TableRow key={book.id}>
                                                 <TableCell align="center">{index + 1}</TableCell>
                                                 <TableCell align="center">{book.bookId}</TableCell>
-                                                <TableCell align="center"><img src={book.bookimg} alt="book_img" height="128"/></TableCell>
+                                                <TableCell align="center"><img src={book.bookimg} alt="book_img" style={{ width: '120px', height: '120px' }}/></TableCell>
                                                 <TableCell>{book.borrowDate?formatDate(book.borrowDate):'-'}</TableCell>
                                                 <TableCell>{book.dueDate?formatDate(book.dueDate):'-'}</TableCell>
                                                 <TableCell>{book.returnDate?formatDate(book.returnDate):'-'}</TableCell>
