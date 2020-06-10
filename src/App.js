@@ -17,6 +17,7 @@ import LibrarianDashboard from "./pages/librarian/LibrarianDashboard";
 import BorrowHistoryPage from "./pages/student/BorrowHistory/BorrowHistoryPage";
 import AccountRegistrationPage from "./pages/admin/AccountRegistration/AccountRegistrationPage";
 import Registration from "./pages/Registration";
+import StudentAccountRegistrationPage from "./pages/teacher/StudentAccountRegistrationPage";
 axios.defaults.baseURL = 'http://localhost:3000';
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           {/* student paths */}
           <Route exact path="/studentdashboard" component={Studentdashboard} />
           <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
+
+          <Route exact path="/studentregistration" component={StudentAccountRegistrationPage}/>
+
           {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
 
 

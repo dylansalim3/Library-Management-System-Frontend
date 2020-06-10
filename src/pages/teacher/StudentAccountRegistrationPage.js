@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Button, Grid, InputLabel, MenuItem, Paper, Select, TextField} from "@material-ui/core";
-import AdminBoilerplate from "../AdminBoilerplate";
-import {isEmpty} from "../../../util/StringUtils";
+import StudentBoilerplate from "./../student/StudentBoilerplate";
+import {isEmpty} from "./../../util/StringUtils";
 import axios from 'axios';
 import FormControl from "@material-ui/core/FormControl";
-import AlertDialog from "../../../components/AlertDialog";
+import AlertDialog from "./../../components/AlertDialog";
 
-class AccountRegistrationPage extends Component {
+class StudentAccountRegistrationPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,15 +24,15 @@ class AccountRegistrationPage extends Component {
     }
 
     componentDidMount() {
-        axios.get('users/get-registration-csv').then(res=>{
+        axios.get('users/get-registration-csv',{params:{role:'teacher'}}).then(res=>{
             this.setState({
                 csvFormatLink:res.data,
             })
         });
-        axios.get('roles/admin/get-roles').then(res => {
+        axios.get('roles/teacher/get-roles').then(res => {
             console.log(res.data);
             this.setState({
-                roles: res.data,
+                role: res.data[0].id,
             });
         });
     }
@@ -58,9 +58,8 @@ class AccountRegistrationPage extends Component {
 
     fileUpload = () => {
         const url = 'users/register-user';
-        const allowedRoles = this.state.roles.map(role=>{
-            return role.id;
-        });
+        const allowedRoles = [this.state.role];
+        console.log(allowedRoles);
         const formData = new FormData();
         formData.append('file', this.state.file);
         formData.append('email', this.state.email);
@@ -112,7 +111,7 @@ class AccountRegistrationPage extends Component {
     render() {
         return (
             <div>
-                <AdminBoilerplate page={"registration"}/>
+                <StudentBoilerplate page={"studentregistration"}/>
                 <div className="content">
                     <Paper style={{padding: 20}}>
                         <h2 className="textCenter">Account Registration</h2>
@@ -124,7 +123,7 @@ class AccountRegistrationPage extends Component {
                                     component="label"
                                     color="primary"
                                 >
-                                    Upload Excel file of Teacher and Librarian
+                                    Upload Excel file of student list
                                     <input
                                         name="file"
                                         type="file"
@@ -134,7 +133,7 @@ class AccountRegistrationPage extends Component {
                                 </Button>
                             </div>
                             {this.state.file.name?(<p className="textCenter">Selected file:&nbsp;{this.state.file.name}</p>):''}
-                            <p className="textCenter" style={{color: 'red'}}>*Create accounts for teacher/librarian by uploading CSV
+                            <p className="textCenter" style={{color: 'red'}}>*Create accounts for students by uploading CSV
                                 file, a verification link will be sent to the lists of email addresses</p>
                             <p className="flex-justify-center">Download the csv format&nbsp;<a href={this.state.csvFormatLink}>here</a>.</p>
 
@@ -151,29 +150,6 @@ class AccountRegistrationPage extends Component {
                                         variant="outlined"
                                         onChange={e => this.onChangeForm(e.target.name, e.target.value)}
                                     />
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justify="center" style={{marginTop: 15}}>
-                                <Grid item md={8} lg={5}>
-                                    <FormControl variant="outlined" fullWidth>
-                                        <InputLabel id="role-label">Role</InputLabel>
-                                        <Select
-                                            labelId="role-label"
-                                            name="role"
-                                            label="Role"
-                                            value={this.state.role}
-                                            onChange={e => this.onChangeForm(e.target.name, e.target.value)}
-                                        >
-
-                                            {this.state.roles === undefined ?
-                                                null : this.state.roles.map(role => {
-                                                    return (
-                                                        <MenuItem key={role.id} value={role.id}>{role.role}</MenuItem>
-                                                    )
-                                                })}
-
-                                        </Select>
-                                    </FormControl>
                                 </Grid>
                             </Grid>
                             <div className="flex-justify-center" style={{marginTop: 15}}>
@@ -203,4 +179,4 @@ class AccountRegistrationPage extends Component {
     }
 }
 
-export default AccountRegistrationPage;
+export default StudentAccountRegistrationPage;

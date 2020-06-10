@@ -148,7 +148,7 @@ class BorrowBookTab extends Component {
                                         helperText={/.*\S.*/.test(this.state.bookId) ? '' : this.state.bookId === '' ? '' : 'Empty Field'}
                                         fullWidth
                                         required
-                                        variant="standard"
+                                        variant="outlined"
                                         onChange={e => this.onChangeForm(e.target.name, e.target.value)}
                                     />
                                 </Grid>
@@ -162,7 +162,7 @@ class BorrowBookTab extends Component {
                                         // helperText={this.state.formValidation.reason}
                                         fullWidth
                                         required
-                                        variant="standard"
+                                        variant="outlined"
                                         onChange={e => this.onChangeForm(e.target.name, e.target.value)}
                                     />
                                 </Grid>
@@ -175,6 +175,7 @@ class BorrowBookTab extends Component {
                                         disablePast
                                         disableToolbar
                                         variant="inline"
+                                        inputVariant="outlined"
                                         format="dd-MM-yyyy"
                                         fullWidth
                                         margin="normal"
@@ -195,6 +196,7 @@ class BorrowBookTab extends Component {
                                         disablePast
                                         disableToolbar
                                         variant="inline"
+                                        inputVariant="outlined"
                                         format="dd-MM-yyyy"
                                         fullWidth
                                         margin="normal"

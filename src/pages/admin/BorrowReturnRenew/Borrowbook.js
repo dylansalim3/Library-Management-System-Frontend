@@ -69,7 +69,7 @@ export default class Borrowbook extends Component {
                       <ReturnBookTab/>
                     </TabPanel>
                     <TabPanel value={this.state.tab} index={2}>
-                      Item Three
+                      Book Renew
                     </TabPanel>
                   </Paper>
                 </div>

@@ -8,6 +8,7 @@ const AlertDialog = props => {
     const onCloseConfirmationModal = props.onCloseConfirmationModal;
     const title = props.title;
     const desc = props.desc;
+    const confirmationText = props.confirmationText;
     return (
         <Dialog open={showAlertModal}
                 onClose={onCloseConfirmationModal}
@@ -17,7 +18,7 @@ const AlertDialog = props => {
             <DialogContent>{desc}</DialogContent>
             <DialogActions>
                 <Button onClick={onCloseConfirmationModal} color="primary">
-                    Ok
+                    {confirmationText?confirmationText:'Ok'}
                 </Button>
             </DialogActions>
         </Dialog>
