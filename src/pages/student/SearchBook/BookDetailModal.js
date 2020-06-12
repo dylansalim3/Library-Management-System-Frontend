@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Dialog,Button, DialogContent,Grid, DialogTitle,TableContainer,Table,TableHead,TableRow,TableCell,TableBody} from '@material-ui/core';
+import {formatDate} from "../../../util/DateUtils";
 
 class BookDetailModal extends Component {
 
@@ -32,6 +33,9 @@ class BookDetailModal extends Component {
         const desc = this.props.book.summary;
         const genre = this.props.book.genre;
         const books = this.props.book.books;
+        const authors = this.props.book.authors;
+        const datepublished = this.props.book.datepublished;
+        const publisher = this.props.book.publisher;
         return (
             <div>
                 <Dialog
@@ -63,12 +67,24 @@ class BookDetailModal extends Component {
                                     </p>
                                     <p style={{display:'flex',justifyContent:'space-between'}}>
                                         <span>Description</span>
-                                        <span>{desc?desc:'-'}</span>
+                                        <span className="textRight">{desc?desc:'-'}</span>
                                     </p>
-                                    {/*<p style={{display:'flex',justifyContent:'space-between'}}>*/}
-                                    {/*    <span>Number of Copies</span>*/}
-                                    {/*    <span>{books?books.length:0}</span>*/}
-                                    {/*</p>*/}
+                                    <p style={{display:'flex',justifyContent:'space-between'}}>
+                                        <span>Author</span>
+                                        <span>{authors?authors[0].name:'-'}</span>
+                                    </p>
+                                    <p style={{display:'flex',justifyContent:'space-between'}}>
+                                        <span>Date Published</span>
+                                        <span>{datepublished?formatDate(datepublished):'-'}</span>
+                                    </p>
+                                    <p style={{display:'flex',justifyContent:'space-between'}}>
+                                        <span>Publisher</span>
+                                        <span>{publisher?publisher:'-'}</span>
+                                    </p>
+                                    <p style={{display:'flex',justifyContent:'space-between'}}>
+                                        <span>Location</span>
+                                        <span>{location?location:'-'}</span>
+                                    </p>
                                 </Grid>
                             </Grid>
 

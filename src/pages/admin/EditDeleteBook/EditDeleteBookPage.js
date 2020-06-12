@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import AdminBookSearchResult from './AdminBookSearchResult';
 import AdminBoilerplate from "../AdminBoilerplate";
+import BookEditDeleteModal from "./BookEditDeleteModal";
 
 
 class EditDeleteBookPage extends Component {
@@ -23,7 +24,8 @@ class EditDeleteBookPage extends Component {
             genreList: [],
             genre: '',
             showBookSearchResult: false,
-            bookSearchResult: []
+            bookSearchResult: [],
+            showBookDetailModal:false,
         };
 
     }
@@ -180,9 +182,35 @@ class EditDeleteBookPage extends Component {
                         </CardContent>
                     </Card>
                     {this.state.showBookSearchResult ? (
-                        <AdminBookSearchResult result={this.state.bookSearchResult} onUpdateBook={e=>{this.getBookResults()}}/>
+                        <AdminBookSearchResult
+                            result={this.state.bookSearchResult}
+                            onBookSelected={selectedBookDetail => {
+                                this.setState({
+                                    showBookDetailModal: true,
+                                    selectedBookDetail: selectedBookDetail
+                                });
+                            }}
+                        />
                     ) : ""
                     }
+                    <BookEditDeleteModal
+                        openModal={this.state.showBookDetailModal}
+                        book={this.state.selectedBookDetail}
+                        onChangeShowDetailModal={e => {
+                            this.setState({
+                                showBookDetailModal:false,
+                            })
+                        }}
+                        onEditBookDetail={updatedBookDetail => {
+                            this.setState({
+                                selectedBookDetail: updatedBookDetail
+                            });
+                        }}
+                        onUpdateBook={e => {
+                            this.getBookResults();
+                        }}
+                        genreList = {this.state.genreList}
+                    />
                 </div>
             </div>
         );

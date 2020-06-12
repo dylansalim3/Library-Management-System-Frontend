@@ -45,12 +45,12 @@ class BookSearchResult extends Component {
         const desc = bookDetail.summary;
         const imageLink = bookDetail.bookimg;
         return (
-            <Card style={{padding: 10}}>
+            <Card style={{padding: 10,margin:10}}>
                 <CardContent className="flexGrow">
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
                         <CardMedia
                             component="img" className="center"
-                            src="https://drive.google.com/uc?export=view&id=1p-0OOooMboFMYibNWdxL9zAc2xXPBxcD"
+                            src={imageLink}
                             height={140}
                             alt="book img"
                             title={title}/>
@@ -89,7 +89,7 @@ class BookSearchResult extends Component {
         const searchResults = this.props.result;
         return (
             <div id="searchResult">
-                <h2>Search Result</h2>
+                <h2>{this.props.title}</h2>
                 <Grid container>
                     {this.displaySearchResult(searchResults)}
                 </Grid>

@@ -381,7 +381,6 @@ export default class Addbook extends Component {
                       <InputLabel htmlFor="bookgenre">Genre</InputLabel>
                       <Select
                         native
-                        required
                         value={this.state.genre}
                         onChange={this.onChange}
                         inputProps={{
