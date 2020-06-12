@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import jwt_decode from "jwt-decode";
 import Sidebar from "../../components/Sidebar";
+import {withRouter} from 'react-router-dom';
 
 class AdminBoilerplate extends Component {
     constructor(props) {
@@ -38,4 +39,4 @@ class AdminBoilerplate extends Component {
     }
 }
 
-export default AdminBoilerplate;
+export default withRouter(AdminBoilerplate);
