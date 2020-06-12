@@ -183,7 +183,6 @@ class EditDeleteBookPage extends Component {
                         <AdminBookSearchResult result={this.state.bookSearchResult} onUpdateBook={e=>{this.getBookResults()}}/>
                     ) : ""
                     }
-
                 </div>
             </div>
         );
