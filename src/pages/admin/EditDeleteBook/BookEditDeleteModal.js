@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Dialog, DialogContent, DialogTitle, Grid} from '@material-ui/core';
+import {Dialog, DialogActions, DialogContent, DialogTitle, Grid} from '@material-ui/core';
 import {withStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from 'axios';
 import MenuItem from "@material-ui/core/MenuItem";
+import AlertDialog from "../../../components/AlertDialog";
 
 
 const DarkerDisabledTextField = withStyles({
@@ -26,31 +27,13 @@ class BookEditDeleteModal extends Component {
         this.state = Object.assign({}, initialState);
     }
 
-    componentDidMount() {
-        // console.log(this.props);
-        // const bookDetailReq = axios.post('book-details/get-book-by-book-detail-id', {
-        //     id: this.props.book.id
-        // }).then(res=>{
-        //     console.log(res.data);
-        // });
-        // const genreListReq = axios.get('genres/get-all-genre');
-        // axios.all([bookDetailReq, genreListReq]).then(([bookDetail, genreList]) => {
-        //     console.log(bookDetail,genreList);
-        //     this.setState({
-        //         book: bookDetail.res.data,
-        //         genres: genreList.res.data
-        //     });
-        // })
-
-    }
-
     componentWillReceiveProps(nextProps, nextContext) {
         const bookDetailReq = axios.post('book-details/get-book-by-book-detail-id', {
             id: nextProps.book.id
         });
         const genreListReq = axios.get('genres/get-all-genre');
         axios.all([bookDetailReq, genreListReq]).then(([bookDetail, genreList]) => {
-            console.log(bookDetail,genreList);
+            console.log(bookDetail, genreList);
             this.setState({
                 book: bookDetail.data,
                 genres: genreList.data
@@ -60,6 +43,7 @@ class BookEditDeleteModal extends Component {
 
 
     onCloseModal = () => {
+        this.onCloseConfirmationModal();
         this.props.onChangeShowDetailModal(false);
     };
 
@@ -94,7 +78,7 @@ class BookEditDeleteModal extends Component {
                 .then((data) => {
                     console.log(data.data);
                     this.setState({
-                        book:{
+                        book: {
                             ...this.state.book,
                             bookimgpath: data.data,
                         },
@@ -122,14 +106,14 @@ class BookEditDeleteModal extends Component {
         } else {
             uploadbookimgpath = this.state.book.bookimg
         }
-        console.log( this.state.book.title,
-                    this.state.book.isbn,
-                    this.state.book.genre_id,
-                    uploadbookimgpath,
-                    this.state.book.summary);
+        console.log(this.state.book.title,
+            this.state.book.isbn,
+            this.state.book.genre_id,
+            uploadbookimgpath,
+            this.state.book.summary);
         axios
             .post('book-details/update-book', {
-                 id:this.state.book.id,
+                id: this.state.book.id,
                 title: this.state.book.title,
                 isbn: this.state.book.isbn,
                 genreId: this.state.book.genre_id,
@@ -139,8 +123,8 @@ class BookEditDeleteModal extends Component {
             .then((res) => {
                 this.props.onUpdateBook();
                 console.log(res);
-            }).catch(err=>{
-                console.log(err.response.data.message);
+            }).catch(err => {
+            console.log(err.response.data.message);
         });
 
         this.setState({
@@ -149,15 +133,21 @@ class BookEditDeleteModal extends Component {
         });
     };
 
-    deleteBookDetail = () =>{
-        axios.post('book-details/delete-book',{
-            id:this.state.book.id,
-        }).then(res=>{
+    deleteBookDetail = () => {
+        axios.post('book-details/delete-book', {
+            id: this.state.book.id,
+        }).then(res => {
             this.props.onUpdateBook();
             this.onCloseModal();
             console.log(res.data);
         });
 
+    };
+
+    onCloseConfirmationModal = () => {
+        this.setState({
+            showAlertModal: false,
+        });
     };
 
 
@@ -225,9 +215,9 @@ class BookEditDeleteModal extends Component {
                                         onChange={this.onChange}
                                         className="profileInput gridmargin"
                                     >
-                                        {this.state.genres?this.state.genres.map(genre=>(
+                                        {this.state.genres ? this.state.genres.map(genre => (
                                             <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>
-                                        )):<MenuItem>{null}</MenuItem>}
+                                        )) : <MenuItem>{null}</MenuItem>}
 
                                     </DarkerDisabledTextField>
                                     <DarkerDisabledTextField
@@ -275,14 +265,36 @@ class BookEditDeleteModal extends Component {
                                 <Button
                                     disabled={this.state.editing}
                                     variant="contained"
-                                    onClick={() => this.deleteBookDetail()}
-                                    style={{ backgroundColor: '#FF0000', marginLeft: '20px',width: '40%', maxWidth: '230px', height: '40px' }}
+                                    onClick={() => this.setState({showAlertModal:true})}
+                                    style={{
+                                        backgroundColor: '#FF0000',
+                                        marginLeft: '20px',
+                                        width: '40%',
+                                        maxWidth: '230px',
+                                        height: '40px'
+                                    }}
                                 >
                                     Delete
                                 </Button>
                             </div>
                         </div>
                     </DialogContent>
+                </Dialog>
+
+                <Dialog open={this.state.showAlertModal}
+                        onClose={this.onCloseConfirmationModal}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                    <DialogTitle>Are you sure you want to delete the book?</DialogTitle>
+                    <DialogContent>Once the book is deleted. The operation cannot be undone</DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.onCloseConfirmationModal} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={()=>this.deleteBookDetail()} color="primary" autoFocus>
+                            Ok
+                        </Button>
+                    </DialogActions>
                 </Dialog>
             </div>
         );
