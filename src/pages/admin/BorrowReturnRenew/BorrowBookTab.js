@@ -78,7 +78,7 @@ class BorrowBookTab extends Component {
             bookId: this.state.bookId,
             userId: this.state.userId,
         }).then(res => {
-            if (res.data.err) {
+            if (res.data) {
                 this.setState({
                     successDialog: {
                         showSuccessDialog: true,
