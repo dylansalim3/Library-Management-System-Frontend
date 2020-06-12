@@ -118,7 +118,7 @@ class BookEditDeleteModal extends Component {
                 isbn: this.state.book.isbn,
                 genreId: this.state.book.genre_id,
                 bookimg: uploadbookimgpath,
-                summary: this.state.summary,
+                summary: this.state.book.summary,
             })
             .then((res) => {
                 this.props.onUpdateBook();
@@ -228,6 +228,8 @@ class BookEditDeleteModal extends Component {
                                         name="summary"
                                         value={book.summary}
                                         onChange={this.onChange}
+                                        multiline
+                                        row={4}
                                         className="profileInput gridmargin"
                                     />
                                 </Grid>
