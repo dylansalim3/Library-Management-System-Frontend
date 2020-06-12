@@ -33,7 +33,7 @@ class ReturnBookTab extends Component {
         axios.post('borrow-books-history/return-book', {
             bookId: this.state.bookId
         }).then(res => {
-            if (res.data.err) {
+            if (res.data) {
                 this.setState({
                     successDialog: {
                         showSuccessDialog: true,
