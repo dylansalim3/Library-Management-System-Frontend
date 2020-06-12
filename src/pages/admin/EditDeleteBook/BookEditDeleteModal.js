@@ -129,7 +129,7 @@ class BookEditDeleteModal extends Component {
 
     deleteBookDetail = () => {
         axios.post('book-details/delete-book', {
-            id: this.state.book.id,
+            id: this.props.book.id,
         }).then(res => {
             this.props.onUpdateBook();
             this.onCloseModal();
