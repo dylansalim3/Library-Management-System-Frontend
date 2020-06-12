@@ -35,13 +35,6 @@ class ReturnBookTab extends Component {
         }).then(res => {
             if (res.data.err) {
                 this.setState({
-                    errorDialog: {
-                        showErrorDialog: true,
-                        errorMessage: res.data.err,
-                    }
-                });
-            } else {
-                this.setState({
                     successDialog: {
                         showSuccessDialog: true,
                     }
@@ -50,10 +43,11 @@ class ReturnBookTab extends Component {
         })
             .catch(err => {
                 if (err) {
+                    console.log(err.response.data);
                     this.setState({
                         errorDialog: {
                             showErrorDialog: true,
-                            errorMessage: err.toString(),
+                            errorMessage: err.response.data.message,
                         }
                     });
                 }

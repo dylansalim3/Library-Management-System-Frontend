@@ -65,40 +65,40 @@ class BookDetailModal extends Component {
                                         <span>Description</span>
                                         <span>{desc?desc:'-'}</span>
                                     </p>
-                                    <p style={{display:'flex',justifyContent:'space-between'}}>
-                                        <span>Number of Copies</span>
-                                        <span>{books?books.length:0}</span>
-                                    </p>
+                                    {/*<p style={{display:'flex',justifyContent:'space-between'}}>*/}
+                                    {/*    <span>Number of Copies</span>*/}
+                                    {/*    <span>{books?books.length:0}</span>*/}
+                                    {/*</p>*/}
                                 </Grid>
                             </Grid>
 
-                            <TableContainer>
-                                <Table stickyHeader aria-label="books">
-                                    <TableHead>
-                                        <TableRow>
-                                            {columns.map(column=>(
-                                                <TableCell
-                                                key={column.id}
-                                                align="center">
-                                                    {column.label}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {books?books.map((book,index)=>(
-                                            <TableRow key={book.id}>
-                                                <TableCell align="center">{index+1}</TableCell>
-                                                <TableCell align="center">{book.id}</TableCell>
-                                                <TableCell align="center">{location}</TableCell>
-                                                <TableCell align="center">
-                                                    <Button variant="contained" color="primary" onClick={()=>this.onReserveBook(book.id)}>RESERVE</Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        )):''}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            {/*<TableContainer>*/}
+                            {/*    <Table stickyHeader aria-label="books">*/}
+                            {/*        <TableHead>*/}
+                            {/*            <TableRow>*/}
+                            {/*                {columns.map(column=>(*/}
+                            {/*                    <TableCell*/}
+                            {/*                    key={column.id}*/}
+                            {/*                    align="center">*/}
+                            {/*                        {column.label}*/}
+                            {/*                    </TableCell>*/}
+                            {/*                ))}*/}
+                            {/*            </TableRow>*/}
+                            {/*        </TableHead>*/}
+                            {/*        <TableBody>*/}
+                            {/*            {books?books.map((book,index)=>(*/}
+                            {/*                <TableRow key={book.id}>*/}
+                            {/*                    <TableCell align="center">{index+1}</TableCell>*/}
+                            {/*                    <TableCell align="center">{book.id}</TableCell>*/}
+                            {/*                    <TableCell align="center">{location}</TableCell>*/}
+                            {/*                    <TableCell align="center">*/}
+                            {/*                        <Button variant="contained" color="primary" onClick={()=>this.onReserveBook(book.id)}>RESERVE</Button>*/}
+                            {/*                    </TableCell>*/}
+                            {/*                </TableRow>*/}
+                            {/*            )):''}*/}
+                            {/*        </TableBody>*/}
+                            {/*    </Table>*/}
+                            {/*</TableContainer>*/}
                         </div>
                     </DialogContent>
                 </Dialog>

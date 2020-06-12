@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import jwt_decode from 'jwt-decode';
 import Sidebar from '../../components/Sidebar';
+import {withRouter} from 'react-router-dom';
+
 
 class StudentBoilerplate extends Component {
     constructor(props) {
@@ -40,4 +42,4 @@ class StudentBoilerplate extends Component {
     }
 }
  
-export default StudentBoilerplate;
+export default withRouter(StudentBoilerplate);
