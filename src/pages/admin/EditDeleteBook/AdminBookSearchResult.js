@@ -6,8 +6,6 @@ class AdminBookSearchResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBookDetail: {},
-            showBookDetailModal: false,
             bookReservationModal:{
                 showBookReservationModal:false,
                 bookId:null,
@@ -16,10 +14,7 @@ class AdminBookSearchResult extends Component {
     }
 
     onBookSelected = (selectedBookDetail) => {
-        this.setState({
-            selectedBookDetail: selectedBookDetail,
-            showBookDetailModal: true,
-        });
+        this.props.onBookSelected(selectedBookDetail);
     };
 
     displaySearchResult = (searchResults) => {
@@ -44,7 +39,7 @@ class AdminBookSearchResult extends Component {
         const desc = bookDetail.summary;
         const imageLink = bookDetail.bookimg;
         return (
-            <Card style={{padding: 10}}>
+            <Card style={{padding: 10,margin:10}}>
                 <CardContent className="flexGrow">
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
                         <CardMedia
@@ -76,14 +71,7 @@ class AdminBookSearchResult extends Component {
                 <Grid container>
                     {this.displaySearchResult(searchResults)}
                 </Grid>
-                <BookEditDeleteModal
-                    openModal={this.state.showBookDetailModal}
-                    book={this.state.selectedBookDetail}
-                    onChangeShowDetailModal={e => {
-                        this.onChangeShowDetailModal(e)
-                    }}
-                    onUpdateBook={e=>{this.props.onUpdateBook()}}
-                />
+
             </div>
         );
     }

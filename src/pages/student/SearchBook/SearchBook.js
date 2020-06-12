@@ -29,16 +29,18 @@ class SearchBook extends Component {
     }
 
     componentDidMount() {
-        this.setBookGenre();
-    }
-
-
-    setBookGenre = async () => {
-        const genreList = await axios.get('genres/get-all-genre');
-        this.setState({
-            genreList: genreList.data,
+        const genreList = axios.get('genres/get-all-genre');
+        const latestBook = axios.get('book-details/get-latest-book');
+        axios.all([genreList,latestBook]).then(([genreListRes,latestBookRes])=>{
+            this.setState({
+                genreList: genreListRes.data,
+                latestBooks: latestBookRes.data,
+            });
         });
     }
+
+
+
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
@@ -180,10 +182,13 @@ class SearchBook extends Component {
                         </CardContent>
                     </Card>
                     {this.state.showBookSearchResult ? (
-                        <BookSearchResult result={this.state.bookSearchResult}/>
+                        <BookSearchResult title="Search Result" result={this.state.bookSearchResult}/>
                     ) : ""
                     }
-
+                    {this.state.latestBooks ? (
+                        <BookSearchResult title="New Arrival" result={this.state.latestBooks}/>
+                    ) : ""
+                    }
                 </div>
             </div>
         );
