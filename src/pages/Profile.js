@@ -185,7 +185,7 @@ export default class Profile extends Component {
             label="Role"
             variant="outlined"
             name="role"
-            value={this.state.role}
+            value={this.state.role?(this.state.role.charAt(0).toUpperCase()+this.state.role.slice(1)):''}
             className=" profileInput gridmargin"
           />
           <DarkerDisabledTextField
@@ -229,7 +229,7 @@ export default class Profile extends Component {
             label="Phone number"
             variant="outlined"
             name="phonenum"
-            value={String(this.state.phonenum)}
+            value={this.state.phonenum?String(this.state.phonenum):''}
             onChange={this.onChange}
             className="profileInput gridmargin"
           />
@@ -241,7 +241,7 @@ export default class Profile extends Component {
             variant="outlined"
             name="address"
             // defaultValue={this.state.address}
-            value={String(this.state.address)}
+            value={this.state.address?String(this.state.address):''}
             onChange={this.onChange}
             className="profileInput gridmargin"
           />
@@ -281,7 +281,7 @@ export default class Profile extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left',
+            horizontal: 'center',
           }}
           open={this.state.dialog}
           autoHideDuration={6000}
