@@ -45,10 +45,10 @@ class BorrowHistoryPage extends Component {
                                         <TableRow>
                                             <TableCell>No</TableCell>
                                             <TableCell>Book ID</TableCell>
-                                            <TableCell>Book Cover</TableCell>
+                                            <TableCell align={"center"}>Book Cover</TableCell>
                                             <TableCell>Borrow Date</TableCell>
                                             <TableCell>Due Date</TableCell>
-                                            <TableCell>Return</TableCell>
+                                            <TableCell>Return Date</TableCell>
                                             <TableCell>Status</TableCell>
                                         </TableRow>
                                     </TableHead>

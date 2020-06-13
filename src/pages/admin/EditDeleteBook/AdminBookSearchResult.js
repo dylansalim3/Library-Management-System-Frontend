@@ -49,7 +49,7 @@ class AdminBookSearchResult extends Component {
                             alt="book img"
                             title={title}/>
                         <h3 className="textCenter">{title}</h3>
-                        <p className="textCenter">{desc}</p>
+                        <p className="textCenter">{desc.length>100?desc.slice(0,100)+'...':desc}</p>
                     </CardActionArea>
                 </CardContent>
             </Card>

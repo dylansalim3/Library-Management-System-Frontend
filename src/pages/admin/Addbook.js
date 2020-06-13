@@ -17,61 +17,41 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AdminBoilerplate from "./AdminBoilerplate";
 
 
 var Barcode = require('react-barcode');
+
+const defaultState = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  role: null,
+  bookcover: null,
+  bookimg: null,
+  bookimgpath: null,
+  isbn: '',
+  booktitle: '',
+  author: '',
+  datepublished: '',
+  publisher: '',
+  type: '',
+  ebook: null,
+  category: '',
+  genre: '',
+  summary: '',
+  location: '',
+  status: 'available',
+  dialogopen: false,
+  addedBookID: ''
+};
 
 export default class Addbook extends Component {
   
   constructor() {
     super();
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      role: null,
-      bookcover: null,
-      bookimg: null,
-      bookimgpath: null,
-      isbn: '',
-      booktitle: '',
-      author: '',
-      datepublished: '',
-      publisher: '',
-      type: '',
-      ebook: null,
-      category: '',
-      genre: '',
-      summary: '',
-      location: '',
-      status: 'available',
-      dialogopen: false,
-      addedBookID: ''
-    };
-  }
 
-  componentDidMount() {
-    
-    if (localStorage.usertoken) {
-      var token = localStorage.usertoken;
-      var decoded = jwt_decode(token);
-      this.setState({
-        first_name: decoded.first_name,
-        last_name: decoded.last_name,
-        email: decoded.email,
-        role: decoded.role,
-      });
-      console.log('my role is ' + decoded.role);
-      if (decoded.role === 'student' || decoded.role === 'teacher') {
-        this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
-        console.log(
-          'Students and teachers are not allowed to access this page.'
-        );
-      }
-    } else {
-      this.props.history.push('/');
-      console.log('you are not logged in');
-    }
+    this.state = Object.assign({},defaultState);
   }
 
   selectImage = (e) => {
@@ -153,7 +133,6 @@ export default class Addbook extends Component {
 
   render() {
 
-
     const CssTextField = withStyles({
       root: {
         '& .MuiInputLabel-outlined': {
@@ -182,15 +161,11 @@ export default class Addbook extends Component {
 
     return (
       <div>
-        <Sidebar
-          role={this.state.role}
-          user={this.state.first_name}
-          selected="add_book"
-        />
+        <AdminBoilerplate page="add_book"/>
 
         <Dialog
           open={this.state.dialogopen}
-          onClose={() => this.setState({ dialogopen: false })}
+          onClose={() => this.setState(Object.assign({},defaultState))}
         >
           <DialogTitle>Book has been added succesfully</DialogTitle>
           <DialogContent>
@@ -207,7 +182,7 @@ export default class Addbook extends Component {
               Print
             </Button>
             <Button
-              onClick={() => this.setState({ dialogopen: false })}
+              onClick={() => this.setState(Object.assign({},defaultState))}
               color="primary"
               autoFocus
             >

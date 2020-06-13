@@ -50,7 +50,7 @@ class BookDetailModal extends Component {
                         <div style={{padding:10}}>
                             <Grid container spacing={1}>
                                 <Grid item md={4} xs={12}>
-                                    <img style={{height:128,width:128}} src="https://drive.google.com/uc?export=view&id=1p-0OOooMboFMYibNWdxL9zAc2xXPBxcD" alt="book_img"/>
+                                    <img style={{height:128,width:128}} src={this.props.book.bookimg} alt="book_img"/>
                                 </Grid>
                                 <Grid item md={8} xs={12}>
                                     <p style={{display:'flex',justifyContent:'space-between'}}>
@@ -65,10 +65,18 @@ class BookDetailModal extends Component {
                                         <span>Genre</span>
                                         <span>{genre?genre.name:'-'}</span>
                                     </p>
-                                    <p style={{display:'flex',justifyContent:'space-between'}}>
-                                        <span>Description</span>
-                                        <span className="textRight">{desc?desc:'-'}</span>
-                                    </p>
+                                    <Grid container>
+                                        <Grid item xs={3}>
+                                            Description
+                                        </Grid>
+                                        <Grid item xs={9}>
+                                            <span style={{textOverflow:'scale'}}>{desc?desc:'-'}</span>
+                                        </Grid>
+                                    </Grid>
+                                    {/*<p>*/}
+                                    {/*    <span>Description</span>*/}
+                                    {/*    <span className="textRight"></span>*/}
+                                    {/*</p>*/}
                                     <p style={{display:'flex',justifyContent:'space-between'}}>
                                         <span>Author</span>
                                         <span>{author?author:'-'}</span>
