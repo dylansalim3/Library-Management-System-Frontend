@@ -241,10 +241,10 @@ class BookEditDeleteModal extends Component {
                                                 disableFuture
                                                 disableToolbar
                                                 disabled={!this.state.editing}
+                                                style={{width:'94%'}}
                                                 variant="inline"
                                                 inputVariant="outlined"
                                                 format="dd-MM-yyyy"
-                                                fullWidth
                                                 margin="normal"
                                                 id="date-picker-inline"
                                                 label="Published Date"

@@ -243,7 +243,6 @@ export default class Addbook extends Component {
                       type="date"
                       label="Date Published"
                       variant="outlined"
-                      maxDate={new Date()}
                       InputLabelProps={{
                         shrink: true,
                       }}
