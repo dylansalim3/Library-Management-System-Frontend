@@ -54,30 +54,6 @@ export default class Addbook extends Component {
     this.state = Object.assign({},defaultState);
   }
 
-  componentDidMount() {
-    //
-    // if (localStorage.usertoken) {
-    //   var token = localStorage.usertoken;
-    //   var decoded = jwt_decode(token);
-    //   this.setState({
-    //     first_name: decoded.first_name,
-    //     last_name: decoded.last_name,
-    //     email: decoded.email,
-    //     role: decoded.role,
-    //   });
-    //   console.log('my role is ' + decoded.role);
-    //   if (decoded.role === 'student' || decoded.role === 'teacher') {
-    //     this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
-    //     console.log(
-    //       'Students and teachers are not allowed to access this page.'
-    //     );
-    //   }
-    // } else {
-    //   this.props.history.push('/');
-    //   console.log('you are not logged in');
-    // }
-  }
-
   selectImage = (e) => {
     console.log(e.target.files[0]);
     this.setState({
