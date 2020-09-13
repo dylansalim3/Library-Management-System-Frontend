@@ -69,13 +69,13 @@ export default class Profile extends Component {
             userid: userid
         })
         .then(res=>{
-            console.log(res.data.userdata[0]);
+            console.log(res.data.userdata);
             this.setState({
-              first_name: res.data.userdata[0].first_name,
-              last_name: res.data.userdata[0].last_name,
-              profileimg: res.data.userdata[0].profileimg,
-              address: res.data.userdata[0].address,
-              phonenum: res.data.userdata[0].phonenum,
+              first_name: res.data.userdata.first_name,
+              last_name: res.data.userdata.last_name,
+              profileimg: res.data.userdata.profileimg,
+              address: res.data.userdata.address,
+              phonenum: res.data.userdata.phonenum,
             });
         })
   }

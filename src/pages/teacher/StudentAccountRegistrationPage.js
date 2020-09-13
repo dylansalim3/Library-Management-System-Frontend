@@ -59,7 +59,6 @@ class StudentAccountRegistrationPage extends Component {
     fileUpload = () => {
         const url = 'users/register-user';
         const allowedRoles = [this.state.role];
-        console.log(allowedRoles);
         const formData = new FormData();
         formData.append('file', this.state.file);
         formData.append('email', this.state.email);

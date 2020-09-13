@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Button, Grid, InputLabel, MenuItem, Paper, Select, TextField} from "@material-ui/core";
+import React, { Component } from 'react';
+import { Button, Grid, InputLabel, MenuItem, Paper, Select, TextField } from "@material-ui/core";
 import AdminBoilerplate from "../AdminBoilerplate";
-import {isEmpty} from "../../../util/StringUtils";
+import { isEmpty } from "../../../util/StringUtils";
 import axios from 'axios';
 import FormControl from "@material-ui/core/FormControl";
 import AlertDialog from "../../../components/AlertDialog";
@@ -24,9 +24,9 @@ class AccountRegistrationPage extends Component {
     }
 
     componentDidMount() {
-        axios.get('users/get-registration-csv').then(res=>{
+        axios.get('users/get-registration-csv').then(res => {
             this.setState({
-                csvFormatLink:res.data,
+                csvFormatLink: res.data,
             })
         });
         axios.get('roles/admin/get-roles').then(res => {
@@ -39,7 +39,7 @@ class AccountRegistrationPage extends Component {
 
 
     onChangeFile = (e) => {
-        this.setState({file: e.target.files[0]})
+        this.setState({ file: e.target.files[0] })
     };
 
     onChangeForm = (name, value) => {
@@ -58,38 +58,43 @@ class AccountRegistrationPage extends Component {
 
     fileUpload = () => {
         const url = 'users/register-user';
-        const allowedRoles = this.state.roles.map(role=>{
-            return role.id;
-        });
-        const formData = new FormData();
-        formData.append('file', this.state.file);
-        formData.append('email', this.state.email);
-        formData.append('role', this.state.role);
-        formData.append('registrationLinkPrefix',window.location.origin+'/account-registration');
-        formData.append('allowedRoles',allowedRoles);
-
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        };
-        return axios.post(url, formData, config).then(res=>{
-            this.setState({
-                successDialog: {
-                    showSuccessDialog: true,
-                }
+        
+        if (this.state.roles) {
+            const allowedRoles = this.state.roles.map(role => {
+                return role.id;
             });
-        }).catch(err=>{
-            if (err) {
-                const errMessage = err.response.data?err.response.data.message:err.toString();
+            const formData = new FormData();
+            formData.append('file', this.state.file);
+            formData.append('email', this.state.email);
+            formData.append('role', this.state.role);
+            formData.append('registrationLinkPrefix', window.location.origin + '/account-registration');
+            formData.append('allowedRoles', allowedRoles);
+    
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            return axios.post(url, formData, config).then(res => {
                 this.setState({
-                    errorDialog: {
-                        showErrorDialog: true,
-                        errorMessage: errMessage,
+                    successDialog: {
+                        showSuccessDialog: true,
                     }
                 });
-            }
-        })
+            }).catch(err => {
+                if (err) {
+                    const errMessage = err.response.data ? err.response.data.message : err.toString();
+                    this.setState({
+                        errorDialog: {
+                            showErrorDialog: true,
+                            errorMessage: errMessage,
+                        }
+                    });
+                }
+            })
+        }
+
+       
     };
 
     onCloseErrorDialog = () => {
@@ -112,12 +117,12 @@ class AccountRegistrationPage extends Component {
     render() {
         return (
             <div>
-                <AdminBoilerplate page={"registration"}/>
+                <AdminBoilerplate page={"registration"} />
                 <div className="content">
-                    <Paper style={{padding: 20}}>
+                    <Paper style={{ padding: 20 }}>
                         <h2 className="textCenter">Account Registration</h2>
                         <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-                            <div className="flex-justify-center" style={{marginTop: 15}}>
+                            <div className="flex-justify-center" style={{ marginTop: 15 }}>
 
                                 <Button
                                     variant="contained"
@@ -128,13 +133,13 @@ class AccountRegistrationPage extends Component {
                                     <input
                                         name="file"
                                         type="file"
-                                        style={{display: "none"}}
+                                        style={{ display: "none" }}
                                         onChange={this.onChangeFile}
                                     />
                                 </Button>
                             </div>
-                            {this.state.file.name?(<p className="textCenter">Selected file:&nbsp;{this.state.file.name}</p>):''}
-                            <p className="textCenter" style={{color: 'red'}}>*Create accounts for teacher/librarian by uploading CSV
+                            {this.state.file.name ? (<p className="textCenter">Selected file:&nbsp;{this.state.file.name}</p>) : ''}
+                            <p className="textCenter" style={{ color: 'red' }}>*Create accounts for teacher/librarian by uploading CSV
                                 file, a verification link will be sent to the lists of email addresses</p>
                             <p className="flex-justify-center">Download the csv format&nbsp;<a href={this.state.csvFormatLink}>here</a>.</p>
 
@@ -153,7 +158,7 @@ class AccountRegistrationPage extends Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container direction="row" justify="center" style={{marginTop: 15}}>
+                            <Grid container direction="row" justify="center" style={{ marginTop: 15 }}>
                                 <Grid item md={8} lg={5}>
                                     <FormControl variant="outlined" fullWidth>
                                         <InputLabel id="role-label">Role</InputLabel>
@@ -176,7 +181,7 @@ class AccountRegistrationPage extends Component {
                                     </FormControl>
                                 </Grid>
                             </Grid>
-                            <div className="flex-justify-center" style={{marginTop: 15}}>
+                            <div className="flex-justify-center" style={{ marginTop: 15 }}>
                                 <Button
                                     variant="contained"
                                     type="submit"
