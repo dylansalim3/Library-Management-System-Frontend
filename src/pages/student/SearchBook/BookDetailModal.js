@@ -33,7 +33,7 @@ class BookDetailModal extends Component {
         const desc = this.props.book.summary;
         const genre = this.props.book.genre;
         const books = this.props.book.books;
-        const author = this.props.book.author;
+        const authors = this.props.book.authors;
         const datepublished = this.props.book.datepublished;
         const publisher = this.props.book.publisher;
         return (
@@ -79,7 +79,7 @@ class BookDetailModal extends Component {
                                     {/*</p>*/}
                                     <p style={{display:'flex',justifyContent:'space-between'}}>
                                         <span>Author</span>
-                                        <span>{author?author:'-'}</span>
+                                        <span>{authors?authors.name:'-'}</span>
                                     </p>
                                     <p style={{display:'flex',justifyContent:'space-between'}}>
                                         <span>Date Published</span>
