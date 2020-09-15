@@ -163,6 +163,7 @@ class AccountRegistrationPage extends Component {
                                     <FormControl variant="outlined" fullWidth>
                                         <InputLabel id="role-label">Role</InputLabel>
                                         <Select
+                                            fullWidth
                                             labelId="role-label"
                                             name="role"
                                             label="Role"

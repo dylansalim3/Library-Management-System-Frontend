@@ -85,6 +85,7 @@ function Sidebar(props) {
     { name: 'Book Reservation', route: 'reservebook' },
     {name:'Account Registration',route:'registration'},
     { name: 'Profile', route: 'profile' },
+    {name:'Role Assignment',route:'role_assignment'},
   ];
 
   const studentmenuArray = [
