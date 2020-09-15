@@ -92,7 +92,7 @@ class Login extends Component {
                     <form onSubmit={this.onSubmit}>
                         <TextField
                             style={{width: '250px'}}
-                            id="outlined-basic"
+                            id="outlined-basic1"
                             label="Email Address"
                             variant="outlined"
                             name="email"

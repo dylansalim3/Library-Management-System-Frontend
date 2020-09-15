@@ -83,6 +83,7 @@ function Sidebar(props) {
     { name: 'Edit/Delete book', route: 'edit_book' },
     { name: 'Borrow/Return/Renew', route: 'borrowbook' },
     { name: 'Book Reservation', route: 'reservebook' },
+    { name: 'Library Map', route: 'library_map' },
     {name:'Account Registration',route:'registration'},
     { name: 'Profile', route: 'profile' },
     {name:'Role Assignment',route:'role_assignment'},

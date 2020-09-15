@@ -20,6 +20,7 @@ import Registration from "./pages/Registration";
 import StudentAccountRegistrationPage from "./pages/teacher/StudentAccountRegistrationPage";
 import EditDeleteBookPage from "./pages/admin/EditDeleteBook/EditDeleteBookPage";
 import RoleAssignmentPage from "./pages/admin/RoleAssignment/RoleAssignmentPage";
+import EditLibraryMapPage from "./pages/admin/EditLibraryMap/EditLibraryMapPage";
 axios.defaults.baseURL = 'http://localhost:3000';
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/registration" component={AccountRegistrationPage}/>
           <Route exact path="/edit_book" component={EditDeleteBookPage}/>
           <Route exact path={"/role_assignment"} component={RoleAssignmentPage}/>
+          <Route exact path="/library_map" component={EditLibraryMapPage}/>
           {/* student paths */}
           <Route exact path="/studentdashboard" component={Studentdashboard} />
           <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>

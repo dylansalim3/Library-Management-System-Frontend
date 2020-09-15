@@ -116,7 +116,6 @@ class StudentAccountRegistrationPage extends Component {
                         <h2 className="textCenter">Account Registration</h2>
                         <form onSubmit={this.onSubmit} noValidate autoComplete="off">
                             <div className="flex-justify-center" style={{marginTop: 15}}>
-
                                 <Button
                                     variant="contained"
                                     component="label"
