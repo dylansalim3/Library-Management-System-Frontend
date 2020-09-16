@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import AdminBoilerplate from "../AdminBoilerplate";
-import {Paper} from "@material-ui/core";
+import {Box, Paper} from "@material-ui/core";
 import EditLibraryMapCard from "./EditLibraryMapCard";
 import UploadLibraryMapForm from "./UploadLibraryMapForm";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -38,12 +38,17 @@ const EditLibraryMapPage = () => {
             <AdminBoilerplate page={'library_map'}/>
             <div className="content">
                 <Paper style={{padding: 20}}>
-                    <EditLibraryMapCard
+                    {!loading?<EditLibraryMapCard
                         libraryMaps={libraryMaps}
                         onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
                         onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
                         onUpdateLibraryMap={getLibraryMaps}
-                    />
+                    />:
+                        <Box width="100%" display="flex" justifyContent="center">
+                            <CircularProgress color="inherit" size={20}/>
+                        </Box>
+                        }
+
                     <UploadLibraryMapForm
                         onUpdateLibraryMap={getLibraryMaps}
                         onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}

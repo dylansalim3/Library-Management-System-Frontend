@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {CardActionArea, Grid} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import * as axios from "axios";
@@ -17,12 +17,25 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import PropTypes from 'prop-types';
+import ImageViewer from '../../../components/imageViewer/imageViewer'
+import ImageModal from "../../../components/imageViewer/ImageModal";
+
 
 const EditLibraryMapCard = props => {
     const {libraryMaps} = props;
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [selectedLibraryMap, setSelectedLibraryMap] = useState({});
+    // const [imageModalVisible, setImageModalVisible] = useState(false);
+    let imageModal = useRef(null);
 
+    const openImageModal = (index) => {
+        imageModal.current.open(index);
+    }
+
+
+    // <ImageViewer showPreview={true} activeIndex={0}
+    //              images={[{src: libraryMap.image_url, title: libraryMap.name}]}
+    //              prefixCls={"mycomponent"}/>
 
     const onDeleteLibraryMap = (libraryMap) => {
         setSelectedLibraryMap(libraryMap);
@@ -74,7 +87,7 @@ const EditLibraryMapCard = props => {
                 <Box>
                     {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
                     <Grid container direction="row" justify="center" spacing={4}>
-                        {libraryMaps.map(libraryMap => {
+                        {libraryMaps.map((libraryMap,index) => {
                             return (
                                 <Grid key={libraryMap.id} item xs={12} md={6}>
                                     <Card>
@@ -86,11 +99,12 @@ const EditLibraryMapCard = props => {
                                                 </IconButton>
                                             </Tooltip>
                                         }/>
-                                        <CardActionArea>
+                                        <CardActionArea onClick={() => openImageModal(index)}>
                                             <CardMedia style={{
                                                 height: 0,
                                                 paddingTop: '56.25%',
-                                            }} image={libraryMap.image_url} title={libraryMap.name}/>
+                                            }} image={libraryMap.image_url} 
+                                            title={libraryMap.name}/>
                                         </CardActionArea>
                                         <CardActions>
                                             <input
@@ -121,6 +135,15 @@ const EditLibraryMapCard = props => {
 
 
             </Box>
+
+            <ImageModal
+                showPreview
+                showIndex
+                activeIndex={0}
+                images={libraryMaps.map(libraryMap => {
+                    return {src: libraryMap.image_url, title: libraryMap.name,}
+                })}
+                ref={imageModal}/>
 
 
             <Dialog
