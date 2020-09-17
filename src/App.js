@@ -21,6 +21,7 @@ import EditDeleteBookPage from "./pages/admin/EditDeleteBook/EditDeleteBookPage"
 import RoleAssignmentPage from "./pages/admin/RoleAssignment/RoleAssignmentPage";
 import EditLibraryMapPage from "./pages/admin/EditLibraryMap/EditLibraryMapPage";
 import ViewLibraryMapPage from "./pages/student/ViewLibraryMap/ViewLibraryMapPage";
+import BackupDatabasePage from "./pages/admin/BackupDatabase/BackupDatabasePage";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -45,6 +46,7 @@ function App() {
                     <Route exact path="/edit_book" component={EditDeleteBookPage}/>
                     <Route exact path={"/role_assignment"} component={RoleAssignmentPage}/>
                     <Route exact path="/library_map" component={EditLibraryMapPage}/>
+                    <Route exact path="/backup_data" component={BackupDatabasePage}/>
                     {/* student paths */}
                     <Route exact path="/studentdashboard" component={Studentdashboard}/>
                     <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>

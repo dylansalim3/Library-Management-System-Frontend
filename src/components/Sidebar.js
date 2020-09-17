@@ -84,6 +84,7 @@ function Sidebar(props) {
         {name: 'Borrow/Return/Renew', route: 'borrowbook'},
         {name: 'Book Reservation', route: 'reservebook'},
         {name: 'Library Map', route: 'library_map'},
+        {name:'Data Backup',route: 'backup_data'},
         {name: 'Account Registration', route: 'registration'},
         {name: 'Profile', route: 'profile'},
         {name: 'Role Assignment', route: 'role_assignment'},
