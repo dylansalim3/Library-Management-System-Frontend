@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {topgreen} from '../style/Color';
 import logo from '../images/mainlogo.png';
+import usePushNotifications from "../UsePushNotifications";
 
 const theme = createMuiTheme({
     palette: {
@@ -74,6 +75,7 @@ class Login extends Component {
             });
     }
 
+
     render() {
         return (
             <MuiThemeProvider theme={theme}>
@@ -89,6 +91,7 @@ class Login extends Component {
                 >
                     <img src={logo} alt="e-library logo"/>
                     <h1 style={{color: topgreen}}>User Login</h1>
+
                     <form onSubmit={this.onSubmit}>
                         <TextField
                             style={{width: '250px'}}
