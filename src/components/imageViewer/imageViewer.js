@@ -125,7 +125,7 @@ class ImageWrapper extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (this.props.image.src != nextProps.image.src) {
+        if (this.props.image.src != nextProps.image.src && this.props.image!=null) {
             this.resetOffset();
             this.loadImage(nextProps.image.src);
             this.setState({

@@ -10,8 +10,9 @@ import EditLibraryMapCard from "../pages/admin/EditLibraryMap/EditLibraryMapCard
 import * as axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const ViewLibraryMap = (props) => {
+const ViewLibraryMap = () => {
     const [libraryMaps, setLibraryMaps] = useState([]);
+    
 
     const loading = libraryMaps.length === 0;
 
@@ -20,6 +21,7 @@ const ViewLibraryMap = (props) => {
             return undefined;
         }
         getLibraryMaps();
+        console.log('hereee')
     }, [loading]);
 
     const getLibraryMaps = () => {

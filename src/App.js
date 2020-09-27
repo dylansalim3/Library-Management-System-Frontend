@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Login from './pages/Login';
@@ -30,31 +30,14 @@ axios.defaults.baseURL = 'http://localhost:5000';
 
 function App() {
     const {
-        userConsent,
-        pushNotificationSupported,
-        userSubscription,
-        onClickAskUserPermission,
-        onClickSusbribeToPushNotification,
-        onClickSendSubscriptionToPushServer,
-        pushServerSubscriptionId,
         onClickSendNotification,
+        onEnablePush,
         error,
         loading
     } = usePushNotifications();
-  const init = useCallback(()=>{
-      const isConsentGranted = userConsent === "granted";
-      if (pushNotificationSupported && !isConsentGranted) {
-          onClickAskUserPermission();
-          if (userSubscription) {
-              onClickSusbribeToPushNotification();
-              if (!pushServerSubscriptionId) {
-                  onClickSendSubscriptionToPushServer();
-              }
-          }
-      }
-      console.log(pushNotificationSupported, isConsentGranted, userSubscription, pushServerSubscriptionId);
-
-  },[])
+    useEffect(()=>{
+        onEnablePush();
+    },[]);
     return (
         <Router>
             <div className="App">
@@ -62,10 +45,6 @@ function App() {
 
                 <div className="container">
                     <Button variant={"outlined"} color={"primary"} onClick={()=>{
-                        if(!pushServerSubscriptionId){
-                            init();
-                        }
-
                         onClickSendNotification();
                     }}>Send
                         Notification</Button>

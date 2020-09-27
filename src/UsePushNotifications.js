@@ -39,7 +39,7 @@ export default function usePushNotifications() {
     //if the push notifications are supported, registers the service worker
     //this effect runs only the first render
 
-    useEffect(() => {
+    useEffect( () => {
         setLoading(true);
         setError(false);
         const getExixtingSubscription = async () => {
@@ -60,7 +60,7 @@ export default function usePushNotifications() {
     const onClickAskUserPermission = () => {
         setLoading(true);
         setError(false);
-        askUserPermission().then(consent => {
+        return askUserPermission().then(consent => {
             setSuserConsent(consent);
             if (consent !== "granted") {
                 setError({
@@ -78,13 +78,14 @@ export default function usePushNotifications() {
      * define a click handler that creates a push notification subscription.
      * Once the subscription is created, it uses the setUserSubscription hook
      */
-    const onClickSusbribeToPushNotification = () => {
+    const onClickSubscribeToPushNotification = () => {
         setLoading(true);
         setError(false);
-        createNotificationSubscription()
+        return createNotificationSubscription()
             .then(function(subscrition) {
                 setUserSubscription(subscrition);
                 setLoading(false);
+                return subscrition;
             })
             .catch(err => {
                 console.error("Couldn't create the notification subscription", err, "name:", err.name, "message:", err.message, "code:", err.code);
@@ -97,18 +98,26 @@ export default function usePushNotifications() {
      * define a click handler that sends the push susbcribtion to the push server.
      * Once the subscription ics created on the server, it saves the id using the hook setPushServerSubscriptionId
      */
-    const onClickSendSubscriptionToPushServer = () => {
+    const onClickSendSubscriptionToPushServer = (currentSub) => {
         setLoading(true);
         setError(false);
-        axios
-            .post("/subscription/init", userSubscription)
+        console.log("call this function");
+
+        console.log(currentSub)
+
+        return axios
+            .post("/subscription/init", currentSub)
             .then(function(response) {
-                setPushServerSubscriptionId(response.id);
-                setLoading(false);
+                if(response.data){
+                    setPushServerSubscriptionId(response.data.id);
+                    setLoading(false);
+                    console.log('done');
+                }
             })
             .catch(err => {
                 setLoading(false);
                 setError(err);
+                console.log(err.toString());
             });
     };
 
@@ -118,19 +127,35 @@ export default function usePushNotifications() {
     const onClickSendNotification = async () => {
         setLoading(true);
         setError(false);
-        await axios.get(`/subscription/send-push-notification/${pushServerSubscriptionId}`).catch(err => {
+        return axios.get(`/subscription/send-push-notification/${pushServerSubscriptionId}`).then(_=>{
+            setLoading(false);
+        }).catch(err => {
             setLoading(false);
             setError(err);
         });
-        setLoading(false);
     };
+
+    const onEnablePush = async () =>{
+        const isConsentGranted = userConsent === "granted";
+        if (pushNotificationSupported && !isConsentGranted) {
+            await onClickAskUserPermission();
+        }
+        console.log(!userSubscription);
+        if (!userSubscription) {
+            await onClickSubscribeToPushNotification().then(async subscription=>{
+                if (!pushServerSubscriptionId) {
+                    await onClickSendSubscriptionToPushServer(subscription);
+                }
+            })
+        }
+    }
 
     /**
      * returns all the stuff needed by a Component
      */
     return {
         onClickAskUserPermission,
-        onClickSusbribeToPushNotification,
+        onClickSusbribeToPushNotification: onClickSubscribeToPushNotification,
         onClickSendSubscriptionToPushServer,
         pushServerSubscriptionId,
         onClickSendNotification,
@@ -138,6 +163,7 @@ export default function usePushNotifications() {
         pushNotificationSupported,
         userSubscription,
         error,
-        loading
+        loading,
+        onEnablePush,
     };
 }

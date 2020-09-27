@@ -44,18 +44,37 @@ function registerServiceWorker() {
     return navigator.serviceWorker.register("/sw.js");
 }
 
+function urlBase64ToUint8Array(base64String) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
 /**
  *
  * using the registered service worker creates a push notification subscription and returns it
  *
  */
+
 async function createNotificationSubscription() {
     //wait for service worker installation to be ready
     const serviceWorker = await navigator.serviceWorker.ready;
     // subscribe and return the subscription
-    return await serviceWorker.pushManager.subscribe({
+    return serviceWorker.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: pushServerPublicKey
+        applicationServerKey: urlBase64ToUint8Array(pushServerPublicKey)
+    }).then(function(pushSubscription) {
+        console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
+        return pushSubscription;
     });
 }
 
