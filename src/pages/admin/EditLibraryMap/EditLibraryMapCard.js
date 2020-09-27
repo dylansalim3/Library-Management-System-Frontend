@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState, lazy, Suspense} from 'react';
 import {CardActionArea, Grid} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import * as axios from "axios";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -17,8 +16,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import PropTypes from 'prop-types';
-import ImageViewer from '../../../components/imageViewer/imageViewer'
-import ImageModal from "../../../components/imageViewer/ImageModal";
+
+const ImageModal = lazy(() => import("../../../components/imageViewer/ImageModal"));
 
 
 const EditLibraryMapCard = props => {
@@ -87,7 +86,7 @@ const EditLibraryMapCard = props => {
                 <Box>
                     {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
                     <Grid container direction="row" justify="center" spacing={4}>
-                        {libraryMaps.map((libraryMap,index) => {
+                        {libraryMaps.map((libraryMap, index) => {
                             return (
                                 <Grid key={libraryMap.id} item xs={12} md={6}>
                                     <Card>
@@ -103,8 +102,8 @@ const EditLibraryMapCard = props => {
                                             <CardMedia style={{
                                                 height: 0,
                                                 paddingTop: '56.25%',
-                                            }} image={libraryMap.image_url} 
-                                            title={libraryMap.name}/>
+                                            }} image={libraryMap.image_url}
+                                                       title={libraryMap.name}/>
                                         </CardActionArea>
                                         <CardActions>
                                             <input
@@ -135,16 +134,16 @@ const EditLibraryMapCard = props => {
 
 
             </Box>
-
-            <ImageModal
-                showPreview
-                showIndex
-                activeIndex={0}
-                images={libraryMaps.map(libraryMap => {
-                    return {src: libraryMap.image_url, title: libraryMap.name,}
-                })}
-                ref={imageModal}/>
-
+            <Suspense fallback={<div>Loading...</div>}>
+                <ImageModal
+                    showPreview
+                    showIndex
+                    activeIndex={0}
+                    images={libraryMaps.map(libraryMap => {
+                        return {src: libraryMap.image_url, title: libraryMap.name,}
+                    })}
+                    ref={imageModal}/>
+            </Suspense>
 
             <Dialog
                 open={openConfirmationDialog}

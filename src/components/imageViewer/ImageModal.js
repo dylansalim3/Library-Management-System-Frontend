@@ -1,22 +1,21 @@
 import ImageViewer from "./imageViewer";
 import React, {Component} from "react";
 import './style.css';
+import PropTypes from "prop-types";
 
+class ImageModal extends Component {
 
+    static propTypes = {
+        images: PropTypes.array,
+        prefixCls: PropTypes.string,
+        className: PropTypes.string,
+        // Bottom indicators preview
+        showPreview: PropTypes.bool,
+        // Toolbar index indicator
+        showIndex: PropTypes.bool,
+    }
 
-
-interface ModalProps {
-    images: Image[];
-    prefixCls?: string;
-    className?: string;
-    // Bottom indicators preview
-    showPreview?: boolean;
-    // Toolbar index indicator
-    showIndex?: boolean;
-}
-
-class ImageModal extends Component<ModalProps, any> {
-    constructor(props: ModalProps) {
+    constructor(props) {
         super(props);
         this.state = {
             visible: false,
@@ -24,7 +23,7 @@ class ImageModal extends Component<ModalProps, any> {
         }
     }
 
-    open(activeIndex?: number) {
+    open(activeIndex) {
         this.setState({
             visible: true,
             activeIndex: activeIndex || 0
@@ -63,5 +62,7 @@ class ImageModal extends Component<ModalProps, any> {
         ) : null;
     }
 }
+
+
 
 export default ImageModal;
