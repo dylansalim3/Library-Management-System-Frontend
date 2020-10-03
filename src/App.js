@@ -25,6 +25,7 @@ import BackupDatabasePage from "./pages/admin/BackupDatabase/BackupDatabasePage"
 import usePushNotifications from "./UsePushNotifications";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import ForgetPassword from "./pages/forget-password";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -49,6 +50,7 @@ function App() {
                     }}>Send
                         Notification</Button>
                     <Route exact path="/" component={Login}/>
+                    <Route exact path="/forget-password" component={ForgetPassword}/>
 
                     {/*registration*/}
                     <Route exact path="/account-registration/:hash" component={Registration}/>

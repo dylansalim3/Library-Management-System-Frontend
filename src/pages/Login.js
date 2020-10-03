@@ -133,7 +133,7 @@ class Login extends Component {
                             </TextField>
                         </Grid>
                         <div className="textCenter">
-                            <small><a href="forget-password">Forget Password?</a></small>
+                            <small><a href="/forget-password">Forget Password?</a></small>
                         </div>
                         <div style={{marginTop: '15px'}}>
                             <Button
