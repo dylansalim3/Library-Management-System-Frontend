@@ -13,10 +13,9 @@ const EditLibraryMapPage = () => {
     const [openErrorSnackbar, setOpenErrorSnackbar] = React.useState(false);
     const [openSuccessSnackbar, setOpenSuccessSnackbar] = React.useState(false);
     const [libraryMaps, setLibraryMaps] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // <CircularProgress color="inherit" size={20}/>
-
-    const loading = libraryMaps.length === 0;
+    // const loading = libraryMaps.length === 0;
 
     useEffect(() => {
         if (!loading) {
@@ -28,6 +27,7 @@ const EditLibraryMapPage = () => {
     const getLibraryMaps = () => {
         axios.get('library-maps/get-library-maps').then(result => {
             setLibraryMaps(result.data);
+            setLoading(false);
         }).catch(err => {
             console.log(err.toString());
         })

@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useRef, useState, lazy} from 'react';
+import React, {lazy, Suspense, useEffect, useRef, useState} from 'react';
 import Box from "@material-ui/core/Box";
 import {CardActionArea, Grid} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
@@ -13,21 +13,22 @@ const ImageModal = lazy(() => import("./imageViewer/ImageModal"));
 
 const ViewLibraryMap = () => {
     const [libraryMaps, setLibraryMaps] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
-    const loading = libraryMaps.length === 0;
+    // const loading = libraryMaps.length === 0;
 
     useEffect(() => {
         if (!loading) {
             return undefined;
         }
         getLibraryMaps();
-        console.log('hereee')
     }, [loading]);
 
     const getLibraryMaps = () => {
         axios.get('library-maps/get-library-maps').then(result => {
             setLibraryMaps(result.data);
+            setLoading(false);
         }).catch(err => {
             console.log(err.toString());
         })
@@ -39,46 +40,46 @@ const ViewLibraryMap = () => {
         imageModal.current.open(index);
     }
 
-    return !loading ? (<Box width="100%">
+    return !loading ? (
+        <Box width="100%">
+            <h2 className="textCenter">{libraryMaps.length === 0 ? 'No Library Map found' : 'Library Map'}</h2>
+            <Box p={1}>
+                <Box>
+                    {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
+                    <Grid container direction="row" justify="center" spacing={4}>
+                        {libraryMaps.map((libraryMap, index) => {
+                            return (
+                                <Grid key={libraryMap.id} item xs={12} md={6}>
+                                    <Card>
+                                        <CardHeader title={libraryMap.name}/>
+                                        <CardActionArea onClick={() => openImageModal(index)}>
+                                            <CardMedia style={{
+                                                height: 0,
+                                                paddingTop: '56.25%',
+                                            }} image={libraryMap.image_url}
+                                                       title={libraryMap.name}/>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Box>
 
-        <h2 className="textCenter">Library Map</h2>
-        <Box p={1}>
-            <Box>
-                {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
-                <Grid container direction="row" justify="center" spacing={4}>
-                    {libraryMaps.map((libraryMap, index) => {
-                        return (
-                            <Grid key={libraryMap.id} item xs={12} md={6}>
-                                <Card>
-                                    <CardHeader title={libraryMap.name}/>
-                                    <CardActionArea onClick={() => openImageModal(index)}>
-                                        <CardMedia style={{
-                                            height: 0,
-                                            paddingTop: '56.25%',
-                                        }} image={libraryMap.image_url}
-                                                   title={libraryMap.name}/>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
+
             </Box>
+            <Suspense fallback={<div className="textCenter">Loading...</div>}>
+                <ImageModal
+                    showPreview
+                    showIndex
+                    activeIndex={0}
+                    images={libraryMaps.map(libraryMap => {
+                        return {src: libraryMap.image_url, title: libraryMap.name,}
+                    })}
+                    ref={imageModal}/>
+            </Suspense>
 
-
-        </Box>
-        <Suspense fallback={<div>Loading...</div>}>
-            <ImageModal
-                showPreview
-                showIndex
-                activeIndex={0}
-                images={libraryMaps.map(libraryMap => {
-                    return {src: libraryMap.image_url, title: libraryMap.name,}
-                })}
-                ref={imageModal}/>
-        </Suspense>
-
-    </Box>) : <Box width="100%" display="flex" justifyContent="center">
+        </Box>) : <Box width="100%" display="flex" justifyContent="center">
         <CircularProgress color="inherit" size={20}/>
     </Box>;
 

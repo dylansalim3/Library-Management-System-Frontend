@@ -31,11 +31,6 @@ const EditLibraryMapCard = props => {
         imageModal.current.open(index);
     }
 
-
-    // <ImageViewer showPreview={true} activeIndex={0}
-    //              images={[{src: libraryMap.image_url, title: libraryMap.name}]}
-    //              prefixCls={"mycomponent"}/>
-
     const onDeleteLibraryMap = (libraryMap) => {
         setSelectedLibraryMap(libraryMap);
         setOpenConfirmationDialog(true);
@@ -80,8 +75,8 @@ const EditLibraryMapCard = props => {
 
     return (
         <Box width="100%">
+            {libraryMaps.length===0?'':(<h2 className="textCenter">Edit Library Map</h2>)}
 
-            <h2 className="textCenter">Edit Library Map</h2>
             <Box p={1}>
                 <Box>
                     {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
