@@ -76,9 +76,12 @@ const BackupDatabasePage = () => {
                                 <Grid item xs={12} md={8}>
                                     <DropzoneArea
                                         key={inputKey}
-                                        acceptedFiles={['application/x-sql','application/sql' ,'text/sql', 'text/x-sql', 'text/plain'] }
+                                        // acceptedFiles={['application/x-sql','text/octet-stream','application/sql','file' ,'text/sql', 'text/x-sql', 'text/plain'] }
                                         dropzoneText={"Drag and drop the SQL file here"}
-                                        onChange={(files) => setSQLFile(files)}
+                                        onChange={(files) => {
+                                            console.log(files)
+                                            setSQLFile(files)
+                                        }}
                                         filesLimit={1}
                                         maxFileSize={1048576}
                                         showAlerts={false}

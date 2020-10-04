@@ -25,7 +25,8 @@ import BackupDatabasePage from "./pages/admin/BackupDatabase/BackupDatabasePage"
 import usePushNotifications from "./UsePushNotifications";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import ForgetPassword from "./pages/forget-password";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -45,12 +46,13 @@ function App() {
                 {/* <Navbar /> */}
 
                 <div className="container">
-                    <Button variant={"outlined"} color={"primary"} onClick={()=>{
-                        onClickSendNotification();
-                    }}>Send
-                        Notification</Button>
+                    {/*<Button variant={"outlined"} color={"primary"} onClick={()=>{*/}
+                        {/*onClickSendNotification();*/}
+                    {/*}}>Send*/}
+                        {/*Notification</Button>*/}
                     <Route exact path="/" component={Login}/>
-                    <Route exact path="/forget-password" component={ForgetPassword}/>
+                    <Route exact path="/forget-password" component={ForgetPasswordPage}/>
+                    <Route exact path="/password-recovery/:hash" component={ResetPasswordPage}/>
 
                     {/*registration*/}
                     <Route exact path="/account-registration/:hash" component={Registration}/>
