@@ -1,21 +1,12 @@
-// @flow 
 import * as React from 'react';
 import {Box, Grid} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import {formatDate} from "../../../util/DateUtils";
+import * as PropTypes from "prop-types";
 
-type Props = {
-    profileImg: string,
-    name: string,
-    email: string,
-    phoneNumber: string,
-    roles: string[],
-    address: string,
-    dateCreated: string,
-};
 
-export function UserDetailCard(props: Props) {
+export function UserDetailCard(props) {
     const {profileImg, name, email, phoneNumber, roles, address, dateCreated} = props;
     return (
         <Box width="100%">
@@ -69,4 +60,14 @@ export function UserDetailCard(props: Props) {
             </Card>
         </Box>
     );
+};
+
+UserDetailCard.propTypes = {
+    profileImg: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    roles: PropTypes.array,
+    address: PropTypes.string,
+    dateCreated: PropTypes.string,
 };

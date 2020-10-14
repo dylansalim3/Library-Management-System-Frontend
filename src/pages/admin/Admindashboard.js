@@ -39,7 +39,7 @@ export default class Admindashboard extends Component {
   render() {
     return (
       <div>
-        <Sidebar role={this.state.role} user={this.state.first_name} selected="admindashboard" />
+        <Sidebar role={this.state.role} user={this.state.first_name} email={this.state.email} selected="admindashboard" />
         <div className="content">
           <h1>this is dashboard for admin and librarian</h1>
         </div>

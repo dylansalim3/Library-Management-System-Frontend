@@ -18,8 +18,6 @@ const ResetPasswordPage = (props) => {
 
     const {register, handleSubmit, watch, setValue, errors} = useForm();
     const [showSuccessDialog, setShowSuccessDialog] = useState(false);
-    // const [openErrorSnackbar, setOpenErrorSnackbar] = React.useState(false);
-    // const [openSuccessSnackbar, setOpenSuccessSnackbar] = React.useState(false);
 
     const {enqueueSnackbar} = useSnackbar();
 

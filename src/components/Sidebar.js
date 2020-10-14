@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -14,7 +14,18 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 
 import {Link, withRouter} from 'react-router-dom';
-import {topgreen, drawergreen} from '../style/Color';
+import {drawergreen, topgreen} from '../style/Color';
+import {
+    SIDEBAR_ROUTE_ADMIN,
+    SIDEBAR_ROUTE_LIBRARIAN,
+    SIDEBAR_ROUTE_STUDENT,
+    SIDEBAR_ROUTE_TEACHER
+} from "../constant/SidebarRoute.constant";
+import jwt_decode from "jwt-decode";
+import {disconnectSocket, initSocket, sendNotification, subscribeToNotification} from "../util/SocketUtils";
+import {useSnackbar} from "notistack";
+import NotificationSnackbar from "./NotificationSnackbar";
+import SidebarItem from "./SidebarItem";
 
 const drawerWidth = 240;
 
@@ -63,6 +74,37 @@ function Sidebar(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
 
+    const {enqueueSnackbar} = useSnackbar();
+
+
+    useEffect(() => {
+        if (localStorage.usertoken) {
+            const token = localStorage.usertoken;
+            const decoded = jwt_decode(token);
+            const userId = decoded.id;
+            initSocket();
+            sendNotification(userId);
+            subscribeToNotification(handleNotification);
+            return () => {
+                disconnectSocket(userId);
+            }
+        }
+    }, []);
+
+    const handleNotification = (result) => {
+        console.log(result, "notification received");
+        const {title, url, enablePush, priority, thumbnailUrl, created} = result;
+        enqueueSnackbar(
+            result
+            , {
+                persist: true, content: (key, message) => (
+                    <NotificationSnackbar id={key} message={message}/>
+                )
+            })
+        ;
+    };
+
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -76,58 +118,16 @@ function Sidebar(props) {
         color: 'white',
     };
 
-    //route is the path props defined for each route in App.js
-    const adminmenuArray = [
-        {name: 'Dashboard', route: 'admindashboard'},
-        {name: 'Add book', route: 'add_book'},
-        {name: 'Edit/Delete book', route: 'edit_book'},
-        {name: 'Borrow/Return/Renew', route: 'borrowbook'},
-        {name: 'Book Reservation', route: 'reservebook'},
-        {name: 'Library Map', route: 'library_map'},
-        {name:'Data Backup',route: 'backup_data'},
-        {name: 'Account Registration', route: 'registration'},
-        {name: 'Profile', route: 'profile'},
-        {name: 'Role Assignment', route: 'role_assignment'},
-    ];
-
-    const studentmenuArray = [
-        {name: 'Dashboard', route: 'studentdashboard'},
-        {name: 'Search book', route: 'searchbook'},
-        {name: 'Pending Reservation', route: 'reservation'},
-        {name: 'Borrow History', route: 'borrowhistory'},
-        {name: 'Extend Borrow', route: 'extendborrow'},
-        {name: 'Library Map', route: 'view_library_map'},
-        {name: 'Profile', route: 'profile'},
-    ];
-
-    const teachermenuArray = [
-        {name: 'Dashboard', route: 'studentdashboard'},
-        {name: 'Search book', route: 'searchbook'},
-        {name: 'Pending Reservation', route: 'reservation'},
-        {name: 'Borrow History', route: 'borrowhistory'},
-        {name: 'Extend Borrow', route: 'extendborrow'},
-        {name: 'Profile', route: 'profile'},
-        {name: 'Student Registration', route: 'studentregistration'},
-    ];
-
-    const librarianmenuArray = [
-        {name: 'Dashboard', route: 'studentdashboard'},
-        {name: 'Add book', route: 'add_book'},
-        {name: 'Edit/Delete book', route: 'edit_book'},
-        {name: 'Borrow/Return/Renew', route: 'borrowbook'},
-        {name: 'Book Reservation', route: 'reservebook'}
-    ];
-
     const returnMenus = (role) => {
         var arr = [];
         if (role === 'admin') {
-            arr = adminmenuArray;
+            arr = SIDEBAR_ROUTE_ADMIN;
         } else if (role === 'student') {
-            arr = studentmenuArray;
+            arr = SIDEBAR_ROUTE_STUDENT;
         } else if (role === 'teacher') {
-            arr = teachermenuArray;
+            arr = SIDEBAR_ROUTE_TEACHER;
         } else if (role === 'librarian') {
-            arr = librarianmenuArray;
+            arr = SIDEBAR_ROUTE_LIBRARIAN;
         }
 
         return (
@@ -193,6 +193,7 @@ function Sidebar(props) {
     const container =
         window !== undefined ? () => window().document.body : undefined;
 
+
     return (
         <div>
             <div className={classes.root}>
@@ -214,17 +215,7 @@ function Sidebar(props) {
                             <MenuIcon/>
                         </IconButton>
                         <Hidden smDown>
-                            <div
-                                style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    justifyContent: 'flex-end',
-                                }}
-                            >
-                                <Typography variant="h6" noWrap>
-                                    {`Hi ${props.user}`}
-                                </Typography>
-                            </div>
+                            <SidebarItem/>
                         </Hidden>
                         <Hidden mdUp>
                             <div

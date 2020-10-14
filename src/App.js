@@ -1,15 +1,14 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {disconnectSocket, initSocket, subscribeToNotification} from './util/SocketUtils';
 
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-
 //admin pages
 import Admindashboard from './pages/admin/Admindashboard';
 import Addbook from './pages/admin/Addbook';
 import Borrowbook from './pages/admin/BorrowReturnRenew/Borrowbook';
 import axios from 'axios';
-
 //student pages
 import Studentdashboard from './pages/student/Dashboard/Studentdashboard';
 import SearchBook from './pages/student/SearchBook/SearchBook';
@@ -23,10 +22,9 @@ import EditLibraryMapPage from "./pages/admin/EditLibraryMap/EditLibraryMapPage"
 import ViewLibraryMapPage from "./pages/student/ViewLibraryMap/ViewLibraryMapPage";
 import BackupDatabasePage from "./pages/admin/BackupDatabase/BackupDatabasePage";
 import usePushNotifications from "./UsePushNotifications";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import jwt_decode from "jwt-decode";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -37,9 +35,13 @@ function App() {
         error,
         loading
     } = usePushNotifications();
-    useEffect(()=>{
+
+    useEffect(() => {
+
         onEnablePush();
-    },[]);
+
+    }, []);
+
     return (
         <Router>
             <div className="App">
@@ -47,9 +49,9 @@ function App() {
 
                 <div className="container">
                     {/*<Button variant={"outlined"} color={"primary"} onClick={()=>{*/}
-                        {/*onClickSendNotification();*/}
+                    {/*onClickSendNotification();*/}
                     {/*}}>Send*/}
-                        {/*Notification</Button>*/}
+                    {/*Notification</Button>*/}
                     <Route exact path="/" component={Login}/>
                     <Route exact path="/forget-password" component={ForgetPasswordPage}/>
                     <Route exact path="/password-recovery/:hash" component={ResetPasswordPage}/>
