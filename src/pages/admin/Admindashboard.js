@@ -1,49 +1,41 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect} from 'react';
 import Sidebar from '../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
 import '../../style/Style.css';
+import AdminDashboardContent from "./AdminDashboardContent";
 
-export default class Admindashboard extends Component {
-  
-  constructor() {
-    super();
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      role: null,
-    };
-  }
+export default function Admindashboard(props) {
+    const [first_name, setFirstName] = React.useState('');
+    const [last_name, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [role, setRole] = React.useState('');
 
-  componentDidMount() {
-    if (localStorage.usertoken) {
-      var token = localStorage.usertoken;
-      var decoded = jwt_decode(token);
-      this.setState({
-        first_name: decoded.first_name,
-        last_name: decoded.last_name,
-        email: decoded.email,
-        role: decoded.role,
-      });
-      console.log("my role is "+ decoded.role);
-      if(decoded.role==="student"||decoded.role==="teacher"){
-        this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard 
-        console.log("Students and teachers are not allowed to access this page.");
-      }
-    } else {
-      this.props.history.push('/');
-      console.log('you are not logged in');
-    }
-  }
+    useEffect(() => {
+        if (localStorage.usertoken) {
+            var token = localStorage.usertoken;
+            var decoded = jwt_decode(token);
+            setFirstName(decoded.first_name);
+            setLastName(decoded.last_name);
+            setEmail(decoded.email);
+            setRole(decoded.role);
+            if (decoded.role === "student" || decoded.role === "teacher") {
+                props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
+                console.log("Students and teachers are not allowed to access this page.");
+            }
+        } else {
+            props.history.push('/');
+            console.log('you are not logged in');
+        }
+    }, [])
 
-  render() {
     return (
-      <div>
-        <Sidebar role={this.state.role} user={this.state.first_name} email={this.state.email} selected="admindashboard" />
-        <div className="content">
-          <h1>this is dashboard for admin and librarian</h1>
+        <div>
+            <Sidebar role={role} user={first_name} email={email}
+                     selected="admindashboard"/>
+            <div className="content">
+                <AdminDashboardContent/>
+            </div>
         </div>
-      </div>
     );
-  }
 }
+
