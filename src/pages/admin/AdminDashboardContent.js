@@ -10,6 +10,9 @@ import teacherIcon from "./../../images/teacher.svg";
 import expiredBookIcon from "./../../images/expired-book.png";
 import returnBookIcon from "./../../images/return-book.png";
 import EnhancedTable from "../../components/EnhancedTable";
+import Button from "@material-ui/core/Button";
+import GetAppIcon from '@material-ui/icons/GetApp';
+
 
 
 const useStyle = makeStyles({
@@ -19,6 +22,9 @@ const useStyle = makeStyles({
     cardContainer: {
         display: 'flex',
         justifyContent: 'space-between'
+    },
+    floatRight:{
+      float:'right',
     },
     gridContainer: {
         flexGrow: 1,
@@ -95,6 +101,8 @@ const AdminDashboardContent = () => {
             <h1>Notification & Reminder</h1>
             <p>This section contains notifications and reminder sent by Admin</p>
             <EnhancedTable headCells={headCells} rows={notifications}/>
+
+            <Button className={classes.floatRight} variant="contained" color="primary" startIcon={<GetAppIcon/>}> Generate PDF Report</Button>
         </div>
     );
 };
