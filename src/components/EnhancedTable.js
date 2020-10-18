@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import {lighten, makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -72,6 +72,8 @@ const EnhancedTableHead = (props) => {
                         padding={headCell.disablePadding ? 'none' : 'default'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
+
+
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
@@ -80,8 +82,8 @@ const EnhancedTableHead = (props) => {
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
+                                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                </span>
                             ) : null}
                         </TableSortLabel>
                     </TableCell>
@@ -191,7 +193,7 @@ const EnhancedTable = (props) => {
     const classes = useStyles();
     const {headCells, rows} = props;
     const [order, setOrder] = React.useState(rows);
-    const [orderBy, setOrderBy] = React.useState(headCells[0].id);
+    const [orderBy, setOrderBy] = React.useState(headCells[0].label);
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -294,12 +296,11 @@ const EnhancedTable = (props) => {
                                                 />
                                             </TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.name}
+                                                {row.id}
                                             </TableCell>
-                                            <TableCell align="right">{row.calories}</TableCell>
-                                            <TableCell align="right">{row.fat}</TableCell>
-                                            <TableCell align="right">{row.carbs}</TableCell>
-                                            <TableCell align="right">{row.protein}</TableCell>
+                                            <TableCell align="right">{row.message}</TableCell>
+                                            <TableCell align="right">{row.user_id}</TableCell>
+                                            <TableCell align="right">{row.created}</TableCell>
                                         </TableRow>
                                     );
                                 })}

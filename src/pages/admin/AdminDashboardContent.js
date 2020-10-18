@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, Paper, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -9,14 +9,6 @@ import studentIcon from "./../../images/student.svg";
 import teacherIcon from "./../../images/teacher.svg";
 import expiredBookIcon from "./../../images/expired-book.png";
 import returnBookIcon from "./../../images/return-book.png";
-import Table from "@material-ui/core/Table/Table";
-import Button from "@material-ui/core/Button/Button";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import {Clear} from "@material-ui/icons";
-import TableContainer from "@material-ui/core/TableContainer/TableContainer";
-import moment from "moment";
-import TableSortLabel from "@material-ui/core/TableSortLabel/TableSortLabel";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import EnhancedTable from "../../components/EnhancedTable";
 
 
@@ -42,7 +34,6 @@ const useStyle = makeStyles({
 });
 
 
-
 const AdminDashboardContent = () => {
     const classes = useStyle();
     const [studentCount, setStudentCount] = React.useState(0);
@@ -58,12 +49,11 @@ const AdminDashboardContent = () => {
     ];
 
     const headCells = [
-        { id: 'id', numeric: false, disablePadding: true, label: 'No' },
-        { id: 'title', numeric: false, disablePadding: false, label: 'Message' },
-        { id: 'user_id', numeric: false, disablePadding: false, label: 'Receiver' },
-        { id: 'created', numeric: false, disablePadding: false, label: 'Date' },
+        {id: 'id', numeric: false, disablePadding: true, label: 'No'},
+        {id: 'title', numeric: false, disablePadding: false, label: 'Message'},
+        {id: 'user_id', numeric: false, disablePadding: false, label: 'Receiver'},
+        {id: 'created', numeric: false, disablePadding: false, label: 'Date'},
     ];
-
 
 
     React.useEffect(() => {
@@ -105,34 +95,9 @@ const AdminDashboardContent = () => {
             <h1>Notification & Reminder</h1>
             <p>This section contains notifications and reminder sent by Admin</p>
             <EnhancedTable headCells={headCells} rows={notifications}/>
-            {/*<TableContainer component={Paper}>*/}
-                {/*<Table>*/}
-                    {/*<TableHead>*/}
-                        {/*<TableRow>*/}
-                            {/*<TableCell align="center">No</TableCell>*/}
-                            {/*<TableCell align="center">Message</TableCell>*/}
-                            {/*<TableCell align="center">Receiver</TableCell>*/}
-                            {/*<TableCell align="center">Date</TableCell>*/}
-                        {/*</TableRow>*/}
-                    {/*</TableHead>*/}
-
-                    {/*<TableBody>*/}
-                        {/*{notifications.length > 0 ? notifications.map((notification, index) => (*/}
-                            {/*<TableRow key={notification.id}>*/}
-                                {/*<TableCell align="center">{index + 1}</TableCell>*/}
-                                {/*<TableCell align="center">{notification.title}</TableCell>*/}
-                                {/*<TableCell align="center">{notification.user_id}</TableCell>*/}
-                                {/*<TableCell*/}
-                                    {/*align="center">{moment(notification.created).format("DD-MMM-YYYY")}</TableCell>*/}
-                            {/*</TableRow>*/}
-                        {/*)) : ''}*/}
-                    {/*</TableBody>*/}
-                {/*</Table>*/}
-            {/*</TableContainer>*/}
         </div>
     );
 };
-
 
 
 export default AdminDashboardContent;
