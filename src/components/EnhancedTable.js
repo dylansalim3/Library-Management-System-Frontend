@@ -20,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import moment from "moment";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,7 +69,7 @@ const EnhancedTableHead = (props) => {
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
+                        align={headCell.numeric ? 'center' : 'center'}
                         padding={headCell.disablePadding ? 'none' : 'default'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -126,7 +127,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const {numSelected} = props;
+    const {numSelected, onDeleteSelection} = props;
 
     return (
         <Toolbar
@@ -140,13 +141,13 @@ const EnhancedTableToolbar = (props) => {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    List of Notification
+
                 </Typography>
             )}
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={onDeleteSelection}>
                         <DeleteIcon/>
                     </IconButton>
                 </Tooltip>
@@ -163,6 +164,7 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
+    onDeleteSelection: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -191,7 +193,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EnhancedTable = (props) => {
     const classes = useStyles();
-    const {headCells, rows} = props;
+    const {headCells, rows, onDeleteSelection} = props;
     const [order, setOrder] = React.useState(rows);
     const [orderBy, setOrderBy] = React.useState(headCells[0].label);
     const [selected, setSelected] = React.useState([]);
@@ -207,19 +209,19 @@ const EnhancedTable = (props) => {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name);
+            const newSelecteds = rows.map((n) => n.id);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -247,14 +249,19 @@ const EnhancedTable = (props) => {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (id) => selected.indexOf(id) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const emitDeleteSelection = () =>{
+        onDeleteSelection(selected);
+        setSelected([]);
+    };
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
+                <EnhancedTableToolbar numSelected={selected.length} onDeleteSelection={emitDeleteSelection}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -276,13 +283,13 @@ const EnhancedTable = (props) => {
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
+                                            onClick={(event) => handleClick(event, row.id)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -295,12 +302,13 @@ const EnhancedTable = (props) => {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.id}
-                                            </TableCell>
-                                            <TableCell align="right">{row.message}</TableCell>
-                                            <TableCell align="right">{row.user_id}</TableCell>
-                                            <TableCell align="right">{row.created}</TableCell>
+                                            {/*<TableCell component="th" id={labelId} scope="row" padding="none">*/}
+                                            {/*{index+1}*/}
+                                            {/*</TableCell>*/}
+                                            {headCells.map(headCell =>
+                                                <TableCell
+                                                    align="center">{headCell.id === "created" ? moment(row[headCell.id]).format("DD-MMM-YYYY") : row[headCell.id]}</TableCell>
+                                            )}
                                         </TableRow>
                                     );
                                 })}
@@ -332,7 +340,8 @@ const EnhancedTable = (props) => {
 
 EnhancedTable.propTypes = {
     headCells: PropTypes.array.isRequired,
-    rows: PropTypes.array.isRequired
+    rows: PropTypes.array.isRequired,
+    onDeleteSelection: PropTypes.array.isRequired
 };
 
 export default EnhancedTable;
