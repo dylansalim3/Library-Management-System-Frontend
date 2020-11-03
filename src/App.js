@@ -25,6 +25,8 @@ import usePushNotifications from "./UsePushNotifications";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import jwt_decode from "jwt-decode";
+import ExtendBorrowPage from "./pages/student/ExtendBorrow/ExtendBorrowPage";
+import BookReservationPage from "./pages/admin/BookReservation/BookReservationPage";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -63,6 +65,7 @@ function App() {
                     <Route exact path="/admindashboard" component={Admindashboard}/>
                     <Route exact path="/add_book" component={Addbook}/>
                     <Route exact path="/borrowbook" component={Borrowbook}/>
+                    <Route exact path="/reservebook" component={BookReservationPage}/>
                     <Route exact path="/searchbook" component={SearchBook}/>
                     <Route exact path="/registration" component={AccountRegistrationPage}/>
                     <Route exact path="/edit_book" component={EditDeleteBookPage}/>
@@ -72,6 +75,7 @@ function App() {
                     {/* student paths */}
                     <Route exact path="/studentdashboard" component={Studentdashboard}/>
                     <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
+                    <Route exact path="/extendborrow" component={ExtendBorrowPage}/>
                     <Route exact path='/view_library_map' component={ViewLibraryMapPage}/>
                     <Route exact path="/studentregistration" component={StudentAccountRegistrationPage}/>
 

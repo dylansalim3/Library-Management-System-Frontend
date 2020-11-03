@@ -122,6 +122,6 @@ UploadLibraryMapForm.propTypes = {
     onUpdateLibraryMap: PropTypes.func,
     onShowSuccessSnackbar: PropTypes.func,
     onShowErrorSnackbar: PropTypes.func,
-}
+};
 
 export default UploadLibraryMapForm;

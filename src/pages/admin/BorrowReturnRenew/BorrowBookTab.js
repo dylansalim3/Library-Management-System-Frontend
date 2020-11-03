@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Grid, InputAdornment, TextField} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import {CheckCircle as CheckCircleIcon, Error as ErrorIcon} from '@material-ui/icons';
+import {Error as ErrorIcon} from '@material-ui/icons';
 import axios from 'axios';
 import AlertDialog from "../../../components/AlertDialog";
 import {isEmpty} from '../../../util/StringUtils'
@@ -49,7 +49,7 @@ class BorrowBookTab extends Component {
     }
 
     onChangeForm = (name, value) => {
-        if(isEmpty(value)){
+        if (isEmpty(value)) {
 
         }
         this.setState({
@@ -59,13 +59,13 @@ class BorrowBookTab extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if(this.isFormValid()){
+        if (this.isFormValid()) {
             this.submitBorrowRequest();
-        }else{
+        } else {
             this.setState({
-                errorDialog:{
-                    showErrorDialog:true,
-                    errorMessage:"Please fill in all the fields"
+                errorDialog: {
+                    showErrorDialog: true,
+                    errorMessage: "Please fill in all the fields"
                 }
             })
         }
@@ -115,10 +115,9 @@ class BorrowBookTab extends Component {
         });
     };
 
-    isFormValid = () =>{
-      return !(isEmpty(this.state.bookId)||isEmpty(this.state.userId)||this.state.startDate==null||this.state.endDate==null);
+    isFormValid = () => {
+        return !(isEmpty(this.state.bookId) || isEmpty(this.state.userId) || this.state.startDate == null || this.state.endDate == null);
     };
-
 
 
     render() {
@@ -137,7 +136,7 @@ class BorrowBookTab extends Component {
                                         name="bookId"
                                         value={this.state.bookId}
                                         isValid={v => /.*\S.*/.test(v)}
-                                        error={v => isEmpty(v)||!(/^(?!\s*$).+/.test(v))}
+                                        error={v => isEmpty(v) || !(/^(?!\s*$).+/.test(v))}
                                         helperText={/.*\S.*/.test(this.state.bookId) ? '' : this.state.bookId === '' ? '' : 'Empty Field'}
                                         fullWidth
                                         required

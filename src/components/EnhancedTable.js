@@ -18,9 +18,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import moment from "moment";
+import Button from "@material-ui/core/Button/Button";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -49,8 +48,23 @@ function stableSort(array, comparator) {
 }
 
 
+const AutoDetectButton = React.forwardRef((props, ref) => {
+    const {actionbuttonicon, actionbuttontext} = props;
+    return actionbuttonicon ? (<Tooltip title={actionbuttontext}>
+        <IconButton aria-label={actionbuttontext} {...props} forwardedRef={ref}>
+            {actionbuttonicon}
+        </IconButton>
+    </Tooltip>) : (
+        <Button id="iconButton"
+                {...props} ref={ref}>
+            {actionbuttontext}
+        </Button>
+    );
+});
+
+
 const EnhancedTableHead = (props) => {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells} = props;
+    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells, disableCheckbox, disableActionButton, disableDefaultIndex, actionButtonText, actionAreaHeadCells} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -58,14 +72,20 @@ const EnhancedTableHead = (props) => {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
+                {!disableCheckbox && (<TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{'aria-label': 'select all desserts'}}
                     />
-                </TableCell>
+                </TableCell>)}
+                {!disableDefaultIndex && (
+                    <TableCell align="center">
+                        No
+                    </TableCell>
+                )}
+
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -89,6 +109,20 @@ const EnhancedTableHead = (props) => {
                         </TableSortLabel>
                     </TableCell>
                 ))}
+                {actionAreaHeadCells && actionAreaHeadCells.map(actionAreaHeadCell => (
+                    <TableCell
+                        key={actionAreaHeadCell.label}
+                        align="center"
+                        padding={actionAreaHeadCell.disablePadding ? 'none' : 'default'}>
+                        {actionAreaHeadCell.label}
+                    </TableCell>
+                ))}
+                {!disableActionButton && (
+                    <TableCell align="center">
+                        {actionButtonText}
+                    </TableCell>
+                )}
+
             </TableRow>
         </TableHead>
     );
@@ -102,7 +136,12 @@ EnhancedTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
-    headCells: PropTypes.array.isRequired
+    headCells: PropTypes.array.isRequired,
+    disableCheckbox: PropTypes.bool,
+    disableDefaultIndex: PropTypes.bool,
+    disableActionButton: PropTypes.bool,
+    actionButtonText: PropTypes.string,
+    actionAreaHeadCells: PropTypes.array,
 };
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -127,7 +166,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const {numSelected, onDeleteSelection} = props;
+    const {numSelected, onDeleteSelection, actionButtonText, actionButtonIcon} = props;
 
     return (
         <Toolbar
@@ -145,18 +184,12 @@ const EnhancedTableToolbar = (props) => {
                 </Typography>
             )}
 
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton aria-label="delete" onClick={onDeleteSelection}>
-                        <DeleteIcon/>
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton aria-label="filter list">
-                        <FilterListIcon/>
-                    </IconButton>
-                </Tooltip>
+            {numSelected > 0 && (
+                <AutoDetectButton
+                    actionButtonText={actionButtonText}
+                    actionButtonIcon={actionButtonIcon}
+                    onClick={onDeleteSelection}
+                />
             )}
         </Toolbar>
     );
@@ -164,7 +197,9 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
-    onDeleteSelection: PropTypes.func.isRequired,
+    onDeleteSelection: PropTypes.func,
+    actionButtonText: PropTypes.string,
+    actionButtonIcon: PropTypes.object,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -193,8 +228,8 @@ const useStyles = makeStyles((theme) => ({
 
 const EnhancedTable = (props) => {
     const classes = useStyles();
-    const {headCells, rows, onDeleteSelection} = props;
-    const [order, setOrder] = React.useState(rows);
+    const {headCells, rows, onDeleteSelection, disableToolbar, disableDefaultIndex, actionAreaHeadCells, actionButtonText, actionButtonIcon} = props;
+    const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState(headCells[0].label);
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
@@ -253,15 +288,47 @@ const EnhancedTable = (props) => {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-    const emitDeleteSelection = () =>{
+    const emitDeleteSelection = () => {
         onDeleteSelection(selected);
         setSelected([]);
+    };
+
+    const generateTableRow = (row, headCell) => {
+        if (!row[headCell.id]) {
+            return '-';
+        } else if (headCell.type === 'img') {
+            return (<img src={row[headCell.id]} alt="img" style={{width: '120px', height: '120px'}}/>);
+        } else if (headCell.type === 'date') {
+            return moment(row[headCell.id]).format("DD-MMM-YYYY");
+        } else {
+            return row[headCell.id].toString();
+        }
+    };
+
+    const createOperatorStatement = (row, id, criteria, value) => {
+        switch (criteria) {
+            case 'eq':
+                return row[id] === value;
+            case 'ne':
+                return row[id] !== value;
+            case 'lt':
+                return row[id] < value;
+            case 'gt':
+                return row[id] > value;
+            case 'lte':
+                return row[id] <= value;
+            case 'gte':
+                return row[id] >= value;
+        }
     };
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} onDeleteSelection={emitDeleteSelection}/>
+                {!disableToolbar && (
+                    <EnhancedTableToolbar numSelected={selected.length} onDeleteSelection={emitDeleteSelection}
+                                          actionButtonText={actionButtonText} actionButtonIcon={actionButtonIcon}/>
+                )}
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -278,6 +345,11 @@ const EnhancedTable = (props) => {
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
                             headCells={headCells}
+                            disableCheckbox={disableToolbar}
+                            disableDefaultIndex={disableDefaultIndex}
+                            disableActionButton={disableToolbar || selected.length > 0}
+                            actionButtonText={actionButtonText}
+                            actionAreaHeadCells={actionAreaHeadCells}
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
@@ -288,31 +360,84 @@ const EnhancedTable = (props) => {
 
                                     return (
                                         <TableRow
+                                            key={"table-row" + index}
+                                            id="table-row"
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
+                                            onClick={(event) => {
+                                                if (!disableToolbar) {
+                                                    handleClick(event, row.id)
+                                                }
+                                            }}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.name}
                                             selected={isItemSelected}
                                         >
-                                            <TableCell padding="checkbox">
+                                            {!disableToolbar && (<TableCell padding="checkbox">
                                                 <Checkbox
                                                     checked={isItemSelected}
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
-                                            </TableCell>
-                                            {/*<TableCell component="th" id={labelId} scope="row" padding="none">*/}
-                                            {/*{index+1}*/}
-                                            {/*</TableCell>*/}
+                                            </TableCell>)}
+                                            {!disableDefaultIndex && (<TableCell align="center">
+                                                {index + 1}
+                                            </TableCell>)}
+
                                             {headCells.map(headCell =>
                                                 <TableCell
-                                                    align="center">{headCell.id === "created" ? moment(row[headCell.id]).format("DD-MMM-YYYY") : row[headCell.id]}</TableCell>
+                                                    key={headCell.id}
+                                                    align="center"
+                                                    style={{textTransform: 'capitalize'}}>
+                                                    {generateTableRow(row, headCell)}
+                                                </TableCell>
                                             )}
+                                            {actionAreaHeadCells && actionAreaHeadCells.map(actionAreaHeadCell => (
+                                                <TableCell
+                                                    key={actionAreaHeadCell.id}
+                                                    align="center">
+                                                    {
+                                                        (actionAreaHeadCell.disable &&
+                                                            createOperatorStatement(row, actionAreaHeadCell.disable.id,
+                                                                actionAreaHeadCell.disable.criteria, actionAreaHeadCell.disable.value))
+                                                            ? '-' : (
+                                                            <AutoDetectButton
+                                                                actionbuttontext={actionAreaHeadCell.text}
+                                                                color={actionAreaHeadCell.color}
+                                                                variant="contained"
+                                                                actionbuttonicon={actionAreaHeadCell.icon}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    actionAreaHeadCell.action(row.id);
+                                                                }}
+                                                            />)
+                                                    }
+
+                                                </TableCell>
+                                            ))}
+                                            {!disableToolbar && selected.length === 0 &&
+                                            <TableCell align="center">
+                                                <AutoDetectButton
+                                                    actionbuttontext={actionButtonText}
+                                                    color="primary"
+                                                    variant="contained"
+                                                    actionbuttonicon={actionButtonIcon}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        onDeleteSelection([row.id]);
+                                                    }}/>
+                                            </TableCell>
+                                            }
+
                                         </TableRow>
                                     );
                                 })}
-                            {emptyRows > 0 && (
+                            {rows.length === 0 && (
+                                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
+                                    <TableCell style={{width: 'auto', textAlign: 'center'}}>No Content</TableCell>
+                                </TableRow>
+                            )}
+                            {rows.length > rowsPerPage && emptyRows > 0 && (
                                 <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
                                     <TableCell colSpan={6}/>
                                 </TableRow>
@@ -320,15 +445,17 @@ const EnhancedTable = (props) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
+                {rows.length > rowsPerPage && (
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                )}
             </Paper>
             <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense}/>}
@@ -341,7 +468,12 @@ const EnhancedTable = (props) => {
 EnhancedTable.propTypes = {
     headCells: PropTypes.array.isRequired,
     rows: PropTypes.array.isRequired,
-    onDeleteSelection: PropTypes.array.isRequired
+    onDeleteSelection: PropTypes.func,
+    disableToolbar: PropTypes.bool,
+    disableDefaultIndex: PropTypes.bool,
+    actionAreaHeadCells: PropTypes.array,
+    actionButtonText: PropTypes.string,
+    actionButtonIcon: PropTypes.object,
 };
 
 export default EnhancedTable;

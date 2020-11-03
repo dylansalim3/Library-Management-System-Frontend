@@ -24,6 +24,7 @@ import moment from "moment";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
+import withRouter from "react-router-dom/es/withRouter";
 
 
 const SidebarItem = (props) => {
@@ -293,4 +294,4 @@ const SidebarItem = (props) => {
     );
 };
 
-export default SidebarItem;
+export default withRouter(SidebarItem);

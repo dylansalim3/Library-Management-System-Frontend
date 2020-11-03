@@ -93,7 +93,6 @@ function Sidebar(props) {
 
     const handleNotification = (result) => {
         console.log(result, "notification received");
-        const {title, url, enablePush, priority, thumbnailUrl, created} = result;
         enqueueSnackbar(
             result
             , {

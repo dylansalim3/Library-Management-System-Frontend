@@ -6,29 +6,44 @@ import bookShelfIcon from "../../../images/book-shelf.png";
 import DashboardCards from "../../../components/DashboardCards";
 import axios from "axios";
 import BookSearchResult from "../SearchBook/BookSearchResult";
+import jwt_decode from "jwt-decode";
 
-const overviewItems = [
-    {title: 'No. of books currently on loan', detail: 3, icon: borrowBookIcon},
-    {title: 'No. of books borrowed this month', detail: 4, icon: bookStackIcon},
-    {title: 'No. of books overdue', detail: 2, icon: expiredBookIcon},
-    {title: 'No. of books added this week', detail: 1, icon: bookShelfIcon}
-];
 
 const StudentDashboardContent = () => {
-    const [newArrivalBooks,setNewArrivalBooks] = React.useState([]);
+    const [newArrivalBooks, setNewArrivalBooks] = React.useState([]);
+    const [onLoanBookCount, setOnLoanBookCount] = React.useState(0);
+    const [booksBorrowedCount, setBooksBorrowedCount] = React.useState(0);
+    const [overdueBookCount, setOverdueBookCount] = React.useState(0);
+    const [booksAddedCurrentMonth, setBooksAddedCurrentMonth] = React.useState(0);
+
+    const overviewItems = [
+        {title: 'No. of books currently on loan', detail: onLoanBookCount, icon: borrowBookIcon},
+        {title: 'No. of books borrowed this month', detail: booksBorrowedCount, icon: bookStackIcon},
+        {title: 'No. of books overdue', detail: overdueBookCount, icon: expiredBookIcon},
+        {title: 'No. of books added this week', detail: booksAddedCurrentMonth, icon: bookShelfIcon}
+    ];
 
 
-    React.useEffect(()=>{
-        axios.get('book-details/get-latest-book').then(result=>{
+    React.useEffect(() => {
+        var token = localStorage.usertoken;
+        var decoded = jwt_decode(token);
+        axios.get('book-details/get-latest-book').then(result => {
             setNewArrivalBooks(result.data);
         });
-    },[]);
+        axios.post('dashboard/student-dashboard', {userId: decoded.id}).then(result => {
+            const apiResult = result.data;
+            setOnLoanBookCount(apiResult.onLoanBookCount);
+            setBooksBorrowedCount(apiResult.booksBorrowedCount);
+            setOverdueBookCount(apiResult.overdueBookCount);
+            setBooksAddedCurrentMonth(apiResult.booksAddedCurrentMonth);
+        });
+    }, []);
 
     return (
         <div>
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
-            {newArrivalBooks.length>0 ? (
+            {newArrivalBooks.length > 0 ? (
                 <BookSearchResult title="New Arrival" result={newArrivalBooks}/>
             ) : ""
             }
