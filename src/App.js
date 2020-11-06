@@ -27,6 +27,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import jwt_decode from "jwt-decode";
 import ExtendBorrowPage from "./pages/student/ExtendBorrow/ExtendBorrowPage";
 import BookReservationPage from "./pages/admin/BookReservation/BookReservationPage";
+import PendingReservationPage from "./pages/student/PendingReservation/PendingReservationPage";
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -74,6 +75,7 @@ function App() {
                     <Route exact path="/backup_data" component={BackupDatabasePage}/>
                     {/* student paths */}
                     <Route exact path="/studentdashboard" component={Studentdashboard}/>
+                    <Route exact path="/reservation" component={PendingReservationPage}/>
                     <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
                     <Route exact path="/extendborrow" component={ExtendBorrowPage}/>
                     <Route exact path='/view_library_map' component={ViewLibraryMapPage}/>

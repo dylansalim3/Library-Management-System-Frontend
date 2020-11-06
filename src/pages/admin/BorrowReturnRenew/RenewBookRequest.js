@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 import {useSnackbar} from "notistack";
 import EnhancedTable from "../../../components/EnhancedTable";
-import CustomModal from "./CustomModal";
+import CustomModal from "../../../components/CustomModal";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {TextField} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
@@ -21,7 +21,7 @@ const RenewBookRequest = () => {
     const [expiryDate, setExpiryDate] = React.useState(new Date().now);
     const {enqueueSnackbar} = useSnackbar();
 
-    const extendBookRequest = () => {
+    const retrieveData = () => {
         axios.post("book-request/find-all-extend-book-requests").then(result => {
             setBookRequests(result.data);
         }).catch(err => {
@@ -68,7 +68,7 @@ const RenewBookRequest = () => {
     };
 
     React.useEffect(() => {
-        extendBookRequest();
+        retrieveData();
     }, []);
 
     const headCells = [
@@ -125,7 +125,7 @@ const RenewBookRequest = () => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         }
         resetAlertModal();
-        extendBookRequest();
+        retrieveData();
     };
 
     const actionAreaHeadCells = [

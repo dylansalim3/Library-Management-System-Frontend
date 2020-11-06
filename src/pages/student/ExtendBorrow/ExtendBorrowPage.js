@@ -41,7 +41,6 @@ const ExtendBorrowPage = () => {
     ];
 
     const submitSelection = (idList) => {
-        console.log(idList);
         axios.post('book-request/add-extend-book-request', {userId: userId, borrowBookIdList: idList}).then(result => {
             enqueueSnackbar('Extend Borrow Request Sent', {variant: 'success', transitionDuration: 1000});
             retrieveData(userId);

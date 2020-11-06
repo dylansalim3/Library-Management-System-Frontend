@@ -7,7 +7,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import {useSnackbar} from "notistack";
 import RenewBookRequest from "./RenewBookRequest";
-import CustomModal from "./CustomModal";
+import CustomModal from "../../../components/CustomModal";
 
 const RenewBookTab = () => {
     const [bookId, setBookId] = React.useState('');
