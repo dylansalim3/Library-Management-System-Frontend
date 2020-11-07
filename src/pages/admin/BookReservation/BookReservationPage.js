@@ -215,7 +215,7 @@ const BookReservationPage = () => {
         <div>
             <AdminBoilerplate page={'reservebook'}/>
             <div className="content">
-                <h2>Book Reservation</h2>
+                <h2>Pending Book Reservation</h2>
                 <EnhancedTable
                     headCells={headCells}
                     rows={bookRequests}

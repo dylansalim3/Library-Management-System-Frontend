@@ -14,7 +14,7 @@ export const SIDEBAR_ROUTE_ADMIN = [
 export const SIDEBAR_ROUTE_STUDENT = [
     {name: 'Dashboard', route: 'studentdashboard'},
     {name: 'Search book', route: 'searchbook'},
-    {name: 'Pending Reservation', route: 'reservation'},
+    {name: 'Book Reservation', route: 'reservation'},
     {name: 'Borrow History', route: 'borrowhistory'},
     {name: 'Extend Borrow', route: 'extendborrow'},
     {name: 'Library Map', route: 'view_library_map'},

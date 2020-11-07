@@ -19,7 +19,7 @@ const ExtendBorrowPage = () => {
         }
     }, []);
 
-    const retrieveData = (userId) =>{
+    const retrieveData = (userId) => {
         axios.post('book-request/find-all-borrowed-books', {
             userId
         }).then(res => {
@@ -44,18 +44,25 @@ const ExtendBorrowPage = () => {
         axios.post('book-request/add-extend-book-request', {userId: userId, borrowBookIdList: idList}).then(result => {
             enqueueSnackbar('Extend Borrow Request Sent', {variant: 'success', transitionDuration: 1000});
             retrieveData(userId);
-        }).catch(err=>{
+        }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });
     };
+
+    const searchCriteria = ['title'];
 
     return (
         <div>
             <StudentBoilerplate page={'extendborrow'}/>
             <div className="content">
                 <h2>Extend Borrow</h2>
-                <EnhancedTable headCells={headCells} rows={borrowBooks} actionButtonText="Extend Borrow"
-                               onDeleteSelection={submitSelection}/>
+                <EnhancedTable
+                    headCells={headCells}
+                    rows={borrowBooks}
+                    actionButtonText="Extend Borrow"
+                    onDeleteSelection={submitSelection}
+                    searchCriteria={searchCriteria}
+                />
             </div>
         </div>
     );

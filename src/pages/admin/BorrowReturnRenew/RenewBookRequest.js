@@ -12,6 +12,49 @@ const RequestType = {
     REJECT: 'reject',
 };
 
+const CompletedRenewBookRequest = () => {
+    const [bookRequests, setBookRequests] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
+
+    const retrieveData = () => {
+        axios.post("book-request/find-all-extend-book-requests").then(result => {
+            setBookRequests(result.data?.completedBookRequests);
+        }).catch(err => {
+            enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+        });
+    };
+
+    React.useEffect(() => {
+        retrieveData();
+    }, []);
+
+    const headCells = [
+        {id: 'borrowBookId', numeric: true, disablePadding: false, label: 'Borrowed Book ID'},
+        {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
+        {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
+        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
+        {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
+        {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
+        {id: 'username', numeric: false, type: 'date', disablePadding: false, label: 'Username'},
+        {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
+        {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
+        {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+    ];
+
+    const searchCriteria = ['title', 'username'];
+
+    return (
+        <div>
+            <h2>Completed Renew Book Request</h2>
+            <EnhancedTable
+                headCells={headCells}
+                rows={bookRequests}
+                searchCriteria={searchCriteria}
+            />
+        </div>
+    )
+};
+
 const RenewBookRequest = () => {
     const [bookRequests, setBookRequests] = React.useState([]);
     const [showAlertModal, setShowAlertModal] = React.useState(false);
@@ -23,7 +66,7 @@ const RenewBookRequest = () => {
 
     const retrieveData = () => {
         axios.post("book-request/find-all-extend-book-requests").then(result => {
-            setBookRequests(result.data);
+            setBookRequests(result.data?.pendingBookRequests);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });
@@ -149,19 +192,19 @@ const RenewBookRequest = () => {
         },
     ];
 
+    const searchCriteria = ['title', 'username'];
+
     return (
         <div>
-            {bookRequests.length > 0 && (
-                <div>
-                    <h2>Renew Book Request</h2>
-                    <EnhancedTable
-                        headCells={headCells}
-                        rows={bookRequests}
-                        disableToolbar
-                        actionAreaHeadCells={actionAreaHeadCells}
-                    />
-                </div>
-            )}
+
+            <h2>Pending Renew Book Request</h2>
+            <EnhancedTable
+                headCells={headCells}
+                rows={bookRequests}
+                actionAreaHeadCells={actionAreaHeadCells}
+                searchCriteria={searchCriteria}
+            />
+
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <CustomModal
                     showAlertModal={showAlertModal}
@@ -171,6 +214,7 @@ const RenewBookRequest = () => {
                     onSuccessButtonPressed={onSuccessButtonPressed}
                 />
             </MuiPickersUtilsProvider>
+            <CompletedRenewBookRequest/>
         </div>
     );
 };
