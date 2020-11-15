@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 let socket;
 
 export const initSocket = () => {
-    console.log(process.env.REACT_APP_SERVER_BASE_URL);
     socket = io(process.env.REACT_APP_SERVER_BASE_URL,{
         extraHeaders: {
             'Access-Control-Allow-Credentials': 'omit'
