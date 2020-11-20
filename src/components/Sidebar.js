@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -11,270 +11,263 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 
-import { Link, withRouter } from 'react-router-dom';
-import { topgreen, drawergreen } from '../style/Color';
+import {Link, withRouter} from 'react-router-dom';
+import {drawergreen, topgreen} from '../style/Color';
+import {
+    SIDEBAR_ROUTE_ADMIN,
+    SIDEBAR_ROUTE_LIBRARIAN,
+    SIDEBAR_ROUTE_STUDENT,
+    SIDEBAR_ROUTE_TEACHER
+} from "../constant/SidebarRoute.constant";
+import jwt_decode from "jwt-decode";
+import {disconnectSocket, initSocket, sendNotification, subscribeToNotification} from "../util/SocketUtils";
+import {useSnackbar} from "notistack";
+import NotificationSnackbar from "./NotificationSnackbar";
+import SidebarItem from "./SidebarItem";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      flexShrink: 0,
+    root: {
+        display: 'flex',
     },
-  },
-  appBar: {
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+    drawer: {
+        [theme.breakpoints.up('md')]: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
     },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    appBar: {
+        [theme.breakpoints.up('md')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        },
     },
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  overrides: {
-    MuiContainer: {
-      maxWidth: false,
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
     },
-  },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
+    overrides: {
+        MuiContainer: {
+            maxWidth: false,
+        },
+    },
 }));
 
 function Sidebar(props) {
-  const { window } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+    const {window} = props;
+    const classes = useStyles();
+    const theme = useTheme();
+    const [mobileOpen, setMobileOpen] = React.useState(false);
 
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    const {enqueueSnackbar} = useSnackbar();
 
-  const logout = () => {
-    localStorage.removeItem('usertoken');
-    props.history.push('/');
-  };
 
-  const style = {
-    color: 'white',
-  };
+    useEffect(() => {
+        if (localStorage.usertoken) {
+            const token = localStorage.usertoken;
+            const decoded = jwt_decode(token);
+            const userId = decoded.id;
+            initSocket();
+            sendNotification(userId);
+            subscribeToNotification(handleNotification);
+            return () => {
+                disconnectSocket(userId);
+            }
+        }
+    }, []);
 
-  //route is the path props defined for each route in App.js
-  const adminmenuArray = [
-    { name: 'Dashboard', route: 'admindashboard' },
-    { name: 'Add book', route: 'add_book' },
-    { name: 'Edit/Delete book', route: 'edit_book' },
-    { name: 'Borrow/Return/Renew', route: 'borrowbook' },
-    { name: 'Book Reservation', route: 'reservebook' },
-    {name:'Account Registration',route:'registration'},
-    { name: 'Profile', route: 'profile' },
-    {name:'Role Assignment',route:'role_assignment'},
-  ];
+    const handleNotification = (result) => {
+        console.log(result, "notification received");
+        enqueueSnackbar(
+            result
+            , {
+                persist: true, content: (key, message) => (
+                    <NotificationSnackbar id={key} message={message}/>
+                )
+            })
+        ;
+    };
 
-  const studentmenuArray = [
-    { name: 'Dashboard', route: 'studentdashboard' },
-    { name: 'Search book', route: 'searchbook' },
-    { name: 'Pending Reservation', route: 'reservation' },
-    { name: 'Borrow History', route: 'borrowhistory' },
-    { name: 'Extend Borrow', route: 'extendborrow' },
-    { name: 'Profile', route: 'profile' },
-  ];
 
-  const teachermenuArray = [
-    { name: 'Dashboard', route: 'studentdashboard' },
-    { name: 'Search book', route: 'searchbook' },
-    { name: 'Pending Reservation', route: 'reservation' },
-    { name: 'Borrow History', route: 'borrowhistory' },
-    { name: 'Extend Borrow', route: 'extendborrow' },
-    { name: 'Profile', route: 'profile' },
-    { name: 'Student Registration', route: 'studentregistration' },
-  ];
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
-  const librarianmenuArray = [
-    { name: 'Dashboard', route: 'studentdashboard' },
-    { name: 'Add book', route: 'add_book' },
-    { name: 'Edit/Delete book', route: 'edit_book' },
-    { name: 'Borrow/Return/Renew', route: 'borrowbook' },
-    { name: 'Book Reservation', route: 'reservebook' }
-  ];
+    const logout = () => {
+        localStorage.removeItem('usertoken');
+        props.history.push('/');
+    };
 
-  const returnMenus = (role) => {
-    var arr = [];
-    if (role === 'admin') {
-      arr = adminmenuArray;
-    } else if (role === 'student') {
-      arr = studentmenuArray;
-    } else if (role === 'teacher') {
-      arr = teachermenuArray;
-    }else if(role === 'librarian'){
-      arr = librarianmenuArray;
-    }
+    const style = {
+        color: 'white',
+    };
+
+    const returnMenus = (role) => {
+        var arr = [];
+        if (role === 'admin') {
+            arr = SIDEBAR_ROUTE_ADMIN;
+        } else if (role === 'student') {
+            arr = SIDEBAR_ROUTE_STUDENT;
+        } else if (role === 'teacher') {
+            arr = SIDEBAR_ROUTE_TEACHER;
+        } else if (role === 'librarian') {
+            arr = SIDEBAR_ROUTE_LIBRARIAN;
+        }
+
+        return (
+            <div>
+                {arr.map((data, index) => (
+                    <ListItem
+                        button
+                        key={data.name}
+                        component={Link}
+                        to={`/${data.route}`}
+                        style={{
+                            ...style,
+                            ...{
+                                backgroundColor:
+                                    props.selected === data.route ? topgreen : drawergreen,
+                            },
+                        }}
+                    >
+                        <ListItemText primary={data.name}/>
+                    </ListItem>
+                ))}
+                <ListItem
+                    style={{
+                        ...style,
+                        ...{
+                            position: 'fixed',
+                            bottom: 10,
+                            backgroundColor: 'white',
+                            width: '200px',
+                            color: 'black',
+                            marginLeft: 20,
+                            textAlign: 'center',
+                        },
+                    }}
+                    button
+                    onClick={logout}
+                >
+                    <ListItemText primary="logout"/>
+                </ListItem>
+            </div>
+        );
+    };
+
+    const drawer = (
+        <div style={{backgroundColor: drawergreen, height: '100%'}}>
+            <div
+                className={classes.toolbar}
+                style={{
+                    backgroundColor: topgreen,
+                    paddingLeft: '20px',
+                    alignItems: 'center',
+                    display: 'flex',
+                }}
+            >
+                <h2 style={{color: 'white'}}>E-library</h2>
+            </div>
+            <Divider/>
+
+            <List style={{marginTop: '30px'}}>{returnMenus(props.role)}</List>
+        </div>
+    );
+
+    const container =
+        window !== undefined ? () => window().document.body : undefined;
+
 
     return (
-      <div>
-        {arr.map((data, index) => (
-          <ListItem
-            button
-            key={data.name}
-            component={Link}
-            to={`/${data.route}`}
-            style={{
-              ...style,
-              ...{
-                backgroundColor:
-                  props.selected === data.route ? topgreen : drawergreen,
-              },
-            }}
-          >
-            <ListItemText primary={data.name} />
-          </ListItem>
-        ))}
-        <ListItem
-          style={{
-            ...style,
-            ...{
-              position: 'fixed',
-              bottom: 10,
-              backgroundColor: 'white',
-              width: '200px',
-              color: 'black',
-              marginLeft: 20,
-              textAlign: 'center',
-            },
-          }}
-          button
-          onClick={logout}
-        >
-          <ListItemText primary="logout" />
-        </ListItem>
-      </div>
-    );
-  };
-
-  const drawer = (
-    <div style={{ backgroundColor: drawergreen, height: '100%' }}>
-      <div
-        className={classes.toolbar}
-        style={{
-          backgroundColor: topgreen,
-          paddingLeft: '20px',
-          alignItems: 'center',
-          display: 'flex',
-        }}
-      >
-        <h2 style={{ color: 'white' }}>E-library</h2>
-      </div>
-      <Divider />
-
-      <List style={{ marginTop: '30px' }}>{returnMenus(props.role)}</List>
-    </div>
-  );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
-  return (
-    <div>
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar
-            style={{
-              backgroundColor: topgreen,
-              justifyContent: 'space-between',
-            }}
-          >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Hidden smDown>
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                  <Typography variant="h6" noWrap>
-                    {`Hi ${props.user}`}
-                  </Typography>
-              </div>
-            </Hidden>
-            <Hidden mdUp>
-              <div
-                style={{
-                  width: '100%',
-                  paddingRight: '30px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                  <Typography variant="h6" noWrap>
-                    E-library
-                  </Typography>
-              </div>
-            </Hidden>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          <Hidden mdUp implementation="css">
-            <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden smDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
         <div>
-          <div className={classes.toolbar} />
+            <div className={classes.root}>
+                <CssBaseline/>
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar
+                        style={{
+                            backgroundColor: topgreen,
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                            className={classes.menuButton}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Hidden smDown>
+                            <SidebarItem/>
+                        </Hidden>
+                        <Hidden mdUp>
+                            <div
+                                style={{
+                                    width: '100%',
+                                    paddingRight: '30px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <Typography variant="h6" noWrap>
+                                    E-library
+                                </Typography>
+                            </div>
+                        </Hidden>
+                    </Toolbar>
+                </AppBar>
+                <nav className={classes.drawer} aria-label="mailbox folders">
+                    <Hidden mdUp implementation="css">
+                        <Drawer
+                            container={container}
+                            variant="temporary"
+                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                            open={mobileOpen}
+                            onClose={handleDrawerToggle}
+                            classes={{
+                                paper: classes.drawerPaper,
+                            }}
+                            ModalProps={{
+                                keepMounted: true, // Better open performance on mobile.
+                            }}
+                        >
+                            {drawer}
+                        </Drawer>
+                    </Hidden>
+                    <Hidden smDown implementation="css">
+                        <Drawer
+                            classes={{
+                                paper: classes.drawerPaper,
+                            }}
+                            variant="permanent"
+                            open
+                        >
+                            {drawer}
+                        </Drawer>
+                    </Hidden>
+                </nav>
+                <div>
+                    <div className={classes.toolbar}/>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default withRouter(Sidebar);

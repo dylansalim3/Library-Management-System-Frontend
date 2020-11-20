@@ -82,7 +82,7 @@ const RoleAssignmentPage = () => {
             setOpenConfirmationDialog(false);
             await refreshSelectedProfileData();
         }).catch(err=>{
-            setOpenErrorSnackbar(false);
+            setOpenErrorSnackbar(true);
         })
     }
 
@@ -118,7 +118,7 @@ const RoleAssignmentPage = () => {
                     <h2 className="textCenter">Role Assignment</h2>
                     <form onSubmit={onSubmit} noValidate autoComplete="off">
                         <Grid container direction="row" justify="center">
-                            <Grid item md={5} lg={5}>
+                            <Grid item xs={8} md={5}>
                                 <Autocomplete
                                     fullWidth
                                     id="select Id"

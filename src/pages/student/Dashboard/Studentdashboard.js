@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from '../../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
 import '../../../style/Style.css';
+import StudentDashboardContent from "./StudentDashboardContent";
 
 export default class Studentdashboard extends Component {
   constructor() {
@@ -46,7 +47,7 @@ export default class Studentdashboard extends Component {
           selected="studentdashboard"
         />
         <div className="content">
-          <h1>this is dashboard for students and teachers</h1>
+          <StudentDashboardContent/>
         </div>
       </div>
     );

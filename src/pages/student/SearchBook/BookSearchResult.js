@@ -43,17 +43,20 @@ class BookSearchResult extends Component {
         const bookId = bookDetail.id;
         const title = bookDetail.title;
         const desc = bookDetail.summary;
-        const imageLink = bookDetail.bookimg;
+        let imageLink = bookDetail.bookimg;
+        console.log(imageLink);
         return (
             <Card style={{padding: 10,margin:10}}>
                 <CardContent className="flexGrow">
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
                         <CardMedia
-                            component="img" className="center"
+                            className="center"
                             src={imageLink}
                             height={140}
                             alt="book img"
-                            title={title}/>
+                            title={title} onError={this.src="/mainlogo.png"}>
+                            <img src={imageLink} alt="a" onError={imageLink="https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg"}/>
+                        </CardMedia>
                         <h3 className="textCenter">{title}</h3>
                         <p className="textCenter">{desc.length>100?desc.slice(0,100)+'...':desc}</p>
                     </CardActionArea>

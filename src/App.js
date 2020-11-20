@@ -1,59 +1,93 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {disconnectSocket, initSocket, subscribeToNotification} from './util/SocketUtils';
 
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-
 //admin pages
 import Admindashboard from './pages/admin/Admindashboard';
 import Addbook from './pages/admin/Addbook';
 import Borrowbook from './pages/admin/BorrowReturnRenew/Borrowbook';
 import axios from 'axios';
-
-//student pages 
+//student pages
 import Studentdashboard from './pages/student/Dashboard/Studentdashboard';
 import SearchBook from './pages/student/SearchBook/SearchBook';
-import LibrarianDashboard from "./pages/librarian/LibrarianDashboard";
 import BorrowHistoryPage from "./pages/student/BorrowHistory/BorrowHistoryPage";
 import AccountRegistrationPage from "./pages/admin/AccountRegistration/AccountRegistrationPage";
 import Registration from "./pages/Registration";
 import StudentAccountRegistrationPage from "./pages/teacher/StudentAccountRegistrationPage";
 import EditDeleteBookPage from "./pages/admin/EditDeleteBook/EditDeleteBookPage";
 import RoleAssignmentPage from "./pages/admin/RoleAssignment/RoleAssignmentPage";
-axios.defaults.baseURL = 'http://localhost:3000';
+import EditLibraryMapPage from "./pages/admin/EditLibraryMap/EditLibraryMapPage";
+import ViewLibraryMapPage from "./pages/student/ViewLibraryMap/ViewLibraryMapPage";
+import BackupDatabasePage from "./pages/admin/BackupDatabase/BackupDatabasePage";
+import usePushNotifications from "./UsePushNotifications";
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import jwt_decode from "jwt-decode";
+import ExtendBorrowPage from "./pages/student/ExtendBorrow/ExtendBorrowPage";
+import BookReservationPage from "./pages/admin/BookReservation/BookReservationPage";
+import PendingReservationPage from "./pages/student/PendingReservation/PendingReservationPage";
+
+axios.defaults.baseURL = 'http://localhost:5000';
+
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        {/* <Navbar /> */}
+    const {
+        onClickSendNotification,
+        onEnablePush,
+        error,
+        loading
+    } = usePushNotifications();
 
-        <div className="container">
-          <Route exact path="/" component={Login} />
+    useEffect(() => {
 
-          {/*registration*/}
-          <Route exact path="/account-registration/:hash" component={Registration}/>
-          <Route exact path="/profile" component={Profile} />
-          {/* admin paths */}
-          <Route exact path="/admindashboard" component={Admindashboard} />
-          <Route exact path="/add_book" component={Addbook} />
-          <Route exact path="/borrowbook" component={Borrowbook} />
-          <Route exact path="/searchbook" component={SearchBook}/>
-          <Route exact path="/registration" component={AccountRegistrationPage}/>
-          <Route exact path="/edit_book" component={EditDeleteBookPage}/>
-          <Route exact path={"/role_assignment"} component={RoleAssignmentPage}/>
-          {/* student paths */}
-          <Route exact path="/studentdashboard" component={Studentdashboard} />
-          <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
+        onEnablePush();
 
-          <Route exact path="/studentregistration" component={StudentAccountRegistrationPage}/>
+    }, []);
 
-          {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
+    return (
+        <Router>
+            <div className="App">
+                {/* <Navbar /> */}
+
+                <div className="container">
+                    {/*<Button variant={"outlined"} color={"primary"} onClick={()=>{*/}
+                    {/*onClickSendNotification();*/}
+                    {/*}}>Send*/}
+                    {/*Notification</Button>*/}
+                    <Route exact path="/" component={Login}/>
+                    <Route exact path="/forget-password" component={ForgetPasswordPage}/>
+                    <Route exact path="/password-recovery/:hash" component={ResetPasswordPage}/>
+
+                    {/*registration*/}
+                    <Route exact path="/account-registration/:hash" component={Registration}/>
+                    <Route exact path="/profile" component={Profile}/>
+                    {/* admin paths */}
+                    <Route exact path="/admindashboard" component={Admindashboard}/>
+                    <Route exact path="/add_book" component={Addbook}/>
+                    <Route exact path="/borrowbook" component={Borrowbook}/>
+                    <Route exact path="/reservebook" component={BookReservationPage}/>
+                    <Route exact path="/searchbook" component={SearchBook}/>
+                    <Route exact path="/registration" component={AccountRegistrationPage}/>
+                    <Route exact path="/edit_book" component={EditDeleteBookPage}/>
+                    <Route exact path={"/role_assignment"} component={RoleAssignmentPage}/>
+                    <Route exact path="/library_map" component={EditLibraryMapPage}/>
+                    <Route exact path="/backup_data" component={BackupDatabasePage}/>
+                    {/* student paths */}
+                    <Route exact path="/studentdashboard" component={Studentdashboard}/>
+                    <Route exact path="/reservation" component={PendingReservationPage}/>
+                    <Route exact path="/borrowhistory" component={BorrowHistoryPage}/>
+                    <Route exact path="/extendborrow" component={ExtendBorrowPage}/>
+                    <Route exact path='/view_library_map' component={ViewLibraryMapPage}/>
+                    <Route exact path="/studentregistration" component={StudentAccountRegistrationPage}/>
+
+                    {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
 
 
-        </div>
-      </div>
-    </Router>
-  );
+                </div>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
