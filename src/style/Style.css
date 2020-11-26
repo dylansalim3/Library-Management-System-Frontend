@@ -16,6 +16,10 @@
     width: 80%
 }
 
+.gridSecWidth{
+    width: 70%;
+}
+
 .profileInput{
     width: 80%;
     max-width: 500px;

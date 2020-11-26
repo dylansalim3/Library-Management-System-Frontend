@@ -17,8 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Link from '@material-ui/core/Link';
 import AdminBoilerplate from "./AdminBoilerplate";
-
 
 var Barcode = require('react-barcode');
 
@@ -43,7 +43,8 @@ const defaultState = {
   location: '',
   status: 'available',
   dialogopen: false,
-  addedBookID: ''
+  addedBookID: '',
+  dialogAddNew: false
 };
 
 export default class Addbook extends Component {
@@ -131,6 +132,14 @@ export default class Addbook extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  openSecDialog = () =>{
+    this.setState({dialogAddNew:true})
+  }
+
+  closeSecDialog = () => {
+    this.setState({ dialogAddNew: false })
+  }
+
   render() {
 
     const CssTextField = withStyles({
@@ -161,18 +170,52 @@ export default class Addbook extends Component {
 
     return (
       <div>
-        <AdminBoilerplate page="add_book"/>
+        <AdminBoilerplate page="add_book" />
 
+        {/* Dialog for adding new author,publisher,category,genre */}
+        <Dialog open={this.state.dialogAddNew} onClose={this.closeSecDialog}>
+          <DialogTitle style={{ textAlign: 'center' }}>
+            Add a new author?
+          </DialogTitle>
+          <DialogContent>
+            <DialogActions>
+              <div style={{minWidth:'250px',display:'flex',flexDirection:'column'}}>
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  name="newAuthor"
+                  // value={this.state.isbn}
+                  // onChange={this.onChange}
+                />
+                <Button
+                  variant="contained"
+                  // onClick={this.resetForm}
+                  style={{marginTop:'20px',backgroundColor:topgreen,color:'white'}}
+                >
+                  Confirm
+                </Button>
+              </div>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog for adding new book */}
         <Dialog
           open={this.state.dialogopen}
-          onClose={() => this.setState(Object.assign({},defaultState))}
+          onClose={() => this.setState(Object.assign({}, defaultState))}
         >
           <DialogTitle>Book has been added succesfully</DialogTitle>
           <DialogContent>
-            <DialogContentText style={{display:"flex",alignItems:'center',flexDirection:'column' }}>
+            <DialogContentText
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
+            >
               Please print the generated barcode below and paste it on the book.
               <Barcode
-                style={{ width: '100%' ,backgroundColor:'red'}}
+                style={{ width: '100%', backgroundColor: 'red' }}
                 value={String(this.state.addedBookID)}
               />
             </DialogContentText>
@@ -182,7 +225,7 @@ export default class Addbook extends Component {
               Print
             </Button>
             <Button
-              onClick={() => this.setState(Object.assign({},defaultState))}
+              onClick={() => this.setState(Object.assign({}, defaultState))}
               color="primary"
               autoFocus
             >
@@ -226,7 +269,15 @@ export default class Addbook extends Component {
                       className={'gridWidth gridmargin'}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
                     <TextField
                       required
                       label="Author"
@@ -234,8 +285,19 @@ export default class Addbook extends Component {
                       name="author"
                       value={this.state.author}
                       onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
+                      className={'gridSecWidth gridmargin'}
                     />
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={this.openSecDialog}
+                        style={{ color: 'red' }}
+                      >
+                        Add
+                      </Link>
+                    </div>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -368,8 +430,6 @@ export default class Addbook extends Component {
                         <option value={2}>Fantasy</option>
                       </Select>
                     </FormControl>
-
-
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
