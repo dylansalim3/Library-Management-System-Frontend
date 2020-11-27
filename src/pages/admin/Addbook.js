@@ -455,10 +455,12 @@ export default class Addbook extends Component {
               }}
             >
               Please print the generated barcode below and paste it on the book.
-              <Barcode
-                style={{ width: '100%', backgroundColor: 'red' }}
-                value={String(this.state.addedBookID)}
-              />
+              <canvas>
+                <Barcode
+                  style={{ width: '100%', backgroundColor: 'red' }}
+                  value={String(this.state.addedBookID)}
+                />
+              </canvas>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -614,7 +616,11 @@ export default class Addbook extends Component {
                   </Grid>
                   <Grid item xs={12}>
                     <h3>Select and upload Ebook</h3>
-                    <input disabled={this.state.ebookdisabled} type="file" onChange={(e) => this.selectEbook(e)} />
+                    <input
+                      disabled={this.state.ebookdisabled}
+                      type="file"
+                      onChange={(e) => this.selectEbook(e)}
+                    />
                     {/* <TextField
                       disabled
                       label="E-book"

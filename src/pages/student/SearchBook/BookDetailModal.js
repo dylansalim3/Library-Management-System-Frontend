@@ -5,21 +5,6 @@ import axios from 'axios';
 
 class BookDetailModal extends Component {
    
-    viewEbook = () =>{
-        // console.log(this.props.book.e_book);
-        let ebookpath = 'http://localhost:5000/'+this.props.book.e_book;
-        // let ebookpath = this.props.book.e_book;
-            axios
-              .get('/viewebook',{
-                  params:{ebookpath:ebookpath}
-              })
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-    }
 
     onCloseModal = () => {
         this.props.onChangeShowDetailModal(false);
@@ -112,15 +97,6 @@ class BookDetailModal extends Component {
                           justifyContent: 'space-between',
                         }}
                       >
-                        <span>E book path</span>
-                        <span>{this.props.book.e_book}</span>
-                      </p>
-                      <p
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
                         <span>Genre</span>
                         <span>{genre ? genre.name : '-'}</span>
                       </p>
@@ -179,6 +155,7 @@ class BookDetailModal extends Component {
                     </Grid>
                   </Grid>
                   {this.props.book.type === 'digital' ? (
+                    <div style={{marginTop:'20px',display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
                     <a
                       href={
                         process.env.REACT_APP_SERVER_BASE_URL +'/'+
@@ -190,13 +167,13 @@ class BookDetailModal extends Component {
                       style={{textDecoration:'none'}}
                     >
                       <Button
-                        onClick={this.viewEbook}
                         variant="contained"
                         color="primary"
                       >
                         View e-book
                       </Button>
                     </a>
+                    </div>
                   ) : null}
 
                   {/*<TableContainer>*/}

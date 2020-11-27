@@ -49,6 +49,7 @@ const UploadLibraryMapForm = (props) => {
                 setValue("floor", '');
                 setInputKey(inputKey + 1);
             }).catch(err => {
+                console.log(err);
                 props.onShowErrorSnackbar(true);
             });
         }
@@ -94,7 +95,7 @@ const UploadLibraryMapForm = (props) => {
                         <Grid item xs={12} md={8}>
                             <DropzoneArea
                                 key={inputKey}
-                                acceptedFiles={['image/jpg', 'image/png']}
+                                // acceptedFiles={['*']}
                                 dropzoneText={"Drag and drop an library image here"}
                                 onChange={(files) => setImageFile(files)}
                                 filesLimit={1}

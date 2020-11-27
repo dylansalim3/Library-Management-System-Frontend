@@ -118,7 +118,7 @@ class BookEditDeleteModal extends Component {
                 this.props.onUpdateBook();
                 console.log(res);
             }).catch(err => {
-            console.log(err.response.data.message);
+            console.log(err);
         });
 
         this.setState({
