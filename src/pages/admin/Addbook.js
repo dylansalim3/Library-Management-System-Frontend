@@ -40,6 +40,8 @@ const defaultState = {
   publisher: '',
   type: '',
   ebook: null,
+  ebookpath: null,
+  ebookdisabled: true,
   category: '',
   genre: '',
   summary: '',
@@ -48,7 +50,7 @@ const defaultState = {
   dialogopen: false,
   addedBookID: '',
   dialogAddNew: false,
-  newFieldName: null,
+  newFieldName: '',
   toastMessage: false,
   newFieldText: '',
   toastMessageText: '',
@@ -113,7 +115,7 @@ export default class Addbook extends Component {
       });
   };
 
-  retrieveOptions = (type) =>{
+  retrieveOptions = (type) => {
     if (type === 'genre') {
       return this.state.genreData.map((data) => (
         <option key={data.id} value={data.id}>
@@ -133,7 +135,14 @@ export default class Addbook extends Component {
         </option>
       ));
     }
-  }
+  };
+
+  selectEbook = (e) => {
+    this.setState({
+      ebook: e.target.files[0],
+      // bookimg: URL.createObjectURL(e.target.files[0]),
+    });
+  };
 
   selectImage = (e) => {
     console.log(e.target.files[0]);
@@ -141,6 +150,27 @@ export default class Addbook extends Component {
       bookcover: e.target.files[0],
       bookimg: URL.createObjectURL(e.target.files[0]),
     });
+  };
+
+  uploadEbook = async (ebookFormObj) => {
+    console.log("raan upload ebook");
+    if (this.state.ebook) {
+      await axios
+        .post('/file-ebook', ebookFormObj)
+        .then((data) => {
+          console.log(data.data);
+          this.setState({
+            ebookpath: data.data,
+          });
+          return data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    } else {
+      console.log('Ebook is empty');
+    }
   };
 
   uploadImage = async (imageFormObj) => {
@@ -163,9 +193,11 @@ export default class Addbook extends Component {
     }
   };
 
-  uploadBook = async (imageFormObj) => {
+  uploadBook = async (imageFormObj, ebookFormObj) => {
     await this.uploadImage(imageFormObj);
+    await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
+    console.log(this.state.ebookpath);
     if (this.state.summary && this.state.location) {
       axios
         .post('/books/add', {
@@ -176,7 +208,7 @@ export default class Addbook extends Component {
           status: this.state.status,
           publisher: this.state.publisher,
           type: this.state.type,
-          ebook: this.state.ebook,
+          ebook: this.state.ebookpath,
           category: this.state.category,
           genre: this.state.genre,
           summary: this.state.summary,
@@ -204,11 +236,20 @@ export default class Addbook extends Component {
     e.preventDefault();
     let imageFormObj = new FormData();
     imageFormObj.append('file', this.state.bookcover);
-    this.uploadBook(imageFormObj);
+    let ebookFormObj = new FormData();
+    ebookFormObj.append('file', this.state.ebook);
+    this.uploadBook(imageFormObj, ebookFormObj);
   };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    if(e.target.name==='type'){
+      if(e.target.value==='digital'){
+        this.setState({ebookdisabled: false });
+      }else if(e.target.value==='physical'){
+        this.setState({ebookdisabled:true});
+      }
+    }
   };
 
   openSecDialog = (type) => {
@@ -239,54 +280,62 @@ export default class Addbook extends Component {
 
   addNewField = () => {
     let newType = this.state.newFieldText;
-    if (newType === 'author') {
-      axios
-        .post('/author/add', {
-          newFieldName: this.state.newFieldName,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.retrieveData();
-          this.closeSecDialog();
-          this.openToastMessage(newType);
-        });
-    } else if (newType === 'category') {
-      axios
-        .post('/bookCategory/add', {
-          newFieldName: this.state.newFieldName,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.retrieveData();
-          this.closeSecDialog();
-          this.openToastMessage(newType);
-        });
-    } else if (newType === 'genre') {
-      axios
-        .post('/genres/add', {
-          newFieldName: this.state.newFieldName,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.retrieveData();
-          this.closeSecDialog();
-          this.openToastMessage(newType);
-        });
+    console.log(typeof this.state.newFieldName);
+    try {
+      if (newType === 'author') {
+        axios
+          .post('/author/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      } else if (newType === 'category') {
+        axios
+          .post('/bookCategory/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      } else if (newType === 'genre') {
+        axios
+          .post('/genres/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ newFieldName: '' });
+      // dont modify the code here first, bugs will appear
     }
   };
 
@@ -391,7 +440,10 @@ export default class Addbook extends Component {
         {/* Dialog for adding new book */}
         <Dialog
           open={this.state.dialogopen}
-          onClose={() => this.setState(Object.assign({}, defaultState))}
+          onClose={() => {
+            this.setState(Object.assign({}, defaultState));
+            this.retrieveData();
+          }}
         >
           <DialogTitle>Book has been added succesfully</DialogTitle>
           <DialogContent>
@@ -414,7 +466,10 @@ export default class Addbook extends Component {
               Print
             </Button>
             <Button
-              onClick={() => this.setState(Object.assign({}, defaultState))}
+              onClick={() => {
+                this.setState(Object.assign({}, defaultState));
+                this.retrieveData();
+              }}
               color="primary"
               autoFocus
             >
@@ -467,16 +522,16 @@ export default class Addbook extends Component {
                       alignItems: 'center',
                     }}
                   >
-                    {/* <TextField
+                    <TextField
                       required
                       label="Author"
                       variant="outlined"
                       name="author"
                       value={this.state.author}
                       onChange={this.onChange}
-                      className={'gridSecWidth gridmargin'}
-                    /> */}
-                    <FormControl
+                      className={'gridWidth gridmargin'}
+                    />
+                    {/* <FormControl
                       className={'gridSecWidth gridmargin'}
                       variant="outlined"
                     >
@@ -505,7 +560,7 @@ export default class Addbook extends Component {
                       >
                         Add
                       </Link>
-                    </div>
+                    </div> */}
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -556,22 +611,11 @@ export default class Addbook extends Component {
                         <option value={'physical'}>Physical</option>
                       </Select>
                     </FormControl>
-                    {/* <TextField
-                      required
-                      label="Type"
-                      variant="outlined"
-                      name="type"
-                      value={this.state.type}
-                      onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
-                      select
-                    >
-                      <MenuItem value={'digital'}>Digital</MenuItem>
-                      <MenuItem value={'physical'}>Physical</MenuItem>
-                    </TextField> */}
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
+                    <h3>Select and upload Ebook</h3>
+                    <input disabled={this.state.ebookdisabled} type="file" onChange={(e) => this.selectEbook(e)} />
+                    {/* <TextField
                       disabled
                       label="E-book"
                       variant="outlined"
@@ -580,7 +624,7 @@ export default class Addbook extends Component {
                       onChange={this.onChange}
                       value="Not available currently"
                       className={'gridWidth gridmargin'}
-                    />
+                    /> */}
                   </Grid>
                   <Grid
                     item
@@ -592,6 +636,7 @@ export default class Addbook extends Component {
                     }}
                   >
                     <FormControl
+                      required
                       className={'gridSecWidth gridmargin'}
                       variant="outlined"
                     >
