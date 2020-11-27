@@ -17,8 +17,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Link from '@material-ui/core/Link';
 import AdminBoilerplate from "./AdminBoilerplate";
-
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 var Barcode = require('react-barcode');
 
@@ -37,22 +40,109 @@ const defaultState = {
   publisher: '',
   type: '',
   ebook: null,
+  ebookpath: null,
+  ebookdisabled: true,
   category: '',
   genre: '',
   summary: '',
   location: '',
   status: 'available',
   dialogopen: false,
-  addedBookID: ''
+  addedBookID: '',
+  dialogAddNew: false,
+  newFieldName: '',
+  toastMessage: false,
+  newFieldText: '',
+  toastMessageText: '',
+  genreData: [],
+  categoryData: [],
+  authorData: [],
 };
 
+const options='';
+
 export default class Addbook extends Component {
-  
   constructor() {
     super();
-
-    this.state = Object.assign({},defaultState);
+    this.state = Object.assign({}, defaultState);
   }
+
+  componentDidMount() {
+    this.retrieveData();
+  }
+
+  retrieveData = () => {
+    axios
+      .get('/genres/get-all-genre')
+      .then((res) => {
+        console.log(res.data[0]);
+        console.log(typeof res.data);
+        this.setState({ genreData: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        console.log(this.state.genreData);
+      });
+
+    axios
+      .get('/bookCategory/get-all-category')
+      .then((res) => {
+        console.log(res.data[0]);
+        console.log(typeof res.data);
+        this.setState({ categoryData: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        console.log(this.state.categoryData);
+      });
+
+    axios
+      .get('/author/get-all-authors')
+      .then((res) => {
+        console.log(res.data[0]);
+        console.log(typeof res.data);
+        this.setState({ authorData: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        console.log(this.state.authorData);
+      });
+  };
+
+  retrieveOptions = (type) => {
+    if (type === 'genre') {
+      return this.state.genreData.map((data) => (
+        <option key={data.id} value={data.id}>
+          {data.name}
+        </option>
+      ));
+    } else if (type === 'category') {
+      return this.state.categoryData.map((data) => (
+        <option key={data.id} value={data.id}>
+          {data.name}
+        </option>
+      ));
+    } else if (type === 'author') {
+      return this.state.authorData.map((data) => (
+        <option key={data.id} value={data.id}>
+          {data.name}
+        </option>
+      ));
+    }
+  };
+
+  selectEbook = (e) => {
+    this.setState({
+      ebook: e.target.files[0],
+      // bookimg: URL.createObjectURL(e.target.files[0]),
+    });
+  };
 
   selectImage = (e) => {
     console.log(e.target.files[0]);
@@ -62,61 +152,83 @@ export default class Addbook extends Component {
     });
   };
 
-  uploadImage = async (imageFormObj) => {
-    if(this.state.bookimg){
-    await axios
-      .post('/file', imageFormObj)
-      .then((data) => {
-        console.log(data.data);
-        this.setState({
-          bookimgpath: data.data,
+  uploadEbook = async (ebookFormObj) => {
+    console.log("raan upload ebook");
+    if (this.state.ebook) {
+      await axios
+        .post('/file-ebook', ebookFormObj)
+        .then((data) => {
+          console.log(data.data);
+          this.setState({
+            ebookpath: data.data,
+          });
+          return data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          return;
         });
-        return data.data;
-      })
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
-    }else{
-      console.log("Book cover is empty");
+    } else {
+      console.log('Ebook is empty');
     }
   };
 
-  uploadBook = async (imageFormObj) => {
-
-    await this.uploadImage(imageFormObj);
-    console.log(this.state.bookimgpath);
-    if(this.state.summary&&this.state.location){
-    axios
-      .post('/books/add', {
-        isbn: this.state.isbn,
-        title: this.state.booktitle,
-        datepublished: this.state.datepublished,
-        bookimg: this.state.bookimgpath,
-        status: this.state.status,
-        publisher: this.state.publisher,
-        type: this.state.type,
-        ebook: this.state.ebook,
-        category: this.state.category,
-        genre: this.state.genre,
-        summary: this.state.summary,
-        location: this.state.location,
-        author: this.state.author
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data.bookdetail.id);
-        
-        this.setState({
-          addedBookID:res.data.bookdetail.id,
-          dialogopen: true
+  uploadImage = async (imageFormObj) => {
+    if (this.state.bookimg) {
+      await axios
+        .post('/file', imageFormObj)
+        .then((data) => {
+          console.log(data.data);
+          this.setState({
+            bookimgpath: data.data,
+          });
+          return data.data;
         })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }else{
-      console.log("location and summary cannot be empty");
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    } else {
+      console.log('Book cover is empty');
+    }
+  };
+
+  uploadBook = async (imageFormObj, ebookFormObj) => {
+    await this.uploadImage(imageFormObj);
+    await this.uploadEbook(ebookFormObj);
+    console.log(this.state.bookimgpath);
+    console.log(this.state.ebookpath);
+    if (this.state.summary && this.state.location) {
+      axios
+        .post('/books/add', {
+          isbn: this.state.isbn,
+          title: this.state.booktitle,
+          datepublished: this.state.datepublished,
+          bookimg: this.state.bookimgpath,
+          status: this.state.status,
+          publisher: this.state.publisher,
+          type: this.state.type,
+          ebook: this.state.ebookpath,
+          category: this.state.category,
+          genre: this.state.genre,
+          summary: this.state.summary,
+          location: this.state.location,
+          author: this.state.author,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(res.data.bookdetail.id);
+
+          this.setState({
+            addedBookID: res.data.bookdetail.id,
+            dialogopen: true,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log('location and summary cannot be empty');
     }
   };
 
@@ -124,15 +236,110 @@ export default class Addbook extends Component {
     e.preventDefault();
     let imageFormObj = new FormData();
     imageFormObj.append('file', this.state.bookcover);
-    this.uploadBook(imageFormObj);
+    let ebookFormObj = new FormData();
+    ebookFormObj.append('file', this.state.ebook);
+    this.uploadBook(imageFormObj, ebookFormObj);
   };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+    if(e.target.name==='type'){
+      if(e.target.value==='digital'){
+        this.setState({ebookdisabled: false });
+      }else if(e.target.value==='physical'){
+        this.setState({ebookdisabled:true});
+      }
+    }
+  };
+
+  openSecDialog = (type) => {
+    this.setState({
+      newFieldText: type,
+      dialogAddNew: true,
+    });
+  };
+
+  closeSecDialog = () => {
+    this.setState({ dialogAddNew: false });
+  };
+
+  openToastMessage = (type) => {
+    if (type === 'author') {
+      this.setState({ toastMessageText: 'New author added.' });
+    } else if (type === 'category') {
+      this.setState({ toastMessageText: 'New category added.' });
+    } else if (type === 'genre') {
+      this.setState({ toastMessageText: 'New genre added.' });
+    }
+    this.setState({ toastMessage: true });
+  };
+
+  closeToastMessage = () => {
+    this.setState({ toastMessage: false });
+  };
+
+  addNewField = () => {
+    let newType = this.state.newFieldText;
+    console.log(typeof this.state.newFieldName);
+    try {
+      if (newType === 'author') {
+        axios
+          .post('/author/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      } else if (newType === 'category') {
+        axios
+          .post('/bookCategory/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      } else if (newType === 'genre') {
+        axios
+          .post('/genres/add', {
+            newFieldName: this.state.newFieldName,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeSecDialog();
+            this.openToastMessage(newType);
+          });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ newFieldName: '' });
+      // dont modify the code here first, bugs will appear
+    }
   };
 
   render() {
-
     const CssTextField = withStyles({
       root: {
         '& .MuiInputLabel-outlined': {
@@ -161,20 +368,99 @@ export default class Addbook extends Component {
 
     return (
       <div>
-        <AdminBoilerplate page="add_book"/>
+        <AdminBoilerplate page="add_book" />
 
+        {/* Snackbar to display toast message */}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.toastMessage}
+          autoHideDuration={6000}
+          onClose={this.closeToastMessage}
+          message={this.state.toastMessageText}
+          action={
+            <React.Fragment>
+              <Button
+                color="secondary"
+                size="small"
+                onClick={this.closeToastMessage}
+              >
+                UNDO
+              </Button>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={this.closeToastMessage}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+        {/* Dialog for adding new author,category,genre */}
+        <Dialog open={this.state.dialogAddNew} onClose={this.closeSecDialog}>
+          <DialogTitle style={{ textAlign: 'center' }}>
+            Add a new {this.state.newFieldText}?
+          </DialogTitle>
+          <DialogContent>
+            <DialogActions>
+              <div
+                style={{
+                  minWidth: '250px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <TextField
+                  label="Type in value"
+                  variant="outlined"
+                  name="newFieldName"
+                  value={this.state.newFieldName}
+                  onChange={this.onChange}
+                />
+                <Button
+                  variant="contained"
+                  onClick={this.addNewField}
+                  style={{
+                    marginTop: '20px',
+                    backgroundColor: topgreen,
+                    color: 'white',
+                  }}
+                >
+                  Confirm
+                </Button>
+              </div>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog for adding new book */}
         <Dialog
           open={this.state.dialogopen}
-          onClose={() => this.setState(Object.assign({},defaultState))}
+          onClose={() => {
+            this.setState(Object.assign({}, defaultState));
+            this.retrieveData();
+          }}
         >
           <DialogTitle>Book has been added succesfully</DialogTitle>
           <DialogContent>
-            <DialogContentText style={{display:"flex",alignItems:'center',flexDirection:'column' }}>
+            <DialogContentText
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
+            >
               Please print the generated barcode below and paste it on the book.
-              <Barcode
-                style={{ width: '100%' ,backgroundColor:'red'}}
-                value={String(this.state.addedBookID)}
-              />
+              <canvas>
+                <Barcode
+                  style={{ width: '100%', backgroundColor: 'red' }}
+                  value={String(this.state.addedBookID)}
+                />
+              </canvas>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -182,7 +468,10 @@ export default class Addbook extends Component {
               Print
             </Button>
             <Button
-              onClick={() => this.setState(Object.assign({},defaultState))}
+              onClick={() => {
+                this.setState(Object.assign({}, defaultState));
+                this.retrieveData();
+              }}
               color="primary"
               autoFocus
             >
@@ -226,7 +515,15 @@ export default class Addbook extends Component {
                       className={'gridWidth gridmargin'}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
                     <TextField
                       required
                       label="Author"
@@ -236,6 +533,36 @@ export default class Addbook extends Component {
                       onChange={this.onChange}
                       className={'gridWidth gridmargin'}
                     />
+                    {/* <FormControl
+                      className={'gridSecWidth gridmargin'}
+                      variant="outlined"
+                    >
+                      <InputLabel htmlFor="bookauthor">Author</InputLabel>
+                      <Select
+                        native
+                        required
+                        value={this.state.author}
+                        onChange={this.onChange}
+                        inputProps={{
+                          name: 'author',
+                          id: 'bookauthor',
+                        }}
+                      >
+                        <option aria-label="None" value="" />
+                        {this.retrieveOptions('author')}
+                      </Select>
+                    </FormControl>
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={() => this.openSecDialog('author')}
+                        style={{ color: 'red' }}
+                      >
+                        Add
+                      </Link>
+                    </div> */}
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -286,22 +613,15 @@ export default class Addbook extends Component {
                         <option value={'physical'}>Physical</option>
                       </Select>
                     </FormControl>
-                    {/* <TextField
-                      required
-                      label="Type"
-                      variant="outlined"
-                      name="type"
-                      value={this.state.type}
-                      onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
-                      select
-                    >
-                      <MenuItem value={'digital'}>Digital</MenuItem>
-                      <MenuItem value={'physical'}>Physical</MenuItem>
-                    </TextField> */}
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
+                    <h3>Select and upload Ebook</h3>
+                    <input
+                      disabled={this.state.ebookdisabled}
+                      type="file"
+                      onChange={(e) => this.selectEbook(e)}
+                    />
+                    {/* <TextField
                       disabled
                       label="E-book"
                       variant="outlined"
@@ -310,11 +630,20 @@ export default class Addbook extends Component {
                       onChange={this.onChange}
                       value="Not available currently"
                       className={'gridWidth gridmargin'}
-                    />
+                    /> */}
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
                     <FormControl
-                      className={'gridWidth gridmargin'}
+                      required
+                      className={'gridSecWidth gridmargin'}
                       variant="outlined"
                     >
                       <InputLabel htmlFor="bookcategory">Category</InputLabel>
@@ -329,11 +658,20 @@ export default class Addbook extends Component {
                         }}
                       >
                         <option aria-label="None" value="" />
-                        <option value={1}>Textbook</option>
-                        <option value={2}>Magazine</option>
-                        <option value={3}>Comic</option>
+                        {this.retrieveOptions('category')}
                       </Select>
                     </FormControl>
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={() => this.openSecDialog('category')}
+                        style={{ color: 'red' }}
+                      >
+                        Add
+                      </Link>
+                    </div>
                     {/* <TextField
                       label="Category"
                       variant="outlined"
@@ -348,9 +686,17 @@ export default class Addbook extends Component {
                       <MenuItem value={3}>Comic</MenuItem>
                     </TextField> */}
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
                     <FormControl
-                      className={'gridWidth gridmargin'}
+                      className={'gridSecWidth gridmargin'}
                       variant="outlined"
                     >
                       <InputLabel htmlFor="bookgenre">Genre</InputLabel>
@@ -364,12 +710,20 @@ export default class Addbook extends Component {
                         }}
                       >
                         <option aria-label="None" value="" />
-                        <option value={1}>Mystery</option>
-                        <option value={2}>Fantasy</option>
+                        {this.retrieveOptions('genre')}
                       </Select>
                     </FormControl>
-
-
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={() => this.openSecDialog('genre')}
+                        style={{ color: 'red' }}
+                      >
+                        Add
+                      </Link>
+                    </div>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
