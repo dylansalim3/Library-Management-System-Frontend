@@ -20,20 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f3a43a-ac15-4550-9342-a15065e75ad2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EnhancedTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EnhancedTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidebarItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SidebarItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constant/SidebarRoute.constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/SidebarRoute.constant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constant/route.constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/route.constant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/Borrowbook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/BorrowBook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/student/ExtendBorrow/ExtendBorrowPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/ExtendBorrow/ExtendBorrowPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/student/SearchBook/BookSearchResult.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/SearchBook/BookSearchResult.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/UploadLibraryMapForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/UploadLibraryMapForm.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,16 +44,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="23" />
+          <entry key="js" value="28" />
           <entry key="json" value="1" />
-          <entry key="ts" value="1" />
+          <entry key="ts" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="23" />
-          <entry key="TypeScript" value="1" />
+          <entry key="JavaScript" value="28" />
+          <entry key="TypeScript" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -74,12 +64,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="1061" />
+          <entry key="js" value="1580" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="1061" />
+          <entry key="JavaScript" value="1580" />
         </counts>
       </usages-collector>
     </session>
@@ -98,14 +88,68 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
+            <state relative-caret-position="1643">
               <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/student/ViewLibraryMap/ViewLibraryMapPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/ViewLibraryMap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-362">
+              <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="961">
+              <caret line="63" column="42" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#49#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="427">
+              <caret line="130" column="61" selection-start-line="130" selection-start-column="61" selection-end-line="130" selection-end-column="61" />
+              <folding>
+                <element signature="e#0#62#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/UploadLibraryMapForm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="868">
+              <caret line="34" column="34" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -116,6 +160,11 @@
     <findStrings>
       <find>onEnablePush</find>
       <find>headcell</find>
+      <find>onUpdateLibraryMap</find>
+      <find>libraryMap</find>
+      <find>mapFloor</find>
+      <find>libraryMaps</find>
+      <find>floor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -138,6 +187,9 @@
         <option value="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookTab.js" />
         <option value="$PROJECT_DIR$/src/components/SidebarItem.js" />
         <option value="$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js" />
+        <option value="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/UploadLibraryMapForm.js" />
+        <option value="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapPage.js" />
+        <option value="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js" />
       </list>
     </option>
   </component>
@@ -203,6 +255,29 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fyp_frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fyp_frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="EditLibraryMap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fyp_frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fyp_frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fyp_frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fyp_frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+              <item name="ViewLibraryMap" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -292,37 +367,58 @@
       <workItem from="1606476358348" duration="4563000" />
       <workItem from="1607142609080" duration="424000" />
       <workItem from="1607143073832" duration="7072000" />
-      <workItem from="1607158975472" duration="2846000" />
+      <workItem from="1607158975472" duration="7822000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10342000" />
+    <option name="totallyTimeSpent" value="15318000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20484465" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20484465" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="TypeScript" />
-      <window_info anchor="bottom" id="Messages" order="0" weight="0.32893288" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Run" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32893288" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32893288" />
+      <window_info anchor="bottom" id="TypeScript" order="0" />
+      <window_info anchor="bottom" id="Messages" order="1" weight="0.32893288" />
+      <window_info anchor="bottom" id="Message" order="2" />
+      <window_info anchor="bottom" id="Find" order="3" />
+      <window_info anchor="bottom" id="Run" order="4" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="8" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32893288" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32893288" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20484465" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="TypeScript" order="0" />
+      <window_info anchor="bottom" id="Messages" order="1" weight="0.32893288" />
+      <window_info anchor="bottom" id="Message" order="2" />
+      <window_info anchor="bottom" id="Find" order="3" />
+      <window_info anchor="bottom" id="Run" order="4" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="8" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32893288" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" weight="0.32893288" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -380,38 +476,22 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1601198846367">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601198846367" />
-    <state x="598" y="281" key="MultipleFileMergeDialog" timestamp="1601198354896">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601198354896" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1601198548991">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1601198548991" />
-    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog" timestamp="1601198463154">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601198463154" />
-    <state x="591" y="296" key="com.intellij.ide.util.TipDialog" timestamp="1606476357386">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="591" y="296" key="com.intellij.ide.util.TipDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1606476357386" />
-    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1601198370811">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601198370811" />
-    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1601198732801">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601198732801" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1600784542537">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1600784542537" />
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" />
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="598" y="281" key="MultipleFileMergeDialog" />
+    <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" />
+    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog" />
+    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="591" y="296" key="com.intellij.ide.util.TipDialog" />
+    <state x="591" y="296" key="com.intellij.ide.util.TipDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" />
+    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog" />
+    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog" />
+    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040@0.0.1920.1040" />
+    <state x="616" y="240" key="run.anything.popup" />
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -554,12 +634,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="609" column="4" selection-start-line="609" selection-start-column="4" selection-end-line="609" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
+        <state relative-caret-position="1643">
           <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/student/ViewLibraryMap/ViewLibraryMapPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ViewLibraryMap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-362">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="63" column="42" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/UploadLibraryMapForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="868">
+          <caret line="34" column="34" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="130" column="61" selection-start-line="130" selection-start-column="61" selection-end-line="130" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#62#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -38,16 +38,16 @@ const EditLibraryMapPage = () => {
             <AdminBoilerplate page={'library_map'}/>
             <div className="content">
                 <Paper style={{padding: 20}}>
-                    {!loading?<EditLibraryMapCard
-                        libraryMaps={libraryMaps}
-                        onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-                        onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-                        onUpdateLibraryMap={getLibraryMaps}
-                    />:
+                    {!loading ? <EditLibraryMapCard
+                            libraryMaps={libraryMaps}
+                            onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+                            onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
+                            onUpdateLibraryMap={getLibraryMaps}
+                        /> :
                         <Box width="100%" display="flex" justifyContent="center">
                             <CircularProgress color="inherit" size={20}/>
                         </Box>
-                        }
+                    }
 
                     <UploadLibraryMapForm
                         onUpdateLibraryMap={getLibraryMaps}
@@ -61,7 +61,7 @@ const EditLibraryMapPage = () => {
                         <Alert onClose={() => {
                             setOpenErrorSnackbar(false)
                         }} severity="error">
-                            Error occured. Please try again later
+                            Error occurred. Please try again later
                         </Alert>
                     </Snackbar>
 

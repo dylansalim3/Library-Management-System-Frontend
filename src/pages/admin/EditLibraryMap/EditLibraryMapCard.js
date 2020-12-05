@@ -53,10 +53,11 @@ const EditLibraryMapCard = props => {
 
     const onChangeFile = (e, libraryMap) => {
         if (e.target.files) {
+            console.log(libraryMap);
             const uploadedImageFile = e.target.files[0];
             const formData = new FormData();
             formData.append('file', uploadedImageFile);
-            formData.append('floor', libraryMap.floor);
+            formData.append('floorName', libraryMap.floor_name);
             formData.append('name', libraryMap.name);
 
             const config = {
@@ -73,61 +74,66 @@ const EditLibraryMapCard = props => {
         }
     }
 
+    const displayLibraryCard = (libraryMap, index, lastFloor) => {
+        return (
+            <Grid key={index} item xs={12} md={6}>
+                <h2>{lastFloor !== libraryMap.floor_name ? `Floor ${libraryMap.floor_name}` : ''}</h2>
+                <Card>
+                    <CardHeader title={libraryMap.name} action={
+                        <Tooltip title="Delete" aria-label="delete">
+                            <IconButton aria-label="deleteForever"
+                                        onClick={() => onDeleteLibraryMap(libraryMap)}>
+                                <Clear/>
+                            </IconButton>
+                        </Tooltip>
+                    }/>
+                    <CardActionArea onClick={() => openImageModal(index)}>
+                        <CardMedia style={{
+                            height: 0,
+                            paddingTop: '56.25%',
+                        }} image={libraryMap.image_url}
+                                   title={libraryMap.name}/>
+                    </CardActionArea>
+                    <CardActions>
+                        <input
+                            accept="image/*"
+                            id={"raised-button-file-" + index}
+                            name="file"
+                            type="file"
+                            style={{display: "none"}}
+                            onChange={(e) => onChangeFile(e, libraryMap)}
+                        />
+                        <label htmlFor={"raised-button-file-" + index} style={{margin: "auto"}}>
+                            <Button
+                                startIcon={<Publish/>}
+                                component="span"
+                                variant="contained"
+                                color="primary"
+
+                            > Upload Image in png/jpg</Button>
+                        </label>
+
+                    </CardActions>
+                </Card>
+            </Grid>
+        );
+        // })
+    }
+
+    let lastFloorName = '-';
+
     return (
         <Box width="100%">
-            {libraryMaps.length===0?'':(<h2 className="textCenter">Edit Library Map</h2>)}
+            {libraryMaps.length === 0 ? '' : (<h2 className="textCenter">Edit Library Map</h2>)}
 
             <Box p={1}>
-                <Box>
-                    {/*<h3>{`Floor ${libraryMap.floor.toString()}`}</h3>*/}
-                    <Grid container direction="row" justify="center" spacing={4}>
-                        {libraryMaps.map((libraryMap, index) => {
-                            return (
-                                <Grid key={libraryMap.id} item xs={12} md={6}>
-                                    <Card>
-                                        <CardHeader title={libraryMap.name} action={
-                                            <Tooltip title="Delete" aria-label="delete">
-                                                <IconButton aria-label="deleteForever"
-                                                            onClick={() => onDeleteLibraryMap(libraryMap)}>
-                                                    <Clear/>
-                                                </IconButton>
-                                            </Tooltip>
-                                        }/>
-                                        <CardActionArea onClick={() => openImageModal(index)}>
-                                            <CardMedia style={{
-                                                height: 0,
-                                                paddingTop: '56.25%',
-                                            }} image={libraryMap.image_url}
-                                                       title={libraryMap.name}/>
-                                        </CardActionArea>
-                                        <CardActions>
-                                            <input
-                                                accept="image/*"
-                                                id="raised-button-file"
-                                                name="file"
-                                                type="file"
-                                                style={{display: "none"}}
-                                                onChange={(e) => onChangeFile(e, libraryMap)}
-                                            />
-                                            <label htmlFor="raised-button-file" style={{margin: "auto"}}>
-                                                <Button
-                                                    startIcon={<Publish/>}
-                                                    component="span"
-                                                    variant="contained"
-                                                    color="primary"
-
-                                                > Upload Image in png/jpg</Button>
-                                            </label>
-
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-                </Box>
-
-
+                <Grid container direction="row" justify="center" spacing={4}>
+                    {libraryMaps.map((libraryMap, index) => {
+                        const libraryCard = displayLibraryCard(libraryMap, index, lastFloorName);
+                        lastFloorName = libraryMap.floor_name;
+                        return libraryCard;
+                    })}
+                </Grid>
             </Box>
             <Suspense fallback={<div>Loading...</div>}>
                 <ImageModal

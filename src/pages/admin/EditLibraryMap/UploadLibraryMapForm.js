@@ -32,7 +32,7 @@ const UploadLibraryMapForm = (props) => {
         if(validated){
             const formData = new FormData();
             formData.append('file', imageFile[0]);
-            formData.append('floor', mapFloor);
+            formData.append('floorName', mapFloor);
             formData.append('name', mapName);
 
             const config = {
@@ -46,7 +46,7 @@ const UploadLibraryMapForm = (props) => {
                 // mapFloorRef.current.value = '';
                 // mapNameRef.current.value = '';
                 setValue("mapName", '');
-                setValue("floor", '');
+                setValue("floorName", '');
                 setInputKey(inputKey + 1);
             }).catch(err => {
                 console.log(err);
