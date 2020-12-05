@@ -139,7 +139,7 @@ class Login extends Component {
                             <Button
                                 style={{width: '250px'}}
                                 type="submit"
-                                variant="outlined"
+                                variant="contained"
                                 color="primary"
                             >
                                 Sign In

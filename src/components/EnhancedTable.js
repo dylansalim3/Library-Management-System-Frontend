@@ -201,12 +201,12 @@ const EnhancedTableToolbar = (props) => {
             />}
             {
                 numSelected > 0 && (
-                <AutoDetectButton
-                    actionbuttontext={actionButtonText}
-                    actionbuttonicon={actionButtonIcon}
-                    onClick={onDeleteSelection}
-                />
-            )}
+                    <AutoDetectButton
+                        actionbuttontext={actionButtonText}
+                        actionbuttonicon={actionButtonIcon}
+                        onClick={onDeleteSelection}
+                    />
+                )}
         </Toolbar>
     );
 };
@@ -264,7 +264,7 @@ const EnhancedTable = (props) => {
 
     React.useEffect(() => {
         console.log(actionButtonText);
-        setDisableSelection(actionButtonText===undefined);
+        setDisableSelection(actionButtonText === undefined);
     }, []);
 
     React.useEffect(() => {
@@ -272,16 +272,20 @@ const EnhancedTable = (props) => {
     }, [searchText]);
 
     const filterRows = () => {
-        const filteredRows = rows.filter((row) => {
-            const rowText = [];
-            for (let search of searchCriteria) {
-                rowText.push(row[search].toString());
-            }
-            return rowText.some(text => {
-                return text.match(new RegExp(searchText, 'i'))
-            })
-        });
-        setFilteredRows(filteredRows);
+        if (typeof searchCriteria == "object" && searchCriteria !== undefined) {
+
+            const filteredRows = rows.filter((row) => {
+                const rowText = [];
+                for (let search of searchCriteria) {
+                    rowText.push(row[search].toString());
+                }
+                return rowText.some(text => {
+                    return text.match(new RegExp(searchText, 'i'))
+                })
+            });
+            setFilteredRows(filteredRows);
+
+        }
     };
 
     const handleRequestSort = (event, property) => {
