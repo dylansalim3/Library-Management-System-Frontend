@@ -49,11 +49,11 @@ const EditLibraryMapPage = () => {
                         </Box>
                     }
 
-                    <UploadLibraryMapForm
-                        onUpdateLibraryMap={getLibraryMaps}
-                        onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-                        onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-                    />
+            <UploadLibraryMapForm
+              onUpdateLibraryMap={getLibraryMaps}
+              onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+              onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
+            />
 
                     <Snackbar open={openErrorSnackbar} autoHideDuration={3000} onClose={() => {
                         setOpenErrorSnackbar(false)
@@ -65,18 +65,25 @@ const EditLibraryMapPage = () => {
                         </Alert>
                     </Snackbar>
 
-                    <Snackbar open={openSuccessSnackbar} autoHideDuration={3000} onClose={() => {
-                        setOpenSuccessSnackbar(false)
-                    }}>
-                        <Alert onClose={() => {
-                            setOpenSuccessSnackbar(false)
-                        }} severity="success">
-                            This is a success message!
-                        </Alert>
-                    </Snackbar>
-                </Paper>
-            </div>
+            <Snackbar
+              open={openSuccessSnackbar}
+              autoHideDuration={3000}
+              onClose={() => {
+                setOpenSuccessSnackbar(false);
+              }}
+            >
+              <Alert
+                onClose={() => {
+                  setOpenSuccessSnackbar(false);
+                }}
+                severity="success"
+              >
+                Operation executed successfully.
+              </Alert>
+            </Snackbar>
+          </Paper>
         </div>
+      </div>
     );
 };
 

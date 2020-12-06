@@ -15,8 +15,7 @@ class BookDetailModal extends Component {
     };
 
     render() {
-         console.log(process.env.REACT_APP_SERVER_BASE_URL);
-        // console.log(this.props.book);
+        console.log(this.props.book);
         const columns = [
             { id: 'No', label: 'No', minWidth: 50,
                 format: (value) => value.toLocaleString('en-US'),},
@@ -37,7 +36,7 @@ class BookDetailModal extends Component {
         const desc = this.props.book.summary;
         const genre = this.props.book.genre;
         const books = this.props.book.books;
-        const authors = this.props.book.authors;
+        const authors = this.props.book.author;
         const datepublished = this.props.book.datepublished;
         const publisher = this.props.book.publisher;
         return (
@@ -105,7 +104,13 @@ class BookDetailModal extends Component {
                           Description
                         </Grid>
                         <Grid item xs={9}>
-                          <span style={{ textOverflow: 'scale' }}>
+                          <span
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'flex-end',
+                              textOverflow: 'scale',
+                            }}
+                          >
                             {desc ? desc : '-'}
                           </span>
                         </Grid>
@@ -121,7 +126,7 @@ class BookDetailModal extends Component {
                         }}
                       >
                         <span>Author</span>
-                        <span>{authors ? authors.name : '-'}</span>
+                        <span>{authors ? authors : '-'}</span>
                       </p>
                       <p
                         style={{
@@ -155,24 +160,29 @@ class BookDetailModal extends Component {
                     </Grid>
                   </Grid>
                   {this.props.book.type === 'digital' ? (
-                    <div style={{marginTop:'20px',display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
-                    <a
-                      href={
-                        process.env.REACT_APP_SERVER_BASE_URL +'/'+
-                        this.props.book.e_book
-                      }
-                      without
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      style={{textDecoration:'none'}}
+                    <div
+                      style={{
+                        marginTop: '20px',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                      }}
                     >
-                      <Button
-                        variant="contained"
-                        color="primary"
+                      <a
+                        href={
+                          process.env.REACT_APP_SERVER_BASE_URL +
+                          '/' +
+                          this.props.book.e_book
+                        }
+                        without
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        style={{ textDecoration: 'none' }}
                       >
-                        View e-book
-                      </Button>
-                    </a>
+                        <Button variant="contained" color="primary">
+                          View e-book
+                        </Button>
+                      </a>
                     </div>
                   ) : null}
 

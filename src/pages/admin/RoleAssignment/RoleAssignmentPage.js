@@ -238,7 +238,7 @@ const RoleAssignmentPage = () => {
                     <Alert onClose={() => {
                         setOpenSuccessSnackbar(false)
                     }} severity="success">
-                        This is a success message!
+                        Operation executed successfully.
                     </Alert>
                 </Snackbar>
             </div>
