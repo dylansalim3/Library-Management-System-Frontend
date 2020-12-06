@@ -34,49 +34,67 @@ const EditLibraryMapPage = () => {
     }
 
     return (
-        <div>
-            <AdminBoilerplate page={'library_map'}/>
-            <div className="content">
-                <Paper style={{padding: 20}}>
-                    {!loading?<EditLibraryMapCard
-                        libraryMaps={libraryMaps}
-                        onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-                        onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-                        onUpdateLibraryMap={getLibraryMaps}
-                    />:
-                        <Box width="100%" display="flex" justifyContent="center">
-                            <CircularProgress color="inherit" size={20}/>
-                        </Box>
-                        }
+      <div>
+        <AdminBoilerplate page={'library_map'} />
+        <div className="content">
+          <Paper style={{ padding: 20 }}>
+            {!loading ? (
+              <EditLibraryMapCard
+                libraryMaps={libraryMaps}
+                onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+                onShowSuccessSnackbar={(status) =>
+                  setOpenSuccessSnackbar(status)
+                }
+                onUpdateLibraryMap={getLibraryMaps}
+              />
+            ) : (
+              <Box width="100%" display="flex" justifyContent="center">
+                <CircularProgress color="inherit" size={20} />
+              </Box>
+            )}
 
-                    <UploadLibraryMapForm
-                        onUpdateLibraryMap={getLibraryMaps}
-                        onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-                        onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-                    />
+            <UploadLibraryMapForm
+              onUpdateLibraryMap={getLibraryMaps}
+              onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+              onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
+            />
 
-                    <Snackbar open={openErrorSnackbar} autoHideDuration={3000} onClose={() => {
-                        setOpenErrorSnackbar(false)
-                    }}>
-                        <Alert onClose={() => {
-                            setOpenErrorSnackbar(false)
-                        }} severity="error">
-                            Error occured. Please try again later
-                        </Alert>
-                    </Snackbar>
+            <Snackbar
+              open={openErrorSnackbar}
+              autoHideDuration={3000}
+              onClose={() => {
+                setOpenErrorSnackbar(false);
+              }}
+            >
+              <Alert
+                onClose={() => {
+                  setOpenErrorSnackbar(false);
+                }}
+                severity="error"
+              >
+                Error occured. Please try again later
+              </Alert>
+            </Snackbar>
 
-                    <Snackbar open={openSuccessSnackbar} autoHideDuration={3000} onClose={() => {
-                        setOpenSuccessSnackbar(false)
-                    }}>
-                        <Alert onClose={() => {
-                            setOpenSuccessSnackbar(false)
-                        }} severity="success">
-                            This is a success message!
-                        </Alert>
-                    </Snackbar>
-                </Paper>
-            </div>
+            <Snackbar
+              open={openSuccessSnackbar}
+              autoHideDuration={3000}
+              onClose={() => {
+                setOpenSuccessSnackbar(false);
+              }}
+            >
+              <Alert
+                onClose={() => {
+                  setOpenSuccessSnackbar(false);
+                }}
+                severity="success"
+              >
+                Operation executed successfully.
+              </Alert>
+            </Snackbar>
+          </Paper>
         </div>
+      </div>
     );
 };
 

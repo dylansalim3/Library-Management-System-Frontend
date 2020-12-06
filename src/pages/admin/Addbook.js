@@ -455,12 +455,12 @@ export default class Addbook extends Component {
               }}
             >
               Please print the generated barcode below and paste it on the book.
-              <canvas>
+
                 <Barcode
                   style={{ width: '100%', backgroundColor: 'red' }}
                   value={String(this.state.addedBookID)}
                 />
-              </canvas>
+
             </DialogContentText>
           </DialogContent>
           <DialogActions>
