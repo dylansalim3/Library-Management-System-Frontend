@@ -135,7 +135,7 @@ const SidebarItem = (props) => {
             <ListItem key={index} ContainerComponent={"div"} button
                       onClick={() => onNotificationClick(notifications[index].id, notifications[index].url)}>
                 <ListItemAvatar>
-                    <Avatar src={notifications[index].thumbnailUrl}/>
+                    <Avatar src={notifications[index].thumbnail_url}/>
                 </ListItemAvatar>
                 <ListItemText primary={notifications[index].title}
                               secondary={moment(notifications[index].created).fromNow()}
@@ -176,12 +176,12 @@ const SidebarItem = (props) => {
 
             }}
         >
-            <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                    <Mail/>
-                </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit"
+            {/*<IconButton aria-label="show 4 new mails" color="inherit">*/}
+                {/*<Badge badgeContent={4} color="secondary">*/}
+                    {/*<Mail/>*/}
+                {/*</Badge>*/}
+            {/*</IconButton>*/}
+            <IconButton aria-label="notifications" color="inherit"
                         onClick={openNotificationMenu}>
                 <Badge badgeContent={unreadNotificationCount} color="secondary">
                     <Notifications/>
@@ -284,7 +284,7 @@ const SidebarItem = (props) => {
                 <Divider variant="fullWidth" light/>
                 <Box display="flex" justifyContent="center" flexDirection="column" mx={6} my={3}>
                     <Box component="div" display="flex" justifyContent="center">
-                        <Button variant="outlined" color="secondary"
+                        <Button variant="contained" color="secondary"
                                 onClick={logout}>Logout</Button>
                     </Box>
                 </Box>

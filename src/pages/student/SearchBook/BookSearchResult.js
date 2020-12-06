@@ -9,9 +9,9 @@ class BookSearchResult extends Component {
         this.state = {
             selectedBookDetail: {},
             showBookDetailModal: false,
-            bookReservationModal:{
-                showBookReservationModal:false,
-                bookId:null,
+            bookReservationModal: {
+                showBookReservationModal: false,
+                bookId: null,
             },
         };
     }
@@ -46,23 +46,34 @@ class BookSearchResult extends Component {
         let imageLink = bookDetail.bookimg;
         // console.log(imageLink);
         return (
-            <Card style={{padding: 10,margin:10}}>
+
+            <Card style={{padding: 10, margin: 10}}>
                 <CardContent className="flexGrow">
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
-                        <CardMedia
-                            style={{height:'200px',display:'flex',justifyContent:'center'}}
-                            className="center"
-                            src={imageLink}
-                            height={140}
-                            alt="book img"
-                            title={title} onError={this.src="/mainlogo.png"}>
-                            <img style={{width:'50%'}}src={imageLink} alt="a" onError={imageLink="https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg"}/>
-                        </CardMedia>
+                        <Grid
+                            container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                        >
+                            <CardMedia
+                                className="center"
+                                src={imageLink}
+                                height={140}
+                                alt="book img"
+                                title={title} onError={this.src = "/mainlogo.png"}>
+                                <img style={{height: 200, width: 200, marginLeft: "auto", marginRight: "auto"}}
+                                     src={imageLink} alt="a"
+                                     onError={imageLink = "https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg"}/>
+                            </CardMedia>
+                        </Grid>
                         <h3 className="textCenter">{title}</h3>
-                        <p className="textCenter">{desc.length>100?desc.slice(0,100)+'...':desc}</p>
+                        <p className="textCenter">{desc.length > 100 ? desc.slice(0, 100) + '...' : desc}</p>
                     </CardActionArea>
                 </CardContent>
             </Card>
+
         );
     };
 
@@ -72,19 +83,19 @@ class BookSearchResult extends Component {
         });
     };
 
-    setSelectedBookId = (bookId) =>{
+    setSelectedBookId = (bookId) => {
         this.setState({
-            bookReservationModal:{
-                bookId:bookId
+            bookReservationModal: {
+                bookId: bookId
             }
         });
     };
 
-    onChangeShowBookReservationModal = (show) =>{
+    onChangeShowBookReservationModal = (show) => {
         console.log('here');
         this.setState({
-            bookReservationModal:{
-                showBookReservationModal:show,
+            bookReservationModal: {
+                showBookReservationModal: show,
             }
         });
     };
@@ -103,7 +114,7 @@ class BookSearchResult extends Component {
                     onChangeShowDetailModal={e => {
                         this.onChangeShowDetailModal(e)
                     }}
-                    onChangeShowBookReservationModal={(bookId)=>{
+                    onChangeShowBookReservationModal={(bookId) => {
                         this.setSelectedBookId(bookId);
                         this.onChangeShowBookReservationModal(true);
                     }}
@@ -111,7 +122,7 @@ class BookSearchResult extends Component {
                 <BookReservationModal
                     openModal={this.state.bookReservationModal.showBookReservationModal}
                     book={this.state.bookReservationModal.bookId}
-                    onChangeShowBookReservationModal={()=>{
+                    onChangeShowBookReservationModal={() => {
                         this.onChangeShowBookReservationModal(false);
                     }
                     }

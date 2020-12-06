@@ -26,6 +26,8 @@ import {disconnectSocket, initSocket, sendNotification, subscribeToNotification}
 import {useSnackbar} from "notistack";
 import NotificationSnackbar from "./NotificationSnackbar";
 import SidebarItem from "./SidebarItem";
+import Button from "@material-ui/core/Button/Button";
+import Box from "@material-ui/core/Box/Box";
 
 const drawerWidth = 240;
 
@@ -148,24 +150,12 @@ function Sidebar(props) {
                         <ListItemText primary={data.name}/>
                     </ListItem>
                 ))}
-                <ListItem
-                    style={{
-                        ...style,
-                        ...{
-                            position: 'fixed',
-                            bottom: 10,
-                            backgroundColor: 'white',
-                            width: '200px',
-                            color: 'black',
-                            marginLeft: 20,
-                            textAlign: 'center',
-                        },
-                    }}
-                    button
-                    onClick={logout}
-                >
-                    <ListItemText primary="logout"/>
-                </ListItem>
+                <div style={{position: 'fixed', bottom: 10, width: drawerWidth}}>
+                    <Box component="div" display="flex" justifyContent="center">
+                        <Button variant="contained" color="secondary"
+                                onClick={logout}>Logout</Button>
+                    </Box>
+                </div>
             </div>
         );
     };

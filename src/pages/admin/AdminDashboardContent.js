@@ -51,7 +51,7 @@ const AdminDashboardContent = () => {
         {id: 'title', numeric: false, disablePadding: false, label: 'Message'},
         {id: 'url', numeric: false, disablePadding: false, label: 'URL'},
         {id: 'user_id', numeric: false, disablePadding: false, label: 'Receiver'},
-        {id: 'created', numeric: false, disablePadding: false, label: 'Date'},
+        {id: 'created', numeric: false, type: 'date', disablePadding: false, label: 'Date'},
         {id: 'unread', numeric: false, disablePadding: false, label: 'Read Status'},
     ];
 
@@ -75,7 +75,7 @@ const AdminDashboardContent = () => {
             <DashboardCards overviewItems={overviewItems}/>
             <h1>Notification & Reminder</h1>
             <EnhancedTable headCells={headCells} rows={notifications}
-                           onDeleteSelection={(selection) => console.log(selection)} disableToolbar />
+                           onDeleteSelection={(selection) => console.log(selection)} disableToolbar/>
 
             <Button className={classes.floatRight} variant="contained" color="primary"
                     startIcon={<GetAppIcon/>}> Generate PDF Report</Button>
