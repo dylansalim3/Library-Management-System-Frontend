@@ -4,6 +4,7 @@ import axios from "axios";
 import StudentBoilerplate from "../StudentBoilerplate";
 import EnhancedTable from "../../../components/EnhancedTable";
 import {useSnackbar} from "notistack";
+import {BORROW_BOOK_ROUTE} from "../../../constant/route.constant";
 
 const ExtendBorrowPage = () => {
     const [borrowBooks, setBorrowBooks] = React.useState([]);
@@ -41,7 +42,11 @@ const ExtendBorrowPage = () => {
     ];
 
     const submitSelection = (idList) => {
-        axios.post('book-request/add-extend-book-request', {userId: userId, borrowBookIdList: idList}).then(result => {
+        axios.post('book-request/add-extend-book-request', {
+            userId: userId,
+            borrowBookIdList: idList,
+            url: BORROW_BOOK_ROUTE+"/2"
+        }).then(result => {
             enqueueSnackbar('Extend Borrow Request Sent', {variant: 'success', transitionDuration: 1000});
             retrieveData(userId);
         }).catch(err => {

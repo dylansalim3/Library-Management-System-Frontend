@@ -6,6 +6,7 @@ import CustomModal from "../../../components/CustomModal";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {TextField} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
+import {BORROW_HISTORY} from "../../../constant/route.constant";
 
 const RequestType = {
     ACCEPT: 'accept',
@@ -35,7 +36,7 @@ const CompletedRenewBookRequest = () => {
         {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
         {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
         {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, type: 'date', disablePadding: false, label: 'Username'},
+        {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
         {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
         {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
         {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
@@ -118,10 +119,10 @@ const RenewBookRequest = () => {
         {id: 'borrowBookId', numeric: true, disablePadding: false, label: 'Borrowed Book ID'},
         {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
         {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
-        {id: 'title', numeric: false, type: 'img', disablePadding: false, label: 'Book Title'},
+        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
         {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
         {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, type: 'date', disablePadding: false, label: 'Username'},
+        {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
         {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
         {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
         {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
@@ -144,7 +145,8 @@ const RenewBookRequest = () => {
             if (requestType === RequestType.ACCEPT) {
                 await axios.post('book-request/accept-extend-book-request', {
                     bookRequestId: selectedBookRequestId,
-                    newDueDate: expiryDate
+                    newDueDate: expiryDate,
+                    url:BORROW_HISTORY,
                 }).then(result => {
                     enqueueSnackbar('The expiry date has been successfully extended', {
                         variant: 'success',
@@ -155,7 +157,8 @@ const RenewBookRequest = () => {
             } else {
                 await axios.post('book-request/reject-extend-book-request', {
                     bookRequestId: selectedBookRequestId,
-                    rejectReason
+                    rejectReason,
+                    url:BORROW_HISTORY,
                 }).then(result => {
                     enqueueSnackbar('The book request has been rejected', {
                         variant: 'success',

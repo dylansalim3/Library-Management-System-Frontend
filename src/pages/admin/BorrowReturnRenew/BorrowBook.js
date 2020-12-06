@@ -7,6 +7,7 @@ import AdminBoilerplate from "../AdminBoilerplate";
 import BorrowBookTab from "./BorrowBookTab";
 import ReturnBookTab from "./ReturnBookTab";
 import RenewBookTab from "./RenewBookTab";
+import {useParams} from "react-router-dom";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -28,12 +29,15 @@ function TabPanel(props) {
     );
 }
 
-const Borrowbook = () => {
+const BorrowBook = () => {
     const [tabIndex, setTabIndex] = React.useState(0);
+    const {id} = useParams();
+
     React.useEffect(() => {
         const tab = sessionStorage.getItem('tabIndex');
-        if (tab) {
-            console.log(tab);
+        if (id) {
+            setTabIndex(parseInt(id));
+        }else if(tab){
             setTabIndex(parseInt(tab));
         }
     }, []);
@@ -75,4 +79,4 @@ const Borrowbook = () => {
     );
 };
 
-export default Borrowbook;
+export default BorrowBook;
