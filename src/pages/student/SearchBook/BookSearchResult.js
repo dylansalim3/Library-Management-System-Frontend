@@ -44,7 +44,7 @@ class BookSearchResult extends Component {
         const title = bookDetail.title;
         const desc = bookDetail.summary;
         let imageLink = bookDetail.bookimg;
-        // console.log(imageLink);
+
         return (
 
             <Card style={{padding: 10, margin: 10}}>

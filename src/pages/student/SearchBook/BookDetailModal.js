@@ -15,8 +15,7 @@ class BookDetailModal extends Component {
     };
 
     render() {
-         console.log(process.env.REACT_APP_SERVER_BASE_URL);
-        // console.log(this.props.book);
+        console.log(this.props.book);
         const columns = [
             { id: 'No', label: 'No', minWidth: 50,
                 format: (value) => value.toLocaleString('en-US'),},
@@ -37,7 +36,7 @@ class BookDetailModal extends Component {
         const desc = this.props.book.summary;
         const genre = this.props.book.genre;
         const books = this.props.book.books;
-        const authors = this.props.book.authors;
+        const authors = this.props.book.author;
         const datepublished = this.props.book.datepublished;
         const publisher = this.props.book.publisher;
         return (
@@ -127,8 +126,7 @@ class BookDetailModal extends Component {
                         }}
                       >
                         <span>Author</span>
-                        {/* <span>{authors ? authors.name : '-'}</span> */}
-                        <span>{authors ? "example" : '-'}</span>
+                        <span>{authors ? authors : '-'}</span>
                       </p>
                       <p
                         style={{

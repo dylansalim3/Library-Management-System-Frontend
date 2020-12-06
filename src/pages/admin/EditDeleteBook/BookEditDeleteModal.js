@@ -233,8 +233,7 @@ class BookEditDeleteModal extends Component {
                                                 label="Author"
                                                 variant="outlined"
                                                 name="author"
-                                                value="example"
-                                                // value={book.author}
+                                                value={book.author}
                                                 onChange={this.onChange}
                                                 className="profileInput gridmargin"
                                             />
