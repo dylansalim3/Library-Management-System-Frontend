@@ -79,11 +79,11 @@ class StudentAccountRegistrationPage extends Component {
             });
         }).catch(err=>{
             if (err) {
-                const errMessage = err.response.data?err.response.data.message:err.toString();
+                // const errMessage = err.response.data?err.response.data.message:err.toString();
                 this.setState({
                     errorDialog: {
                         showErrorDialog: true,
-                        errorMessage: errMessage,
+                        errorMessage: "Error",
                     }
                 });
             }

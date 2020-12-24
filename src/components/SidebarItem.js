@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Badge from "@material-ui/core/Badge/Badge";
-import {Mail, Notifications, PhotoCamera} from "@material-ui/icons";
+import {Notifications, PhotoCamera} from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Popover from "@material-ui/core/Popover/Popover";
 import Box from "@material-ui/core/Box/Box";
@@ -25,6 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
 import withRouter from "react-router-dom/es/withRouter";
+import {useSnackbar} from "notistack";
 
 
 const SidebarItem = (props) => {
@@ -61,6 +62,7 @@ const SidebarItem = (props) => {
     const [firstName, setFirstName] = React.useState('');
     const [unreadNotificationCount, setUnreadNotificationCount] = React.useState(0);
     const [notifications, setNotifications] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
         if (localStorage.usertoken) {
@@ -125,8 +127,13 @@ const SidebarItem = (props) => {
     };
 
     const deleteNotificationItem = (id) => {
+        const selectedNotification = notifications.find(element => element.id === id);
         setNotifications(notifications.filter(element => element.id !== id));
-        setUnreadNotificationCount(unreadNotificationCount - 1);
+        axios.post('/notification/delete-notification', {id}).catch(err => {
+            setNotifications([...notifications, selectedNotification]);
+            enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+        });
+        setUnreadNotificationCount(selectedNotification.unread === true ? unreadNotificationCount - 1 : unreadNotificationCount);
     };
 
 
@@ -177,9 +184,9 @@ const SidebarItem = (props) => {
             }}
         >
             {/*<IconButton aria-label="show 4 new mails" color="inherit">*/}
-                {/*<Badge badgeContent={4} color="secondary">*/}
-                    {/*<Mail/>*/}
-                {/*</Badge>*/}
+            {/*<Badge badgeContent={4} color="secondary">*/}
+            {/*<Mail/>*/}
+            {/*</Badge>*/}
             {/*</IconButton>*/}
             <IconButton aria-label="notifications" color="inherit"
                         onClick={openNotificationMenu}>

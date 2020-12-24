@@ -5,8 +5,8 @@ import expiredBookIcon from "../../../images/expired-book.png";
 import bookShelfIcon from "../../../images/book-shelf.png";
 import DashboardCards from "../../../components/DashboardCards";
 import axios from "axios";
-import BookSearchResult from "../SearchBook/BookSearchResult";
 import jwt_decode from "jwt-decode";
+import NewArrivalBook from "../../../components/NewArrivalBook";
 
 
 const StudentDashboardContent = () => {
@@ -43,10 +43,7 @@ const StudentDashboardContent = () => {
         <div>
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
-            {newArrivalBooks.length > 0 ? (
-                <BookSearchResult title="New Arrival" result={newArrivalBooks}/>
-            ) : ""
-            }
+            <NewArrivalBook/>
         </div>
     );
 };

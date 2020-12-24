@@ -10,15 +10,21 @@ import CloseIcon from '@material-ui/icons/Close';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {topgreen} from '../style/Color';
 import logo from '../images/mainlogo.png';
-import usePushNotifications from "../UsePushNotifications";
+import homepageLogo from '../images/homepage_background@2x_transparent.png';
+import Footer from "./Footer";
+import NewArrivalBook from "../components/NewArrivalBook";
+import "./../App.css";
 
 const theme = createMuiTheme({
     palette: {
         primary: {
             main: topgreen,
         },
+
     },
+
 });
+
 
 class Login extends Component {
     constructor() {
@@ -81,31 +87,42 @@ class Login extends Component {
             <MuiThemeProvider theme={theme}>
                 <Grid
                     container
-                    spacing={1}
+                    spacing={0}
                     style={{
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        backgroundColor: '#F1F1F1',
-                        height: '100vh',
+                        background: "linear-gradient(#f1f1f1, #d5e0f3)",
+                        minHeight: `65vh`,
                     }}
                 >
-                    <img src={logo} alt="e-library logo"/>
-                    <h1 style={{color: topgreen}}>User Login</h1>
+                    <Grid item xs={12} sm={9}>
+                        <img src={homepageLogo} alt="homepage-logo" style={{maxWidth: "100%",}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={3} style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}>
+                        <img src={logo} alt="e-library logo"/>
+                        <h1 style={{color: topgreen}}>User Login</h1>
 
-                    <form onSubmit={this.onSubmit}>
-                        <TextField
-                            style={{width: '250px'}}
-                            id="outlined-basic1"
-                            label="Email Address"
-                            variant="outlined"
-                            name="email"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                        />
-
-                        <div style={{marginTop: '15px'}}>
+                        <form onSubmit={this.onSubmit} style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}>
                             <TextField
-                                style={{width: '250px'}}
+                                style={{width: "300px"}}
+                                id="outlined-basic1"
+                                label="Email Address"
+                                variant="outlined"
+                                name="email"
+                                value={this.state.email}
+                                onChange={this.onChange}
+                            />
+
+                            <TextField
+                                style={{margin: "10px", width: "300px"}}
                                 type="password"
                                 id="outlined-basic"
                                 label="Password"
@@ -114,63 +131,67 @@ class Login extends Component {
                                 value={this.state.password}
                                 onChange={this.onChange}
                             />
-                        </div>
-                        <Grid item xs={12} style={{marginTop: '15px'}}>
-                            <TextField
-                                select
-                                label="Role"
-                                name="role"
-                                value={this.state.role}
-                                onChange={this.onChange}
-                                helperText="Please select your user role"
-                                variant="outlined"
-                                style={{width: '250px'}}
-                            >
-                                <MenuItem value="student">Student</MenuItem>
-                                <MenuItem value="admin">Admin</MenuItem>
-                                <MenuItem value="teacher">Teacher</MenuItem>
-                                <MenuItem value="librarian">Librarian</MenuItem>
-                            </TextField>
-                        </Grid>
-                        <div className="textCenter">
-                            <small><a href="/forget-password">Forget Password?</a></small>
-                        </div>
-                        <div style={{marginTop: '15px'}}>
-                            <Button
-                                style={{width: '250px'}}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                            >
-                                Sign In
-                            </Button>
-                        </div>
-                    </form>
-
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-
-                        }}
-                        open={this.state.dialog}
-                        autoHideDuration={6000}
-                        onClose={() => this.setState({dialog: false})}
-                        message={this.state.errormessage}
-                        action={
-                            <React.Fragment>
-                                <IconButton
-                                    size="small"
-                                    aria-label="close"
-                                    color="inherit"
-                                    onClick={() => this.setState({dialog: false})}
+                            <Grid item xs={12} style={{marginTop: '15px'}}>
+                                <TextField
+                                    select
+                                    label="Role"
+                                    name="role"
+                                    value={this.state.role}
+                                    onChange={this.onChange}
+                                    helperText="Please select your user role"
+                                    variant="outlined"
+                                    style={{width: '300px'}}
                                 >
-                                    <CloseIcon fontSize="small"/>
-                                </IconButton>
-                            </React.Fragment>
-                        }
-                    />
+                                    <MenuItem value="student">Student</MenuItem>
+                                    <MenuItem value="admin">Admin</MenuItem>
+                                    <MenuItem value="teacher">Teacher</MenuItem>
+                                    <MenuItem value="librarian">Librarian</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <div>
+                                <small><a href="/forget-password">Forget Password?</a></small>
+                            </div>
+                            <div style={{marginTop: '15px'}}>
+                                <Button
+                                    style={{width: '250px'}}
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Sign In
+                                </Button>
+                            </div>
+                        </form>
+
+                        <Snackbar
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+
+                            }}
+                            open={this.state.dialog}
+                            autoHideDuration={6000}
+                            onClose={() => this.setState({dialog: false})}
+                            message={this.state.errormessage}
+                            action={
+                                <React.Fragment>
+                                    <IconButton
+                                        size="small"
+                                        aria-label="close"
+                                        color="inherit"
+                                        onClick={() => this.setState({dialog: false})}
+                                    >
+                                        <CloseIcon fontSize="small"/>
+                                    </IconButton>
+                                </React.Fragment>
+                            }
+                        />
+                    </Grid>
                 </Grid>
+                <div style={{background: "#d5e0f3"}}>
+                    <NewArrivalBook/>
+                </div>
+                <Footer/>
             </MuiThemeProvider>
         );
     }

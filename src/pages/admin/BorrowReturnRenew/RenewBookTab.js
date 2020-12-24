@@ -6,7 +6,7 @@ import EnhancedTable from "../../../components/EnhancedTable";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {useSnackbar} from "notistack";
-import RenewBookRequest from "./RenewBookRequest";
+import PendingRenewBookRequest from "./PendingRenewBookRequest";
 import CustomModal from "../../../components/CustomModal";
 
 const RenewBookTab = () => {
@@ -145,7 +145,7 @@ const RenewBookTab = () => {
                 </MuiPickersUtilsProvider>
             </form>
 
-            <RenewBookRequest/>
+            <PendingRenewBookRequest/>
         </div>
     );
 };

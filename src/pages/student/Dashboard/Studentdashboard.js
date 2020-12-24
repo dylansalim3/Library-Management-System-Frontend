@@ -3,6 +3,7 @@ import Sidebar from '../../../components/Sidebar';
 import jwt_decode from 'jwt-decode';
 import '../../../style/Style.css';
 import StudentDashboardContent from "./StudentDashboardContent";
+import NotificationTable from "./NotificationTable";
 
 export default class Studentdashboard extends Component {
   constructor() {
@@ -48,6 +49,7 @@ export default class Studentdashboard extends Component {
         />
         <div className="content">
           <StudentDashboardContent/>
+          <NotificationTable/>
         </div>
       </div>
     );

@@ -75,7 +75,7 @@ const AdminDashboardContent = () => {
             <DashboardCards overviewItems={overviewItems}/>
             <h1>Notification & Reminder</h1>
             <EnhancedTable headCells={headCells} rows={notifications}
-                           onDeleteSelection={(selection) => console.log(selection)} disableToolbar/>
+                           disableToolbar/>
 
             <Button className={classes.floatRight} variant="contained" color="primary"
                     startIcon={<GetAppIcon/>}> Generate PDF Report</Button>
