@@ -58,6 +58,7 @@ const SidebarItem = (props) => {
     }));
 
     const classes = useStyles();
+    const [userId, setUserId] = React.useState(-1);
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [unreadNotificationCount, setUnreadNotificationCount] = React.useState(0);
@@ -69,6 +70,7 @@ const SidebarItem = (props) => {
             const token = localStorage.usertoken;
             const decoded = jwt_decode(token);
             const userId = decoded.id;
+            setUserId(userId);
             setEmail(decoded.email);
             setFirstName(decoded.first_name);
             axios.post('/notification/get-unread-notification-count', {userId}).then(result => {
@@ -103,6 +105,14 @@ const SidebarItem = (props) => {
 
     const openNotificationMenu = (event) => {
         setAnchorElNotification(event.target);
+        // Set all unread notifications count to zero
+        if (unreadNotificationCount > 0) {
+            const initialUnreadNotificationCount = unreadNotificationCount;
+            setUnreadNotificationCount(0);
+            axios.post('/notification/update-all-notifications-to-read', {userId}).catch(err => {
+                setUnreadNotificationCount(initialUnreadNotificationCount);
+            });
+        }
     };
 
     const closeNotificationMenu = () => {

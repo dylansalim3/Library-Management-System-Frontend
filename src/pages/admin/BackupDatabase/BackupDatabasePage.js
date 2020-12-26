@@ -20,7 +20,7 @@ const BackupDatabasePage = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'backup.sql');
+            link.setAttribute('download', 'backup.zip');
             document.body.appendChild(link);
             link.click();
         }).catch(err => {
@@ -83,7 +83,7 @@ const BackupDatabasePage = () => {
                                             setSQLFile(files)
                                         }}
                                         filesLimit={1}
-                                        maxFileSize={1048576}
+                                        maxFileSize={104857600}
                                         showAlerts={false}
                                         showPreviews={true}
                                         showPreviewsInDropzone={false}
