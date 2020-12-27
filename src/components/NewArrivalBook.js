@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import BookSearchResult from "../pages/student/SearchBook/BookSearchResult";
+import jwt_decode from "jwt-decode";
 
 const NewArrivalBook = () => {
     const [newArrivalBooks, setNewArrivalBooks] = React.useState([]);
@@ -11,7 +12,7 @@ const NewArrivalBook = () => {
         });
     }, []);
     return (
-        <div style={{padding:"30px"}}>
+        <div>
             {newArrivalBooks.length > 0 ? (
                 <BookSearchResult title="New Arrival" result={newArrivalBooks}/>
             ) : ""

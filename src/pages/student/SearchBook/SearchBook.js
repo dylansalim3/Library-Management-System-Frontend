@@ -11,6 +11,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import BookSearchResult from './BookSearchResult';
+import BookRecommendation from "../../../components/BookRecommendation";
+import NewArrivalBook from "../../../components/NewArrivalBook";
 
 
 class SearchBook extends Component {
@@ -185,10 +187,8 @@ class SearchBook extends Component {
                         <BookSearchResult title="Search Result" result={this.state.bookSearchResult}/>
                     ) : ""
                     }
-                    {this.state.latestBooks ? (
-                        <BookSearchResult title="New Arrival" result={this.state.latestBooks}/>
-                    ) : ""
-                    }
+                    <NewArrivalBook/>
+                    <BookRecommendation/>
                 </div>
             </div>
         );

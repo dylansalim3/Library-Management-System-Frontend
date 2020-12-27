@@ -7,6 +7,7 @@ import DashboardCards from "../../../components/DashboardCards";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NewArrivalBook from "../../../components/NewArrivalBook";
+import BookRecommendation from "../../../components/BookRecommendation";
 
 
 const StudentDashboardContent = () => {
@@ -44,6 +45,7 @@ const StudentDashboardContent = () => {
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
             <NewArrivalBook/>
+            <BookRecommendation/>
         </div>
     );
 };

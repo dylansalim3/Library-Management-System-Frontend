@@ -188,7 +188,7 @@ class Login extends Component {
                         />
                     </Grid>
                 </Grid>
-                <div style={{background: "#d5e0f3"}}>
+                <div style={{background: "#d5e0f3", padding: "30px"}}>
                     <NewArrivalBook/>
                 </div>
                 <Footer/>
