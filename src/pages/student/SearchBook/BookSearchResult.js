@@ -59,12 +59,12 @@ class BookSearchResult extends Component {
                         >
                             <CardMedia
                                 className="center"
-                                src={imageLink}
+                                src={"http://rlgo.duckdns.org:9015/" + imageLink}
                                 height={140}
                                 alt="book img"
                                 title={title} onError={this.src = "/mainlogo.png"}>
                                 <img style={{height: 200, width: 200, marginLeft: "auto", marginRight: "auto"}}
-                                     src={imageLink} alt="a"
+                                     src={process.env.REACT_APP_SERVER_BASE_URL + imageLink} alt="a"
                                      onError={imageLink = "https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg"}/>
                             </CardMedia>
                         </Grid>

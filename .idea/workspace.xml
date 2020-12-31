@@ -20,25 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f3a43a-ac15-4550-9342-a15065e75ad2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/NewArrivalBook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/homepage_background@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/homepage_background@2x_transparent.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Footer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/student/Dashboard/NotificationTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidebarItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SidebarItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ViewLibraryMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ViewLibraryMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/AdminDashboardContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/PendingRenewBookRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/BorrowReturnRenew/RenewBookTab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/EditLibraryMap/EditLibraryMapCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/student/Dashboard/StudentDashboardContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/Dashboard/StudentDashboardContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/student/Dashboard/Studentdashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/Dashboard/Studentdashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/student/ExtendBorrow/ExtendBorrowPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/ExtendBorrow/ExtendBorrowPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/teacher/StudentAccountRegistrationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/teacher/StudentAccountRegistrationPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/student/SearchBook/BookDetailModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/SearchBook/BookDetailModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/student/SearchBook/BookSearchResult.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/student/SearchBook/BookSearchResult.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,9 +39,53 @@
       </map>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="260" />
+    <option name="y" value="20" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
   <component name="ProjectId" id="1hrusavtpb9cX4GdfWNOvj1fcET" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="fyp_frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fyp_frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fyp_frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fyp_frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -73,11 +103,12 @@
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
-    <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
+    <property name="node.js.selected.package.eslint" value="D:\work\fyp_frontend\node_modules\eslint" />
     <property name="node.js.selected.package.standard" value="D:\work\fyp_frontend\node_modules\eslint" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2019.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -85,7 +116,7 @@
       <recent name="D:\work\fyp_frontend\public" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.start">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -99,6 +130,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Unnamed" type="NodeJSConfigurationType" application-parameters="run start" nameIsGenerated="true" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <package-manager value="npm" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.Unnamed" />
+      <item itemvalue="npm.start" />
+    </list>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -112,7 +158,7 @@
       </list>
     </option>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -137,12 +183,64 @@
       <workItem from="1608291604458" duration="1172000" />
       <workItem from="1608350615598" duration="296000" />
       <workItem from="1608369911009" duration="18502000" />
-      <workItem from="1608817186208" duration="4581000" />
+      <workItem from="1608817186208" duration="6349000" />
+      <workItem from="1608951249697" duration="81000" />
+      <workItem from="1608952159148" duration="66000" />
+      <workItem from="1608952238278" duration="1764000" />
+      <workItem from="1608955792652" duration="1219000" />
+      <workItem from="1608973194518" duration="4640000" />
+      <workItem from="1609040626075" duration="4368000" />
+      <workItem from="1609164995479" duration="1361000" />
+      <workItem from="1609203974454" duration="4463000" />
+      <workItem from="1609302738359" duration="134000" />
+      <workItem from="1609302912285" duration="1496000" />
+      <workItem from="1609323825947" duration="1196000" />
+      <workItem from="1609380065336" duration="599000" />
     </task>
+    <task id="LOCAL-00001" summary="Read all notification when user open notification menu&#10;fix file name and file size issue on BackupDatabasePage">
+      <created>1608996159168</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608996159168</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added Book Recommendation">
+      <created>1609079735750</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1609079735750</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="81000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24960506" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -173,56 +271,29 @@
         </entry>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Read all notification when user open notification menu&#10;fix file name and file size issue on BackupDatabasePage" />
+    <MESSAGE value="Added Book Recommendation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Book Recommendation" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="664" y="300" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1608818843639">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="664" y="300" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608818843639" />
-    <state x="508" y="38" width="1329" height="963" key="CommitChangelistDialog2" timestamp="1608392363176">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="508" y="38" width="1329" height="963" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608392363176" />
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1608392362438">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="92" y="92" key="DiffContextDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608392362438" />
-    <state x="598" y="281" key="MultipleFileMergeDialog" timestamp="1608291599429" />
-    <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1608291599429" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog" timestamp="1608291599429" />
-    <state x="747" y="254" key="VcsDiffUtil.ChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="591" y="296" key="com.intellij.ide.util.TipDialog" timestamp="1608817187266">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="591" y="296" key="com.intellij.ide.util.TipDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608817187266" />
-    <state x="591" y="296" key="com.intellij.ide.util.TipDialog/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1608292174646" />
-    <state x="430" y="35" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1608821260569">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="430" y="35" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608821260569" />
-    <state x="594" y="189" width="731" height="662" key="find.popup" timestamp="1608821269765">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="594" y="189" width="731" height="662" key="find.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1608821269765" />
-    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1608291599429" />
-    <state x="739" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1608291599429" />
-    <state x="685" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1608291599429" />
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1608291599429" />
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="10" column="15" lean-forward="true" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
