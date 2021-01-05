@@ -69,6 +69,19 @@ const AdminDashboardContent = () => {
         });
     }, []);
 
+    const generateReport = () =>{
+        axios({url: 'report/get-monthly-report', method: 'POST', responseType: 'blob',}).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'report.pdf');
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            // setOpenErrorSnackbar(true);
+        });
+    }
+
     return (
         <div>
             <h1>Overview</h1>
@@ -78,7 +91,7 @@ const AdminDashboardContent = () => {
                            disableToolbar/>
 
             <Button className={classes.floatRight} variant="contained" color="primary"
-                    startIcon={<GetAppIcon/>}> Generate PDF Report</Button>
+                    startIcon={<GetAppIcon/>} onClick={generateReport}> Generate PDF Report</Button>
         </div>
     );
 };

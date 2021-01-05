@@ -26,6 +26,7 @@ import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
 import withRouter from "react-router-dom/es/withRouter";
 import {useSnackbar} from "notistack";
+import {PROFILE} from './../constant/route.constant';
 
 
 const SidebarItem = (props) => {
@@ -100,7 +101,7 @@ const SidebarItem = (props) => {
     };
 
     const goToManageProfile = () => {
-        console.log("go to manage profile");
+        window.location.href = PROFILE;
     };
 
     const openNotificationMenu = (event) => {
@@ -280,10 +281,16 @@ const SidebarItem = (props) => {
                             </IconButton>
                             }
                         >
+
                             <Avatar
                                 className={[classes.purpleAvatar, classes.largeAvatar]}>
                                 {`${firstName ? firstName.charAt(0) : 'U'}`}
                             </Avatar>
+                            {/*<Avatar*/}
+                            {/*    alt="profileimg"*/}
+                            {/*    src={state.profileimg}*/}
+                            {/*    className={[classes.purpleAvatar, classes.largeAvatar]*/}
+                            {/*/>*/}
                         </Badge>
                     </Box>
                     <Box component="div" display="flex" flexDirection="column">
@@ -294,7 +301,8 @@ const SidebarItem = (props) => {
                     </Box>
                     <Box display="flex" justifyContent="center" pt={1}>
                         <Chip size="medium" style={{fontWeight: 'bold'}} label="Manage Profile"
-                              variant="outlined" onClick={goToManageProfile}/>
+                              onClick={goToManageProfile}
+                              variant="outlined"/>
                     </Box>
                 </Box>
 
