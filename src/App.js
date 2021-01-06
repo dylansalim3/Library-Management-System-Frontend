@@ -48,7 +48,7 @@ import {
     VIEW_LIBRARY_MAP
 } from "./constant/route.constant";
 
-axios.defaults.baseURL = 'http://rlgo.duckdns.org:9015';
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 // axios.defaults.baseURL = 'http://localhost:5000';
 
 function App() {

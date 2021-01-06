@@ -33,7 +33,7 @@ const DashboardCards = (props) => {
     return (
         <Grid container className={classes.gridContainer} spacing={2}>
             {overviewItems.map(item => (
-                <Grid item md={6} lg={3}>
+                <Grid item xs={12} md={6} lg={3}>
                     <Card className={classes.card}>
                         <CardContent className={classes.cardContainer}>
                             <div>

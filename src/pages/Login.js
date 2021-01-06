@@ -14,6 +14,7 @@ import homepageLogo from '../images/homepage_background@2x_transparent.png';
 import Footer from "./Footer";
 import NewArrivalBook from "../components/NewArrivalBook";
 import "./../App.css";
+import { withSnackbar } from 'notistack';
 
 const theme = createMuiTheme({
     palette: {
@@ -56,10 +57,7 @@ class Login extends Component {
             })
             .then((res) => {
                 if (res.data.error) {
-                    this.setState({
-                        errormessage: res.data.error,
-                        dialog: true
-                    })
+                    this.props.enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
                     console.log('Error : ' + res.data.error);
                 } else {
                     console.log(res.data.token);
@@ -77,6 +75,7 @@ class Login extends Component {
                 }
             })
             .catch((err) => {
+                this.props.enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
                 console.log(err.response);
             });
     }
@@ -119,6 +118,8 @@ class Login extends Component {
                                 name="email"
                                 value={this.state.email}
                                 onChange={this.onChange}
+                                required
+                                type="email"
                             />
 
                             <TextField
@@ -130,6 +131,7 @@ class Login extends Component {
                                 name="password"
                                 value={this.state.password}
                                 onChange={this.onChange}
+                                required
                             />
                             <Grid item xs={12} style={{marginTop: '15px'}}>
                                 <TextField
@@ -163,29 +165,28 @@ class Login extends Component {
                             </div>
                         </form>
 
-                        <Snackbar
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'center',
-
-                            }}
-                            open={this.state.dialog}
-                            autoHideDuration={6000}
-                            onClose={() => this.setState({dialog: false})}
-                            message={this.state.errormessage}
-                            action={
-                                <React.Fragment>
-                                    <IconButton
-                                        size="small"
-                                        aria-label="close"
-                                        color="inherit"
-                                        onClick={() => this.setState({dialog: false})}
-                                    >
-                                        <CloseIcon fontSize="small"/>
-                                    </IconButton>
-                                </React.Fragment>
-                            }
-                        />
+                        {/*<Snackbar*/}
+                        {/*    anchorOrigin={{*/}
+                        {/*        vertical: 'bottom',*/}
+                        {/*        horizontal: 'center',*/}
+                        {/*    }}*/}
+                        {/*    open={this.state.dialog}*/}
+                        {/*    autoHideDuration={6000}*/}
+                        {/*    onClose={() => this.setState({dialog: false})}*/}
+                        {/*    message={this.state.errormessage}*/}
+                        {/*    action={*/}
+                        {/*        <React.Fragment>*/}
+                        {/*            <IconButton*/}
+                        {/*                size="small"*/}
+                        {/*                aria-label="close"*/}
+                        {/*                color="inherit"*/}
+                        {/*                onClick={() => this.setState({dialog: false})}*/}
+                        {/*            >*/}
+                        {/*                <CloseIcon fontSize="small"/>*/}
+                        {/*            </IconButton>*/}
+                        {/*        </React.Fragment>*/}
+                        {/*    }*/}
+                        {/*/>*/}
                     </Grid>
                 </Grid>
                 <div style={{background: "#d5e0f3", padding: "30px"}}>
@@ -197,4 +198,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withSnackbar(Login);

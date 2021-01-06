@@ -28,7 +28,9 @@ const useStyle = makeStyles({
     floatRight: {
         float: 'right',
     },
-
+    outerContainer:{
+        paddingBottom:'60px',
+    }
 });
 
 
@@ -83,7 +85,7 @@ const AdminDashboardContent = () => {
     }
 
     return (
-        <div>
+        <div className={classes.outerContainer}>
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
             <h1>Notification & Reminder</h1>

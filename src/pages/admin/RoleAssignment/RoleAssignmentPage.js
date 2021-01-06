@@ -13,7 +13,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import {makeStyles} from "@material-ui/core/styles";
 
+
+const useStyles = makeStyles((theme) => ({
+    title:{
+        margin:'20px',
+        textAlign:'center',
+    }
+}));
 
 const RoleAssignmentPage = () => {
     const [open, setOpen] = React.useState(false);
@@ -24,6 +32,7 @@ const RoleAssignmentPage = () => {
     const [openConfirmationDialog, setOpenConfirmationDialog] = React.useState(false);
     const [confirmationDialogText, setConfirmationDialogText] = React.useState({});
     const [selectedRoleId, setSelectedRoleId] = React.useState(-1);
+    const classes = useStyles();
 
     const loading = open && options.length === 0;
     React.useEffect(() => {
@@ -37,7 +46,7 @@ const RoleAssignmentPage = () => {
             const request = await axios.post('users/admin/get-all-profile');
 
             const profileList = request.data;
-            if (active) {
+            if (active && profileList !== undefined) {
                 setOptions(profileList);
             }
 
@@ -52,7 +61,6 @@ const RoleAssignmentPage = () => {
             setOptions([]);
         }
     }, [open]);
-
 
 
     const onSubmit = (e) => {
@@ -74,31 +82,31 @@ const RoleAssignmentPage = () => {
     }
 
     const confirmRemoveRole = () => {
-        axios.post("users/delete-user-role",{
-            "userId":selectedProfile.id,
-            "roleId":selectedRoleId
-        }).then(async res=>{
+        axios.post("users/delete-user-role", {
+            "userId": selectedProfile.id,
+            "roleId": selectedRoleId
+        }).then(async res => {
             setOpenSuccessSnackbar(true);
             setOpenConfirmationDialog(false);
             await refreshSelectedProfileData();
-        }).catch(err=>{
+        }).catch(err => {
             setOpenErrorSnackbar(true);
         })
     }
 
     const addRole = (roleId) => {
-        axios.post("users/add-user-role",{
-            "userId":selectedProfile.id,
-            "roleId":roleId
-        }).then(async res=>{
+        axios.post("users/add-user-role", {
+            "userId": selectedProfile.id,
+            "roleId": roleId
+        }).then(async res => {
             setOpenSuccessSnackbar(true);
             await refreshSelectedProfileData();
-        }).catch(err=>{
+        }).catch(err => {
             setOpenErrorSnackbar(false);
         })
     }
 
-    const refreshSelectedProfileData = async () =>{
+    const refreshSelectedProfileData = async () => {
         const request = await axios.post('users/admin/get-all-profile');
 
         const profileList = request.data;
@@ -115,7 +123,7 @@ const RoleAssignmentPage = () => {
             <AdminBoilerplate page={'role_assignment'}/>
             <div className="content">
                 <Paper style={{padding: 20}}>
-                    <h2 className="textCenter">Role Assignment</h2>
+                    <h2 className={classes.title}>Role Assignment</h2>
                     <form onSubmit={onSubmit} noValidate autoComplete="off">
                         <Grid container direction="row" justify="center">
                             <Grid item xs={8} md={5}>
@@ -130,10 +138,10 @@ const RoleAssignmentPage = () => {
                                         setOpen(false);
                                     }}
                                     getOptionSelected={(option, value) => {
-                                        return option.id === value.id
+                                        return option.email === value.id
                                     }}
                                     getOptionLabel={(option) => {
-                                        return option.id.toString();
+                                        return option.email.toString();
                                     }}
                                     options={options}
                                     loading={loading}
@@ -141,7 +149,7 @@ const RoleAssignmentPage = () => {
                                     onInputChange={(event, newInputValue) => {
                                         if (options.length > 0 && newInputValue.length > 0) {
                                             let option = options.find(option => {
-                                                return option.id == newInputValue;
+                                                return option.email == newInputValue;
                                             });
                                             if (option) {
                                                 setSelectedProfile(option);
@@ -152,7 +160,7 @@ const RoleAssignmentPage = () => {
                                         <TextField
                                             {...params}
                                             fullWidth
-                                            label="Enter User Id"
+                                            label="Enter User Email"
                                             variant="outlined"
                                             InputProps={{
                                                 ...params.InputProps,

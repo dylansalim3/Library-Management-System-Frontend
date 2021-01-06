@@ -212,13 +212,15 @@ function Sidebar(props) {
                                     width: '100%',
                                     paddingRight: '30px',
                                     display: 'flex',
-                                    justifyContent: 'center',
+                                    justifyContent: 'flex-start',
                                 }}
                             >
                                 <Typography variant="h6" noWrap>
                                     E-library
                                 </Typography>
                             </div>
+                            <SidebarItem/>
+
                         </Hidden>
                     </Toolbar>
                 </AppBar>

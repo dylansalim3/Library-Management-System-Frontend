@@ -8,6 +8,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NewArrivalBook from "../../../components/NewArrivalBook";
 import BookRecommendation from "../../../components/BookRecommendation";
+import {Box} from "@material-ui/core";
 
 
 const StudentDashboardContent = () => {
@@ -44,7 +45,9 @@ const StudentDashboardContent = () => {
         <div>
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
-            <NewArrivalBook/>
+            <div style={{paddingTop:'20px'}}>
+                <NewArrivalBook/>
+            </div>
             <BookRecommendation/>
         </div>
     );

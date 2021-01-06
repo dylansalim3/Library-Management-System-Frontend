@@ -194,11 +194,6 @@ const SidebarItem = (props) => {
 
             }}
         >
-            {/*<IconButton aria-label="show 4 new mails" color="inherit">*/}
-            {/*<Badge badgeContent={4} color="secondary">*/}
-            {/*<Mail/>*/}
-            {/*</Badge>*/}
-            {/*</IconButton>*/}
             <IconButton aria-label="notifications" color="inherit"
                         onClick={openNotificationMenu}>
                 <Badge badgeContent={unreadNotificationCount} color="secondary">
