@@ -22,6 +22,7 @@ import AdminBoilerplate from "./AdminBoilerplate";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import * as html2canvas from 'html2canvas';
 
 var Barcode = require('react-barcode');
 
@@ -59,7 +60,6 @@ const defaultState = {
   authorData: [],
 };
 
-const options='';
 
 export default class Addbook extends Component {
   constructor() {
@@ -137,7 +137,58 @@ export default class Addbook extends Component {
     }
   };
 
+  downloadBarcode = () => {
+    const input = document.getElementById('barcodeField');
+    // var imgData = null;
+    html2canvas(input)
+      .then((canvas)=>{
+        const imgData = canvas.toDataURL('image/png');
+        console.log('imgdata is ' + imgData);
+        var a = document.createElement('a');
+        const fileName = String(this.state.addedBookID) + ".png";
+        // a.setAttribute('download', 'myImage.png');
+        a.setAttribute('download', fileName);
+        a.setAttribute('href', imgData);
+        a.click();
+      })
+      .catch(e=>console.log(e));
+  }
+
+  handleJPG = () => {
+    const input = document.getElementById('testbarcode');
+    console.log(input);
+    html2canvas(input)
+      .then((canvas)=>{
+        
+        const imgData = canvas.toDataURL('image/png');
+        console.log("imgdata is " + imgData);
+                       var a = document.createElement('a');
+                       a.setAttribute('download', 'myImage.png');
+                       a.setAttribute('href', imgData);
+                       a.click();
+
+
+        const testimg = document.getElementById('testimage');
+        testimg.src = imgData;
+        
+        axios
+          .post('/file-barcode', {
+            img: imgData,
+            id: "1001"
+          })
+          .then((data) => {
+            console.log(data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            return;
+          });
+
+      })
+  }
+
   selectEbook = (e) => {
+    console.log(e.target.files[0]);
     this.setState({
       ebook: e.target.files[0],
       // bookimg: URL.createObjectURL(e.target.files[0]),
@@ -198,38 +249,41 @@ export default class Addbook extends Component {
     await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
     console.log(this.state.ebookpath);
-    if (this.state.summary && this.state.location) {
-      axios
-        .post('/books/add', {
-          isbn: this.state.isbn,
-          title: this.state.booktitle,
-          datepublished: this.state.datepublished,
-          bookimg: this.state.bookimgpath,
-          status: this.state.status,
-          publisher: this.state.publisher,
-          type: this.state.type,
-          ebook: this.state.ebookpath,
-          category: this.state.category,
-          genre: this.state.genre,
-          summary: this.state.summary,
-          location: this.state.location,
-          author: this.state.author,
-        })
-        .then((res) => {
-          console.log(res);
-          console.log(res.data.bookdetail.id);
+    // if (this.state.type == 'digital'&&this.state.ebook==null){
 
-          this.setState({
-            addedBookID: res.data.bookdetail.id,
-            dialogopen: true,
+    // }
+      if (this.state.summary && this.state.location) {
+        axios
+          .post('/books/add', {
+            isbn: this.state.isbn,
+            title: this.state.booktitle,
+            datepublished: this.state.datepublished,
+            bookimg: this.state.bookimgpath,
+            status: this.state.status,
+            publisher: this.state.publisher,
+            type: this.state.type,
+            ebook: this.state.ebookpath,
+            category: this.state.category,
+            genre: this.state.genre,
+            summary: this.state.summary,
+            location: this.state.location,
+            author: this.state.author,
+          })
+          .then((res) => {
+            console.log(res);
+            console.log(res.data.bookdetail.id);
+
+            this.setState({
+              addedBookID: res.data.bookdetail.id,
+              dialogopen: true,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log('location and summary cannot be empty');
-    }
+      } else {
+        console.log('location and summary cannot be empty');
+      }
   };
 
   onSubmit = async (e) => {
@@ -454,19 +508,22 @@ export default class Addbook extends Component {
                 flexDirection: 'column',
               }}
             >
-              Please print the generated barcode below and paste it on the book.
-
+              Please download and print the generated barcode below and paste it on the book.
+              <div id="barcodeField">
                 <Barcode
+                  id="barcode"
                   style={{ width: '100%', backgroundColor: 'red' }}
                   value={String(this.state.addedBookID)}
                 />
-
+              </div>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button disabled color="primary">
-              Print
+            <Button color="primary"
+                onClick={()=>{console.log("here"); this.downloadBarcode();}}>
+              Download
             </Button>
+
             <Button
               onClick={() => {
                 this.setState(Object.assign({}, defaultState));
@@ -594,6 +651,7 @@ export default class Addbook extends Component {
                 <Grid item sm={4} xs={12}>
                   <Grid item xs={12}>
                     <FormControl
+                      required
                       className={'gridWidth gridmargin'}
                       variant="outlined"
                     >
@@ -617,20 +675,11 @@ export default class Addbook extends Component {
                   <Grid item xs={12}>
                     <h3>Select and upload Ebook</h3>
                     <input
+                      required
                       disabled={this.state.ebookdisabled}
                       type="file"
                       onChange={(e) => this.selectEbook(e)}
                     />
-                    {/* <TextField
-                      disabled
-                      label="E-book"
-                      variant="outlined"
-                      name="ebook"
-                      value={this.state.ebook}
-                      onChange={this.onChange}
-                      value="Not available currently"
-                      className={'gridWidth gridmargin'}
-                    /> */}
                   </Grid>
                   <Grid
                     item
@@ -672,19 +721,6 @@ export default class Addbook extends Component {
                         Add
                       </Link>
                     </div>
-                    {/* <TextField
-                      label="Category"
-                      variant="outlined"
-                      name="category"
-                      value={this.state.category}
-                      onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
-                      select
-                    >
-                      <MenuItem value={1}>Textbook</MenuItem>
-                      <MenuItem value={2}>Magazine</MenuItem>
-                      <MenuItem value={3}>Comic</MenuItem>
-                    </TextField> */}
                   </Grid>
                   <Grid
                     item
@@ -785,10 +821,23 @@ export default class Addbook extends Component {
                   style={{ width: '350px', marginTop: '50px' }}
                   variant="outlined"
                   type="submit"
-                  // onClick={(e) => this.onSubmit(e)}
                 >
                   Add Book
                 </Button>
+                <div id="testbarcode">
+                  <Barcode
+                    style={{ width: '100%', backgroundColor: 'red' }}
+                    value={'test'}
+                  />
+                </div>
+                <Button
+                  style={{ width: '350px', marginTop: '50px' }}
+                  variant="outlined"
+                  onClick={this.handleJPG}
+                >
+                  testJPG
+                </Button>
+                <img id="testimage"></img>
               </Grid>
             </form>
           </Grid>
