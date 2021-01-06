@@ -25,6 +25,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as html2canvas from 'html2canvas';
 
 var Barcode = require('react-barcode');
+var today = new Date();
+var month,day="";
+
+if(today.getMonth()+1<10){
+  month="0"+(today.getMonth()+1);
+}
+if (today.getDate() < 10) {
+      day = '0' + today.getDate();
+}
+var todayDate = today.getFullYear() +'-' +month +'-' + day;
 
 const defaultState = {
   first_name: '',
@@ -65,6 +75,7 @@ export default class Addbook extends Component {
   constructor() {
     super();
     this.state = Object.assign({}, defaultState);
+
   }
 
   componentDidMount() {
@@ -139,14 +150,12 @@ export default class Addbook extends Component {
 
   downloadBarcode = () => {
     const input = document.getElementById('barcodeField');
-    // var imgData = null;
     html2canvas(input)
       .then((canvas)=>{
         const imgData = canvas.toDataURL('image/png');
         console.log('imgdata is ' + imgData);
         var a = document.createElement('a');
         const fileName = String(this.state.addedBookID) + ".png";
-        // a.setAttribute('download', 'myImage.png');
         a.setAttribute('download', fileName);
         a.setAttribute('href', imgData);
         a.click();
@@ -154,38 +163,6 @@ export default class Addbook extends Component {
       .catch(e=>console.log(e));
   }
 
-  handleJPG = () => {
-    const input = document.getElementById('testbarcode');
-    console.log(input);
-    html2canvas(input)
-      .then((canvas)=>{
-        
-        const imgData = canvas.toDataURL('image/png');
-        console.log("imgdata is " + imgData);
-                       var a = document.createElement('a');
-                       a.setAttribute('download', 'myImage.png');
-                       a.setAttribute('href', imgData);
-                       a.click();
-
-
-        const testimg = document.getElementById('testimage');
-        testimg.src = imgData;
-        
-        axios
-          .post('/file-barcode', {
-            img: imgData,
-            id: "1001"
-          })
-          .then((data) => {
-            console.log(data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-            return;
-          });
-
-      })
-  }
 
   selectEbook = (e) => {
     console.log(e.target.files[0]);
@@ -249,9 +226,6 @@ export default class Addbook extends Component {
     await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
     console.log(this.state.ebookpath);
-    // if (this.state.type == 'digital'&&this.state.ebook==null){
-
-    // }
       if (this.state.summary && this.state.location) {
         axios
           .post('/books/add', {
@@ -277,7 +251,26 @@ export default class Addbook extends Component {
               addedBookID: res.data.bookdetail.id,
               dialogopen: true,
             });
-          })
+
+          // const input = document.getElementById('testbarcode');
+          // html2canvas(input)
+          //   .then((canvas)=>{
+          //   const imgData = canvas.toDataURL('image/png');
+          //   axios
+          //     .post('/file-barcode', {
+          //       img: imgData,
+          //       id: '1001',
+          //     })
+          //     .then((data) => {
+          //       console.log(data.data);
+          //     })
+          //     .catch((err) => {
+          //       console.log(err);
+          //       return;
+          //     });
+          // });
+
+        })
           .catch((err) => {
             console.log(err);
           });
@@ -508,7 +501,8 @@ export default class Addbook extends Component {
                 flexDirection: 'column',
               }}
             >
-              Please download and print the generated barcode below and paste it on the book.
+              Please download and print the generated barcode below and paste it
+              on the book.
               <div id="barcodeField">
                 <Barcode
                   id="barcode"
@@ -519,8 +513,10 @@ export default class Addbook extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button color="primary"
-                onClick={()=>{console.log("here"); this.downloadBarcode();}}>
+            <Button
+              color="primary"
+              onClick={this.downloadBarcode}
+            >
               Download
             </Button>
 
@@ -590,36 +586,6 @@ export default class Addbook extends Component {
                       onChange={this.onChange}
                       className={'gridWidth gridmargin'}
                     />
-                    {/* <FormControl
-                      className={'gridSecWidth gridmargin'}
-                      variant="outlined"
-                    >
-                      <InputLabel htmlFor="bookauthor">Author</InputLabel>
-                      <Select
-                        native
-                        required
-                        value={this.state.author}
-                        onChange={this.onChange}
-                        inputProps={{
-                          name: 'author',
-                          id: 'bookauthor',
-                        }}
-                      >
-                        <option aria-label="None" value="" />
-                        {this.retrieveOptions('author')}
-                      </Select>
-                    </FormControl>
-                    <div
-                      style={{ marginLeft: '15px' }}
-                      className={'gridmargin'}
-                    >
-                      <Link
-                        onClick={() => this.openSecDialog('author')}
-                        style={{ color: 'red' }}
-                      >
-                        Add
-                      </Link>
-                    </div> */}
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -629,6 +595,9 @@ export default class Addbook extends Component {
                       variant="outlined"
                       InputLabelProps={{
                         shrink: true,
+                      }}
+                      InputProps={{
+                        inputProps: {max: todayDate },
                       }}
                       name="datepublished"
                       value={this.state.datepublished}
@@ -823,19 +792,6 @@ export default class Addbook extends Component {
                   type="submit"
                 >
                   Add Book
-                </Button>
-                <div id="testbarcode">
-                  <Barcode
-                    style={{ width: '100%', backgroundColor: 'red' }}
-                    value={'test'}
-                  />
-                </div>
-                <Button
-                  style={{ width: '350px', marginTop: '50px' }}
-                  variant="outlined"
-                  onClick={this.handleJPG}
-                >
-                  testJPG
                 </Button>
                 <img id="testimage"></img>
               </Grid>
