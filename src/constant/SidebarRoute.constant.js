@@ -9,6 +9,7 @@ export const SIDEBAR_ROUTE_ADMIN = [
     {name: 'Account Registration', route: 'registration'},
     {name: 'Profile', route: 'profile'},
     {name: 'Role Assignment', route: 'role_assignment'},
+    {name: 'Setting', route:'setting'}
 ];
 
 export const SIDEBAR_ROUTE_STUDENT = [

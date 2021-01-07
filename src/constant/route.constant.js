@@ -18,6 +18,7 @@ export const EDIT_BOOK = "/edit_book";
 export const ROLE_ASSIGNMENT = "/role_assignment";
 export const LIBRARY_MAP = "/library_map";
 export const BACKUP_DATA = "/backup_data";
+export const SETTING = "/setting";
 
 export const STUDENT_DASHBOARD = "/studentdashboard";
 export const RESERVATION = "/reservation";

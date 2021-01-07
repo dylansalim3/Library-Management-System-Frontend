@@ -5,7 +5,7 @@ import expiredBookIcon from "../../../images/expired-book.png";
 import bookShelfIcon from "../../../images/book-shelf.png";
 import DashboardCards from "../../../components/DashboardCards";
 import axios from "axios";
-import BookSearchResult from "../SearchBook/BookSearchResult";
+import LatestBookResult from '../SearchBook/LatestBookResult';
 import jwt_decode from "jwt-decode";
 
 
@@ -44,7 +44,7 @@ const StudentDashboardContent = () => {
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
             {newArrivalBooks.length > 0 ? (
-                <BookSearchResult title="New Arrival" result={newArrivalBooks}/>
+                <LatestBookResult title="New Arrival" result={newArrivalBooks}/>
             ) : ""
             }
         </div>

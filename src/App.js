@@ -8,6 +8,7 @@ import Admindashboard from './pages/admin/Admindashboard';
 import Addbook from './pages/admin/Addbook';
 import BorrowBook from './pages/admin/BorrowReturnRenew/BorrowBook';
 import axios from 'axios';
+import SettingPage from './pages/admin/Setting';
 //student pages
 import Studentdashboard from './pages/student/Dashboard/Studentdashboard';
 import SearchBook from './pages/student/SearchBook/SearchBook';
@@ -45,10 +46,20 @@ import {
     ROLE_ASSIGNMENT,
     SEARCH_BOOK,
     STUDENT_DASHBOARD, STUDENT_REGISTRATION,
-    VIEW_LIBRARY_MAP
+    VIEW_LIBRARY_MAP,
+    SETTING
 } from "./constant/route.constant";
-
+import { topgreen } from './style/Color';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 axios.defaults.baseURL = 'http://localhost:5000';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: topgreen,
+    },
+  },
+});
 
 function App() {
     const {
@@ -65,42 +76,86 @@ function App() {
     }, []);
 
     return (
-        <Router>
-            <div className="App">
+      <Router>
+        <div className="App">
+          <MuiThemeProvider theme={theme}>
+            <div className="container">
+              <Route exact path="/" component={Login} />
+              <Route
+                exact
+                path={FORGET_PASSWORD}
+                component={ForgetPasswordPage}
+              />
+              <Route
+                exact
+                path={PASSWORD_RECOVERY}
+                component={ResetPasswordPage}
+              />
 
-                <div className="container">
-                    <Route exact path="/" component={Login}/>
-                    <Route exact path={FORGET_PASSWORD} component={ForgetPasswordPage}/>
-                    <Route exact path={PASSWORD_RECOVERY} component={ResetPasswordPage}/>
+              {/*registration*/}
+              <Route
+                exact
+                path={ACCOUNT_REGISTRATION}
+                component={Registration}
+              />
+              <Route exact path={PROFILE} component={Profile} />
+              {/* admin paths */}
+              <Route exact path={ADMIN_DASHBOARD} component={Admindashboard} />
+              <Route exact path={ADD_BOOK} component={Addbook} />
+              <Route exact path={BORROW_BOOK} component={BorrowBook} />
+              <Route
+                exact
+                path={RESERVE_BOOK}
+                component={BookReservationPage}
+              />
+              <Route exact path={SEARCH_BOOK} component={SearchBook} />
+              <Route
+                exact
+                path={REGISTRATION}
+                component={AccountRegistrationPage}
+              />
+              <Route exact path={EDIT_BOOK} component={EditDeleteBookPage} />
+              <Route
+                exact
+                path={ROLE_ASSIGNMENT}
+                component={RoleAssignmentPage}
+              />
+              <Route exact path={LIBRARY_MAP} component={EditLibraryMapPage} />
+              <Route exact path={BACKUP_DATA} component={BackupDatabasePage} />
+              <Route exact path={SETTING} component={SettingPage} />
+              {/* student paths */}
+              <Route
+                exact
+                path={STUDENT_DASHBOARD}
+                component={Studentdashboard}
+              />
+              <Route
+                exact
+                path={RESERVATION}
+                component={PendingReservationPage}
+              />
+              <Route
+                exact
+                path={BORROW_HISTORY}
+                component={BorrowHistoryPage}
+              />
+              <Route exact path={EXTEND_BORROW} component={ExtendBorrowPage} />
+              <Route
+                exact
+                path={VIEW_LIBRARY_MAP}
+                component={ViewLibraryMapPage}
+              />
+              <Route
+                exact
+                path={STUDENT_REGISTRATION}
+                component={StudentAccountRegistrationPage}
+              />
 
-                    {/*registration*/}
-                    <Route exact path={ACCOUNT_REGISTRATION} component={Registration}/>
-                    <Route exact path={PROFILE} component={Profile}/>
-                    {/* admin paths */}
-                    <Route exact path={ADMIN_DASHBOARD} component={Admindashboard}/>
-                    <Route exact path={ADD_BOOK} component={Addbook}/>
-                    <Route exact path={BORROW_BOOK} component={BorrowBook}/>
-                    <Route exact path={RESERVE_BOOK} component={BookReservationPage}/>
-                    <Route exact path={SEARCH_BOOK} component={SearchBook}/>
-                    <Route exact path={REGISTRATION} component={AccountRegistrationPage}/>
-                    <Route exact path={EDIT_BOOK} component={EditDeleteBookPage}/>
-                    <Route exact path={ROLE_ASSIGNMENT} component={RoleAssignmentPage}/>
-                    <Route exact path={LIBRARY_MAP} component={EditLibraryMapPage}/>
-                    <Route exact path={BACKUP_DATA} component={BackupDatabasePage}/>
-                    {/* student paths */}
-                    <Route exact path={STUDENT_DASHBOARD} component={Studentdashboard}/>
-                    <Route exact path={RESERVATION} component={PendingReservationPage}/>
-                    <Route exact path={BORROW_HISTORY} component={BorrowHistoryPage}/>
-                    <Route exact path={EXTEND_BORROW} component={ExtendBorrowPage}/>
-                    <Route exact path={VIEW_LIBRARY_MAP} component={ViewLibraryMapPage}/>
-                    <Route exact path={STUDENT_REGISTRATION} component={StudentAccountRegistrationPage}/>
-
-                    {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
-
-
-                </div>
+              {/*<Route exact path="/librarian-dashboard" component={LibrarianDashboard}></Route>*/}
             </div>
-        </Router>
+          </MuiThemeProvider>
+        </div>
+      </Router>
     );
 }
 

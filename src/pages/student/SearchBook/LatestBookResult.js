@@ -1,9 +1,15 @@
-import React, {Component} from 'react';
-import {Card, CardActionArea, CardContent, CardMedia, Grid} from '@material-ui/core';
-import BookDetailModal from "./BookDetailModal";
-import BookReservationModal from "./BookReservationModal";
+import React, { Component } from 'react';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+} from '@material-ui/core';
+import BookDetailModal from './BookDetailModal';
+import BookReservationModal from './BookReservationModal';
 
-class BookSearchResult extends Component {
+class LatestBookResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,85 +19,44 @@ class BookSearchResult extends Component {
         showBookReservationModal: false,
         bookId: null,
       },
-      allBookDetail:{}
     };
   }
 
-  onBookSelected = (selectedBookDetail,allBookDetail) => {
+  onBookSelected = (selectedBookDetail) => {
     this.setState({
       selectedBookDetail: selectedBookDetail,
-      allBookDetail: allBookDetail,
       showBookDetailModal: true,
     });
-    console.log(typeof this.state.allBookDetail);
-    console.log(typeof allBookDetail);
   };
 
-//   displaySearchResult = (searchResults) => {
-//       if (searchResults) {
-          
-//           return searchResults.map(searchResult => {
-//               return (
-//                   <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
-//                       {this.displayBookDetail(searchResult)}
-//                   </Grid>
-//               );
-//           });
-//       } else {
-//           return (
-//               <p style={{margin: 'auto'}}>No result found</p>
-//           );
-//       }
-//   };
+    displaySearchResult = (searchResults) => {
+        if (searchResults) {
 
-  displaySearchResult = (searchResults) => {
-    if (searchResults) {
-        // var allBookArr = [];
-        // Object.keys(searchResults).forEach(result=>{
-        //     console.log(searchResults[result]);
-        //     searchResults[result].forEach(all =>{
-                
-        //         allBookArr.push(all);
-        //     })
-        // });
-        // console.log(allBookArr);
-
-        return Object.keys(searchResults).map(result=>{
-        //   console.log(searchResults[result][0].id);
-          const firstbook = searchResults[result][0];
-          const allbook = searchResults[result];
-          var jsonBook = [];
-          allbook.forEach(book=>{
-            jsonBook.push({bookid:book.id,location:book.location});
-          });
-          console.log(jsonBook);
+            return searchResults.map(searchResult => {
+                return (
+                    <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
+                        {this.displayBookDetail(searchResult)}
+                    </Grid>
+                );
+            });
+        } else {
             return (
-              <Grid item xs={12} sm={6} md={4} key={firstbook.id}>
-                {this.displayBookDetail(firstbook, jsonBook)}
-              </Grid>
+                <p style={{margin: 'auto'}}>No result found</p>
             );
-        })
-        
-    } else {
-          return (
-              <p style={{margin: 'auto'}}>No result found</p>
-          );
-      }
-  };
+        }
+    };
 
-  displayBookDetail = (bookDetail,allbook) => {
+
+  displayBookDetail = (bookDetail) => {
     const bookId = bookDetail.id;
     const title = bookDetail.title;
     const desc = bookDetail.summary;
     let imageLink = bookDetail.bookimg;
-    console.log(typeof allbook);
 
     return (
       <Card style={{ padding: 10, margin: 10 }}>
         <CardContent className="flexGrow">
-          <CardActionArea
-            onClick={() => this.onBookSelected(bookDetail, allbook)}
-          >
+          <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
             <Grid
               container
               spacing={0}
@@ -165,7 +130,6 @@ class BookSearchResult extends Component {
         <BookDetailModal
           openModal={this.state.showBookDetailModal}
           book={this.state.selectedBookDetail}
-          allBook={this.state.allBookDetail}
           onChangeShowDetailModal={(e) => {
             this.onChangeShowDetailModal(e);
           }}
@@ -177,7 +141,6 @@ class BookSearchResult extends Component {
         <BookReservationModal
           openModal={this.state.bookReservationModal.showBookReservationModal}
           book={this.state.bookReservationModal.bookId}
-          allBook={this.state.allBookDetail}
           onChangeShowBookReservationModal={() => {
             this.onChangeShowBookReservationModal(false);
           }}
@@ -187,4 +150,4 @@ class BookSearchResult extends Component {
   }
 }
 
-export default BookSearchResult;
+export default LatestBookResult;
