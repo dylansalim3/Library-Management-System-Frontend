@@ -61,9 +61,12 @@ const defaultState = {
   dialogopen: false,
   addedBookID: '',
   dialogAddNew: false,
+  dialogDelete: false,
   newFieldName: '',
+
   toastMessage: false,
   newFieldText: '',
+  deleteFieldText: '',
   toastMessageText: '',
   genreData: [],
   categoryData: [],
@@ -309,6 +312,10 @@ export default class Addbook extends Component {
     this.setState({ dialogAddNew: false });
   };
 
+  closeThirdDialog = () => {
+    this.setState({ dialogDelete: false});
+  }
+
   openToastMessage = (type) => {
     if (type === 'author') {
       this.setState({ toastMessageText: 'New author added.' });
@@ -446,7 +453,7 @@ export default class Addbook extends Component {
             </React.Fragment>
           }
         />
-        {/* Dialog for adding new author,category,genre */}
+        {/* Dialog for adding new ,category,genre */}
         <Dialog open={this.state.dialogAddNew} onClose={this.closeSecDialog}>
           <DialogTitle style={{ textAlign: 'center' }}>
             Add a new {this.state.newFieldText}?
@@ -483,6 +490,43 @@ export default class Addbook extends Component {
           </DialogContent>
         </Dialog>
 
+        {/* Dialog for deleting category,genre */}
+        <Dialog open={this.state.dialogDelete} onClose={this.closeThirdDialog}>
+          <DialogTitle style={{ textAlign: 'center' }}>
+            Delete {this.state.deleteFieldText}?
+          </DialogTitle>
+          <DialogContent>
+            <DialogActions>
+              <div
+                style={{
+                  minWidth: '250px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <TextField
+                  label="Type in value"
+                  variant="outlined"
+                  name="newFieldName"
+                  value={this.state.newFieldName}
+                  onChange={this.onChange}
+                />
+                <Button
+                  variant="contained"
+                  onClick={this.addNewField}
+                  style={{
+                    marginTop: '20px',
+                    backgroundColor: 'red',
+                    color: 'white',
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
         {/* Dialog for adding new book */}
         <Dialog
           open={this.state.dialogopen}
@@ -513,10 +557,7 @@ export default class Addbook extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              color="primary"
-              onClick={this.downloadBarcode}
-            >
+            <Button color="primary" onClick={this.downloadBarcode}>
               Download
             </Button>
 
@@ -550,6 +591,7 @@ export default class Addbook extends Component {
                 <Grid item sm={4} xs={12}>
                   <Grid item xs={12}>
                     <TextField
+                      required
                       label="ISBN"
                       variant="outlined"
                       name="isbn"
@@ -598,7 +640,7 @@ export default class Addbook extends Component {
                         shrink: true,
                       }}
                       InputProps={{
-                        inputProps: {max: todayDate },
+                        inputProps: { max: todayDate },
                       }}
                       name="datepublished"
                       value={this.state.datepublished}
@@ -763,7 +805,11 @@ export default class Addbook extends Component {
                       }}
                       src={this.state.bookimg}
                     />
-                    <input id="uploadField" type="file" onChange={(e) => this.selectImage(e)} />
+                    <input
+                      id="uploadField"
+                      type="file"
+                      onChange={(e) => this.selectImage(e)}
+                    />
                     <TextField
                       required
                       multiline
