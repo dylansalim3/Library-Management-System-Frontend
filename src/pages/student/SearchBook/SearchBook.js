@@ -200,7 +200,6 @@ class SearchBook extends Component {
                 </div>
 
             </div>
-          </div>
         );
     }
 }
