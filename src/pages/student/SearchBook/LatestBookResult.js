@@ -9,6 +9,7 @@ import {
 import BookDetailModal from './BookDetailModal';
 import BookReservationModal from './BookReservationModal';
 import {BASE_URL} from "../../../constant/route.constant";
+import Typography from "@material-ui/core/Typography";
 
 class LatestBookResult extends Component {
     constructor(props) {
@@ -55,44 +56,25 @@ class LatestBookResult extends Component {
         let imageLink = bookDetail.bookimg;
 
         return (
-            <Card style={{padding: 10, margin: 10}}>
-                <CardContent className="flexGrow">
+            <Card style={{margin: 10}}>
+                <CardContent className="flexGrow" style={{padding: 0}}>
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
-                        <Grid
-                            container
-                            spacing={0}
-                            direction="column"
-                            alignItems="center"
-                            justify="center"
-                        >
-                            <CardMedia
-                                className="center"
-                                src={BASE_URL + imageLink}
-                                height={140}
-                                alt="book img"
-                                title={title}
-                                onError={(this.src = '/mainlogo.png')}
-                            >
-                                <img
-                                    style={{
-                                        height: 200,
-                                        width: 200,
-                                        marginLeft: 'auto',
-                                        marginRight: 'auto',
-                                    }}
-                                    src={imageLink}
-                                    alt="a"
-                                    onError={
-                                        (imageLink =
-                                            'https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg')
-                                    }
-                                />
-                            </CardMedia>
-                        </Grid>
-                        <h3 className="textCenter">{title}</h3>
-                        <p className="textCenter">
-                            {desc.length > 100 ? desc.slice(0, 100) + '...' : desc}
-                        </p>
+                        <CardMedia
+                            component="img"
+                            src={BASE_URL + imageLink}
+                            height={200}
+                            alt="book img"
+                            title={title}
+                            onError={this.src = "/mainlogo.png"}/>
+
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h3">
+                                {title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {desc.length > 100 ? desc.slice(0, 100) + '...' : desc}
+                            </Typography>
+                        </CardContent>
                     </CardActionArea>
                 </CardContent>
             </Card>
