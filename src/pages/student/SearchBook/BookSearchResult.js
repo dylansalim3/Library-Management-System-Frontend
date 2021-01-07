@@ -18,52 +18,93 @@ const StyledCardContent = withStyles({
 })(CardContent);
 
 class BookSearchResult extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedBookDetail: {},
-            showBookDetailModal: false,
-            bookReservationModal: {
-                showBookReservationModal: false,
-                bookId: null,
-            },
-        };
-    }
-
-    onBookSelected = (selectedBookDetail) => {
-        this.setState({
-            selectedBookDetail: selectedBookDetail,
-            showBookDetailModal: true,
-        });
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedBookDetail: {},
+      showBookDetailModal: false,
+      bookReservationModal: {
+        showBookReservationModal: false,
+        bookId: null,
+      },
+      allBookDetail:{}
     };
+  }
 
-    displaySearchResult = (searchResults) => {
-        if (searchResults) {
-            return searchResults.map(searchResult => {
-                return (
-                    <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
-                        {this.displayBookDetail(searchResult)}
-                    </Grid>
-                );
-            });
-        } else {
+  onBookSelected = (selectedBookDetail,allBookDetail) => {
+    this.setState({
+      selectedBookDetail: selectedBookDetail,
+      allBookDetail: allBookDetail,
+      showBookDetailModal: true,
+    });
+    console.log(typeof this.state.allBookDetail);
+    console.log(typeof allBookDetail);
+  };
+
+//   displaySearchResult = (searchResults) => {
+//       if (searchResults) {
+          
+//           return searchResults.map(searchResult => {
+//               return (
+//                   <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
+//                       {this.displayBookDetail(searchResult)}
+//                   </Grid>
+//               );
+//           });
+//       } else {
+//           return (
+//               <p style={{margin: 'auto'}}>No result found</p>
+//           );
+//       }
+//   };
+
+  displaySearchResult = (searchResults) => {
+    if (searchResults) {
+        // var allBookArr = [];
+        // Object.keys(searchResults).forEach(result=>{
+        //     console.log(searchResults[result]);
+        //     searchResults[result].forEach(all =>{
+                
+        //         allBookArr.push(all);
+        //     })
+        // });
+        // console.log(allBookArr);
+
+        return Object.keys(searchResults).map(result=>{
+        //   console.log(searchResults[result][0].id);
+          const firstbook = searchResults[result][0];
+          const allbook = searchResults[result];
+          var jsonBook = [];
+          allbook.forEach(book=>{
+            jsonBook.push({bookid:book.id,location:book.location});
+          });
+          console.log(jsonBook);
             return (
-                <p style={{margin: 'auto'}}>No result found</p>
+              <Grid item xs={12} sm={6} md={4} key={firstbook.id}>
+                {this.displayBookDetail(firstbook, jsonBook)}
+              </Grid>
             );
-        }
-    };
+        })
+        
+    } else {
+          return (
+              <p style={{margin: 'auto'}}>No result found</p>
+          );
+      }
+  };
 
-    displayBookDetail = (bookDetail) => {
-        const bookId = bookDetail.id;
-        const title = bookDetail.title;
-        const desc = bookDetail.summary;
-        let imageLink = bookDetail.bookimg;
+  displayBookDetail = (bookDetail,allbook) => {
+    const bookId = bookDetail.id;
+    const title = bookDetail.title;
+    const desc = bookDetail.summary;
+    let imageLink = bookDetail.bookimg;
+    console.log(typeof allbook);
 
-        return (
 
-            <Card style={{margin: 10}}>
+    return (
+             <Card style={{margin: 10}}>
                 <CardContent style={{padding: 0}}>
-                    <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
+                    <CardActionArea onClick={() => this.onBookSelected(bookDetail, allbook)}>
                         <CardMedia
                             component="img"
                             src={BASE_URL + imageLink}
@@ -83,63 +124,62 @@ class BookSearchResult extends Component {
                     </CardActionArea>
                 </CardContent>
             </Card>
+    );
+  };
 
-        );
-    };
+  onChangeShowDetailModal = (data) => {
+    this.setState({
+      showBookDetailModal: data,
+    });
+  };
 
-    onChangeShowDetailModal = (data) => {
-        this.setState({
-            showBookDetailModal: data,
-        });
-    };
+  setSelectedBookId = (bookId) => {
+    this.setState({
+      bookReservationModal: {
+        bookId: bookId,
+      },
+    });
+  };
 
-    setSelectedBookId = (bookId) => {
-        this.setState({
-            bookReservationModal: {
-                bookId: bookId
-            }
-        });
-    };
 
-    onChangeShowBookReservationModal = (show) => {
-        console.log('here');
-        this.setState({
-            bookReservationModal: {
-                showBookReservationModal: show,
-            }
-        });
-    };
+  onChangeShowBookReservationModal = (show) => {
+    console.log('here');
+    this.setState({
+      bookReservationModal: {
+        showBookReservationModal: show,
+      },
+    });
+  };
 
-    render() {
-        const searchResults = this.props.result;
-        return (
-            <div id="searchResult">
-                <h1>{this.props.title}</h1>
-                <Grid container>
-                    {this.displaySearchResult(searchResults)}
-                </Grid>
-                <BookDetailModal
-                    openModal={this.state.showBookDetailModal}
-                    book={this.state.selectedBookDetail}
-                    onChangeShowDetailModal={e => {
-                        this.onChangeShowDetailModal(e)
-                    }}
-                    onChangeShowBookReservationModal={(bookId) => {
-                        this.setSelectedBookId(bookId);
-                        this.onChangeShowBookReservationModal(true);
-                    }}
-                />
-                <BookReservationModal
-                    openModal={this.state.bookReservationModal.showBookReservationModal}
-                    book={this.state.bookReservationModal.bookId}
-                    onChangeShowBookReservationModal={() => {
-                        this.onChangeShowBookReservationModal(false);
-                    }
-                    }
-                />
-            </div>
-        );
-    }
+  render() {
+    const searchResults = this.props.result;
+    return (
+      <div id="searchResult">
+        <h2>{this.props.title}</h2>
+        <Grid container>{this.displaySearchResult(searchResults)}</Grid>
+        <BookDetailModal
+          openModal={this.state.showBookDetailModal}
+          book={this.state.selectedBookDetail}
+          allBook={this.state.allBookDetail}
+          onChangeShowDetailModal={(e) => {
+            this.onChangeShowDetailModal(e);
+          }}
+          onChangeShowBookReservationModal={(bookId) => {
+            this.setSelectedBookId(bookId);
+            this.onChangeShowBookReservationModal(true);
+          }}
+        />
+        <BookReservationModal
+          openModal={this.state.bookReservationModal.showBookReservationModal}
+          book={this.state.bookReservationModal.bookId}
+          allBook={this.state.allBookDetail}
+          onChangeShowBookReservationModal={() => {
+            this.onChangeShowBookReservationModal(false);
+          }}
+        />
+      </div>
+    );
+  }
 }
 
 export default BookSearchResult;

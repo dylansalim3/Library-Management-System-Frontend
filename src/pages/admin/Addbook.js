@@ -22,8 +22,19 @@ import AdminBoilerplate from "./AdminBoilerplate";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import * as html2canvas from 'html2canvas';
 
 var Barcode = require('react-barcode');
+var today = new Date();
+var month,day="";
+
+if(today.getMonth()+1<10){
+  month="0"+(today.getMonth()+1);
+}
+if (today.getDate() < 10) {
+      day = '0' + today.getDate();
+}
+var todayDate = today.getFullYear() +'-' +month +'-' + day;
 
 const defaultState = {
   first_name: '',
@@ -50,21 +61,24 @@ const defaultState = {
   dialogopen: false,
   addedBookID: '',
   dialogAddNew: false,
+  dialogDelete: false,
   newFieldName: '',
+
   toastMessage: false,
   newFieldText: '',
+  deleteFieldText: '',
   toastMessageText: '',
   genreData: [],
   categoryData: [],
   authorData: [],
 };
 
-const options='';
 
 export default class Addbook extends Component {
   constructor() {
     super();
     this.state = Object.assign({}, defaultState);
+
   }
 
   componentDidMount() {
@@ -137,7 +151,24 @@ export default class Addbook extends Component {
     }
   };
 
+  downloadBarcode = () => {
+    const input = document.getElementById('barcodeField');
+    html2canvas(input)
+      .then((canvas)=>{
+        const imgData = canvas.toDataURL('image/png');
+        console.log('imgdata is ' + imgData);
+        var a = document.createElement('a');
+        const fileName = String(this.state.addedBookID) + ".png";
+        a.setAttribute('download', fileName);
+        a.setAttribute('href', imgData);
+        a.click();
+      })
+      .catch(e=>console.log(e));
+  }
+
+
   selectEbook = (e) => {
+    console.log(e.target.files[0]);
     this.setState({
       ebook: e.target.files[0],
       // bookimg: URL.createObjectURL(e.target.files[0]),
@@ -153,7 +184,6 @@ export default class Addbook extends Component {
   };
 
   uploadEbook = async (ebookFormObj) => {
-    console.log("raan upload ebook");
     if (this.state.ebook) {
       await axios
         .post('/file-ebook', ebookFormObj)
@@ -198,38 +228,57 @@ export default class Addbook extends Component {
     await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
     console.log(this.state.ebookpath);
-    if (this.state.summary && this.state.location) {
-      axios
-        .post('/books/add', {
-          isbn: this.state.isbn,
-          title: this.state.booktitle,
-          datepublished: this.state.datepublished,
-          bookimg: this.state.bookimgpath,
-          status: this.state.status,
-          publisher: this.state.publisher,
-          type: this.state.type,
-          ebook: this.state.ebookpath,
-          category: this.state.category,
-          genre: this.state.genre,
-          summary: this.state.summary,
-          location: this.state.location,
-          author: this.state.author,
-        })
-        .then((res) => {
-          console.log(res);
-          console.log(res.data.bookdetail.id);
+      if (this.state.summary && this.state.location) {
+        axios
+          .post('/books/add', {
+            isbn: this.state.isbn,
+            title: this.state.booktitle,
+            datepublished: this.state.datepublished,
+            bookimg: this.state.bookimgpath,
+            status: this.state.status,
+            publisher: this.state.publisher,
+            type: this.state.type,
+            ebook: this.state.ebookpath,
+            category: this.state.category,
+            genre: this.state.genre,
+            summary: this.state.summary,
+            location: this.state.location,
+            author: this.state.author,
+          })
+          .then((res) => {
+            console.log(res);
+            console.log(res.data.bookdetail.id);
 
-          this.setState({
-            addedBookID: res.data.bookdetail.id,
-            dialogopen: true,
-          });
+            this.setState({
+              addedBookID: res.data.bookdetail.id,
+              dialogopen: true,
+            });
+
+          // const input = document.getElementById('testbarcode');
+          // html2canvas(input)
+          //   .then((canvas)=>{
+          //   const imgData = canvas.toDataURL('image/png');
+          //   axios
+          //     .post('/file-barcode', {
+          //       img: imgData,
+          //       id: '1001',
+          //     })
+          //     .then((data) => {
+          //       console.log(data.data);
+          //     })
+          //     .catch((err) => {
+          //       console.log(err);
+          //       return;
+          //     });
+          // });
+
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log('location and summary cannot be empty');
-    }
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log('location and summary cannot be empty');
+      }
   };
 
   onSubmit = async (e) => {
@@ -262,6 +311,10 @@ export default class Addbook extends Component {
   closeSecDialog = () => {
     this.setState({ dialogAddNew: false });
   };
+
+  closeThirdDialog = () => {
+    this.setState({ dialogDelete: false});
+  }
 
   openToastMessage = (type) => {
     if (type === 'author') {
@@ -400,7 +453,7 @@ export default class Addbook extends Component {
             </React.Fragment>
           }
         />
-        {/* Dialog for adding new author,category,genre */}
+        {/* Dialog for adding new ,category,genre */}
         <Dialog open={this.state.dialogAddNew} onClose={this.closeSecDialog}>
           <DialogTitle style={{ textAlign: 'center' }}>
             Add a new {this.state.newFieldText}?
@@ -437,11 +490,49 @@ export default class Addbook extends Component {
           </DialogContent>
         </Dialog>
 
+        {/* Dialog for deleting category,genre */}
+        <Dialog open={this.state.dialogDelete} onClose={this.closeThirdDialog}>
+          <DialogTitle style={{ textAlign: 'center' }}>
+            Delete {this.state.deleteFieldText}?
+          </DialogTitle>
+          <DialogContent>
+            <DialogActions>
+              <div
+                style={{
+                  minWidth: '250px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <TextField
+                  label="Type in value"
+                  variant="outlined"
+                  name="newFieldName"
+                  value={this.state.newFieldName}
+                  onChange={this.onChange}
+                />
+                <Button
+                  variant="contained"
+                  onClick={this.addNewField}
+                  style={{
+                    marginTop: '20px',
+                    backgroundColor: 'red',
+                    color: 'white',
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
         {/* Dialog for adding new book */}
         <Dialog
           open={this.state.dialogopen}
           onClose={() => {
             this.setState(Object.assign({}, defaultState));
+            document.getElementById('uploadCaptureInputFile').value = '';
             this.retrieveData();
           }}
         >
@@ -454,22 +545,26 @@ export default class Addbook extends Component {
                 flexDirection: 'column',
               }}
             >
-              Please print the generated barcode below and paste it on the book.
-
+              Please download and print the generated barcode below and paste it
+              on the book.
+              <div id="barcodeField">
                 <Barcode
+                  id="barcode"
                   style={{ width: '100%', backgroundColor: 'red' }}
                   value={String(this.state.addedBookID)}
                 />
-
+              </div>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button disabled color="primary">
-              Print
+            <Button color="primary" onClick={this.downloadBarcode}>
+              Download
             </Button>
+
             <Button
               onClick={() => {
                 this.setState(Object.assign({}, defaultState));
+                document.getElementById('uploadField').value = '';
                 this.retrieveData();
               }}
               color="primary"
@@ -496,6 +591,7 @@ export default class Addbook extends Component {
                 <Grid item sm={4} xs={12}>
                   <Grid item xs={12}>
                     <TextField
+                      required
                       label="ISBN"
                       variant="outlined"
                       name="isbn"
@@ -533,36 +629,6 @@ export default class Addbook extends Component {
                       onChange={this.onChange}
                       className={'gridWidth gridmargin'}
                     />
-                    {/* <FormControl
-                      className={'gridSecWidth gridmargin'}
-                      variant="outlined"
-                    >
-                      <InputLabel htmlFor="bookauthor">Author</InputLabel>
-                      <Select
-                        native
-                        required
-                        value={this.state.author}
-                        onChange={this.onChange}
-                        inputProps={{
-                          name: 'author',
-                          id: 'bookauthor',
-                        }}
-                      >
-                        <option aria-label="None" value="" />
-                        {this.retrieveOptions('author')}
-                      </Select>
-                    </FormControl>
-                    <div
-                      style={{ marginLeft: '15px' }}
-                      className={'gridmargin'}
-                    >
-                      <Link
-                        onClick={() => this.openSecDialog('author')}
-                        style={{ color: 'red' }}
-                      >
-                        Add
-                      </Link>
-                    </div> */}
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -572,6 +638,9 @@ export default class Addbook extends Component {
                       variant="outlined"
                       InputLabelProps={{
                         shrink: true,
+                      }}
+                      InputProps={{
+                        inputProps: { max: todayDate },
                       }}
                       name="datepublished"
                       value={this.state.datepublished}
@@ -594,6 +663,7 @@ export default class Addbook extends Component {
                 <Grid item sm={4} xs={12}>
                   <Grid item xs={12}>
                     <FormControl
+                      required
                       className={'gridWidth gridmargin'}
                       variant="outlined"
                     >
@@ -617,20 +687,11 @@ export default class Addbook extends Component {
                   <Grid item xs={12}>
                     <h3>Select and upload Ebook</h3>
                     <input
+                      required
                       disabled={this.state.ebookdisabled}
                       type="file"
                       onChange={(e) => this.selectEbook(e)}
                     />
-                    {/* <TextField
-                      disabled
-                      label="E-book"
-                      variant="outlined"
-                      name="ebook"
-                      value={this.state.ebook}
-                      onChange={this.onChange}
-                      value="Not available currently"
-                      className={'gridWidth gridmargin'}
-                    /> */}
                   </Grid>
                   <Grid
                     item
@@ -672,19 +733,6 @@ export default class Addbook extends Component {
                         Add
                       </Link>
                     </div>
-                    {/* <TextField
-                      label="Category"
-                      variant="outlined"
-                      name="category"
-                      value={this.state.category}
-                      onChange={this.onChange}
-                      className={'gridWidth gridmargin'}
-                      select
-                    >
-                      <MenuItem value={1}>Textbook</MenuItem>
-                      <MenuItem value={2}>Magazine</MenuItem>
-                      <MenuItem value={3}>Comic</MenuItem>
-                    </TextField> */}
                   </Grid>
                   <Grid
                     item
@@ -757,7 +805,11 @@ export default class Addbook extends Component {
                       }}
                       src={this.state.bookimg}
                     />
-                    <input type="file" onChange={(e) => this.selectImage(e)} />
+                    <input
+                      id="uploadField"
+                      type="file"
+                      onChange={(e) => this.selectImage(e)}
+                    />
                     <TextField
                       required
                       multiline
@@ -785,10 +837,10 @@ export default class Addbook extends Component {
                   style={{ width: '350px', marginTop: '50px' }}
                   variant="outlined"
                   type="submit"
-                  // onClick={(e) => this.onSubmit(e)}
                 >
                   Add Book
                 </Button>
+                <img id="testimage"></img>
               </Grid>
             </form>
           </Grid>

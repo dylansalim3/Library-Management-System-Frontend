@@ -24,6 +24,7 @@ export const SIDEBAR_ROUTE_ADMIN = [
     {name: 'Account Registration', route: 'registration', icon: <PersonAdd/>},
     {name: 'Profile', route: 'profile', icon: <Person/>},
     {name: 'Role Assignment', route: 'role_assignment', icon: <GroupAdd/>},
+    {name: 'Setting', route:'setting'}
 ];
 
 export const SIDEBAR_ROUTE_STUDENT = [

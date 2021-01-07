@@ -13,6 +13,8 @@ import axios from 'axios';
 import BookSearchResult from './BookSearchResult';
 import BookRecommendation from "../../../components/BookRecommendation";
 import NewArrivalBook from "../../../components/NewArrivalBook";
+import LatestBookResult from './LatestBookResult';
+const _ = require('underscore');
 
 
 class SearchBook extends Component {
@@ -73,9 +75,15 @@ class SearchBook extends Component {
             searchCriteriaType: this.state.searchCriteriaType,
             genre: this.state.genre,
         }).then(results => {
+            console.log(results.data);
+            const Array = results.data;
+            const Property = "isbn";
+            const booksByISBN = _.groupBy(Array, Property);
+            console.log(booksByISBN);
             this.setState({
                 showBookSearchResult: true,
-                bookSearchResult: results.data
+                // bookSearchResult: results.data,
+                bookSearchResult: booksByISBN
             });
         })
     }
@@ -190,7 +198,9 @@ class SearchBook extends Component {
                     <NewArrivalBook/>
                     <BookRecommendation/>
                 </div>
+
             </div>
+          </div>
         );
     }
 }
