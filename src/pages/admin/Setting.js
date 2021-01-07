@@ -5,30 +5,37 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import CheckIcon from '@material-ui/icons/Check';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-} from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 import '../../style/Style.css';
 import { topgreen } from '../../style/Color';
+
+const CustomSwitch = withStyles({
+  switchBase: {
+    color: topgreen,
+    '&$checked': {
+      color: topgreen,
+    },
+    '&$checked + $track': {
+      backgroundColor: topgreen,
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 
 const DarkerDisabledTextField = withStyles({
   root: {
     '& .MuiInputBase-root.Mui-disabled': {
       color: 'rgba(0, 0, 0, 0.6)', // (default alpha is 0.38)
     },
+    '&.MuiSwitch-colorSecondary-249.Mui-checked + .MuiSwitch-track-255':{
+      backgroundColor: 'green'
+    }
   },
 })(TextField);
 
-const theme = createMuiTheme({
-  toggle: {
-    thumbOnColor: 'yellow',
-    trackOnColor: 'red',
-  },
-});
 
 export default class Setting extends Component {
   constructor() {
@@ -44,6 +51,7 @@ export default class Setting extends Component {
       bookReservation: false,
       snackMessage: '',
     };
+
   }
 
   componentDidMount(){
@@ -108,9 +116,11 @@ export default class Setting extends Component {
 
   }
 
+  
+
   render() {
+
     return (
-      <MuiThemeProvider theme={theme}>
         <div>
           <AdminBoilerplate page="setting" />
           <div className="content">
@@ -185,22 +195,16 @@ export default class Setting extends Component {
                 }}
               >
                 <h3 style={{ color: '#212121' }}>Book reservation function</h3>
-                <ToggleButton
+                <CustomSwitch
                   disabled={!this.state.editing}
-                  value="check"
-                  selected={this.state.bookReservation}
+                  checked={this.state.bookReservation}
                   onChange={() => {
                     this.setState({
                       bookReservation: !this.state.bookReservation,
                     });
                   }}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                  }}
-                >
-                  <CheckIcon />
-                </ToggleButton>
+                  name="switch"
+                />
               </div>
               <div
                 style={{
@@ -258,7 +262,6 @@ export default class Setting extends Component {
             </Paper>
           </div>
         </div>
-      </MuiThemeProvider>
     );
   }
 }

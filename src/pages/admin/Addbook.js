@@ -181,7 +181,6 @@ export default class Addbook extends Component {
   };
 
   uploadEbook = async (ebookFormObj) => {
-    console.log("raan upload ebook");
     if (this.state.ebook) {
       await axios
         .post('/file-ebook', ebookFormObj)
@@ -489,6 +488,7 @@ export default class Addbook extends Component {
           open={this.state.dialogopen}
           onClose={() => {
             this.setState(Object.assign({}, defaultState));
+            document.getElementById('uploadCaptureInputFile').value = '';
             this.retrieveData();
           }}
         >
@@ -523,6 +523,7 @@ export default class Addbook extends Component {
             <Button
               onClick={() => {
                 this.setState(Object.assign({}, defaultState));
+                document.getElementById('uploadField').value = '';
                 this.retrieveData();
               }}
               color="primary"
@@ -762,7 +763,7 @@ export default class Addbook extends Component {
                       }}
                       src={this.state.bookimg}
                     />
-                    <input type="file" onChange={(e) => this.selectImage(e)} />
+                    <input id="uploadField" type="file" onChange={(e) => this.selectImage(e)} />
                     <TextField
                       required
                       multiline
