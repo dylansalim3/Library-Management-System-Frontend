@@ -48,16 +48,9 @@ const StudentDashboardContent = () => {
         <div>
             <h1>Overview</h1>
             <DashboardCards overviewItems={overviewItems}/>
-// <<<<<<< dylan-bug-fix
-//             <div style={{paddingTop:'20px'}}>
-//                 <NewArrivalBook/>
-//             </div>
-//             <BookRecommendation/>
-// =======
-            {newArrivalBooks.length > 0 ? (
-                <LatestBookResult title="New Arrival" result={newArrivalBooks}/>
-            ) : ""
-            }
+            <div style={{paddingTop: '20px'}}>
+                <NewArrivalBook/>
+            </div>
             <BookRecommendation/>
         </div>
     );

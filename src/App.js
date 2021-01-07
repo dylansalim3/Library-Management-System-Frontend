@@ -27,6 +27,10 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ExtendBorrowPage from "./pages/student/ExtendBorrow/ExtendBorrowPage";
 import BookReservationPage from "./pages/admin/BookReservation/BookReservationPage";
 import PendingReservationPage from "./pages/student/PendingReservation/PendingReservationPage";
+import { topgreen } from './style/Color';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+
 import {
     ACCOUNT_REGISTRATION,
     ADD_BOOK,
@@ -50,11 +54,7 @@ import {
     SETTING
 } from "./constant/route.constant";
 
-
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL;
-
-import { topgreen } from './style/Color';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 
 const theme = createMuiTheme({
