@@ -1,15 +1,13 @@
 import React, {useState} from 'react';
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import {useForm} from "react-hook-form";
-import {Box, Button, Container, makeStyles, Paper} from "@material-ui/core";
+import {Box, Button, makeStyles, Paper} from "@material-ui/core";
 import * as axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 import {topgreen} from "../style/Color";
-import deepOrange from "@material-ui/core/colors/deepOrange";
-import deepPurple from "@material-ui/core/colors/deepPurple";
+import mainLogo from './../images/mainlogo.png';
 
 const theme = createMuiTheme({
     palette: {
@@ -26,8 +24,8 @@ const ForgetPasswordPage = () => {
     const [openSuccessSnackbar, setOpenSuccessSnackbar] = React.useState(false);
 
     const useStyles = makeStyles((theme) => ({
-        outerContainer:{
-            background: topgreen
+        outerContainer: {
+            background: "#edeef2"
         },
         mainContainer: {
             marginLeft: 'auto',
@@ -35,8 +33,9 @@ const ForgetPasswordPage = () => {
             width: '50vw',
             height: '100vh',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent:'center'
+            justifyContent: 'flex-start'
         },
     }));
 
@@ -62,6 +61,10 @@ const ForgetPasswordPage = () => {
             <Box width="100%" className={classes.outerContainer}>
 
                 <div className={classes.mainContainer}>
+                    <div style={{margin: "20px"}}>
+
+                        <img src={mainLogo} alt="logo"/>
+                    </div>
 
 
                     <Box display="flex" component={Paper}
@@ -75,8 +78,9 @@ const ForgetPasswordPage = () => {
                          }}
                     >
 
-                        <h1>Reset Password</h1>
-                        <p style={{width: '300px'}}>Please enter your email address for your account. A verification code will be sent to you.
+                        <h1>Password Reset</h1>
+                        <p style={{width: '300px'}}>
+                            Please enter your email address for your account. A verification code will be sent to you.
                             Once you have received the verification code. You will be able to choose a new password for
                             your account.
                         </p>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Badge from "@material-ui/core/Badge/Badge";
-import {Notifications, PhotoCamera} from "@material-ui/icons";
+import {ExitToApp, Notifications, PhotoCamera} from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Popover from "@material-ui/core/Popover/Popover";
 import Box from "@material-ui/core/Box/Box";
@@ -304,7 +304,7 @@ const SidebarItem = (props) => {
                 <Divider variant="fullWidth" light/>
                 <Box display="flex" justifyContent="center" flexDirection="column" mx={6} my={3}>
                     <Box component="div" display="flex" justifyContent="center">
-                        <Button variant="contained" color="secondary"
+                        <Button startIcon={<ExitToApp/>} variant="contained" color="secondary"
                                 onClick={logout}>Logout</Button>
                     </Box>
                 </Box>
