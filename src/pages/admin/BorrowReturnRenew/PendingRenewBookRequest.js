@@ -56,7 +56,7 @@ const CompletedRenewBookRequest = () => {
     )
 };
 
-const RenewBookRequest = () => {
+const PendingRenewBookRequest = () => {
     const [bookRequests, setBookRequests] = React.useState([]);
     const [showAlertModal, setShowAlertModal] = React.useState(false);
     const [requestType, setRequestType] = React.useState(RequestType.ACCEPT);
@@ -168,7 +168,7 @@ const RenewBookRequest = () => {
                 })
             }
         } catch (err) {
-            enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+            enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         }
         resetAlertModal();
         retrieveData();
@@ -180,7 +180,7 @@ const RenewBookRequest = () => {
             disablePadding: false,
             label: 'Accept',
             text: 'Accept',
-            color: 'success',
+            color: 'primary',
             disable: {id: 'status', criteria: 'ne', value: 'PROCESSING'},
             action: acceptRenewRequest
         },
@@ -222,4 +222,4 @@ const RenewBookRequest = () => {
     );
 };
 
-export default RenewBookRequest;
+export default PendingRenewBookRequest;

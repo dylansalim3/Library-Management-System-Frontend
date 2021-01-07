@@ -1,9 +1,22 @@
 import React, {Component} from 'react';
-import {Dialog,Button, DialogContent,Grid, DialogTitle,TableContainer,Table,TableHead,TableRow,TableCell,TableBody} from '@material-ui/core';
+import {
+    Dialog,
+    Button,
+    DialogContent,
+    Grid,
+    DialogTitle,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody
+} from '@material-ui/core';
 import {formatDate} from "../../../util/DateUtils";
 import BookReservationModal from './BookReservationModal';
 
 class BookDetailModal extends Component {
+
   constructor(props) {
     super(props);
 

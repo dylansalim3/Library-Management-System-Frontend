@@ -5,10 +5,17 @@ import StudentBoilerplate from "../StudentBoilerplate";
 import EnhancedTable from "../../../components/EnhancedTable";
 import {useSnackbar} from "notistack";
 import {BORROW_BOOK_ROUTE} from "../../../constant/route.constant";
+import CustomModal from "../../../components/CustomModal";
+import {Grid, TextField} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import {useForm} from "react-hook-form";
 
 const ExtendBorrowPage = () => {
     const [borrowBooks, setBorrowBooks] = React.useState([]);
     const [userId, setUserId] = React.useState(-1);
+    const [openExtendBorrowReasonDialog, setOpenExtendBorrowReasonDialog] = React.useState(false);
+    const [extendBorrowBookIdList, setExtendBorrowBookIdList] = React.useState([]);
+    const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
     const {enqueueSnackbar} = useSnackbar();
 
     React.useEffect(() => {
@@ -41,16 +48,25 @@ const ExtendBorrowPage = () => {
         {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
     ];
 
-    const submitSelection = (idList) => {
+    const onExtendBorrowBtnClick = (idList) => {
+        setExtendBorrowBookIdList(idList);
+        setOpenExtendBorrowReasonDialog(true);
+    };
+
+    const submitSelection = () => {
+        const reason = getValues("reason");
         axios.post('book-request/add-extend-book-request', {
             userId: userId,
-            borrowBookIdList: idList,
-            url: BORROW_BOOK_ROUTE+"/2"
+            borrowBookIdList: extendBorrowBookIdList,
+            url: BORROW_BOOK_ROUTE + "/2",
+            reason,
         }).then(result => {
             enqueueSnackbar('Extend Borrow Request Sent', {variant: 'success', transitionDuration: 1000});
             retrieveData(userId);
+            setOpenExtendBorrowReasonDialog(false);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+            setOpenExtendBorrowReasonDialog(false);
         });
     };
 
@@ -65,9 +81,39 @@ const ExtendBorrowPage = () => {
                     headCells={headCells}
                     rows={borrowBooks}
                     actionButtonText="Extend Borrow"
-                    onDeleteSelection={submitSelection}
+                    onDeleteSelection={onExtendBorrowBtnClick}
                     searchCriteria={searchCriteria}
                 />
+
+                <CustomModal showAlertModal={openExtendBorrowReasonDialog}
+                             title={"What is your reason to extend the book?"}
+                             desc={
+                                 <form id="extendBorrowReasonForm" onSubmit={handleSubmit(submitSelection)} noValidate
+                                       autoComplete="off">
+                                     <Grid container direction="row" justify="center">
+                                         <Grid item xs={12} md={8}>
+                                             <TextField
+                                                 label="Extend Book Reason"
+                                                 name="reason"
+                                                 type="text"
+                                                 inputRef={register({required: true})}
+                                                 error={errors?.reason}
+                                                 helperText={errors?.reason && "Invalid value"}
+                                                 fullWidth
+                                                 required
+                                                 variant="outlined"
+                                             />
+                                         </Grid>
+                                     </Grid>
+                                 </form>
+                             }
+                             customActions={[
+                                 <Button onClick={() => setOpenExtendBorrowReasonDialog(false)} color="warning">
+                                     Close
+                                 </Button>,
+                                 <Button form="extendBorrowReasonForm" type="submit" color="primary">
+                                     Submit
+                                 </Button>]}/>
             </div>
         </div>
     );

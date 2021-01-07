@@ -10,8 +10,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
+import drawerLogo from './../images/dashboardlogo.png';
 
 import {Link, withRouter} from 'react-router-dom';
 import {drawergreen, topgreen} from '../style/Color';
@@ -28,8 +28,10 @@ import NotificationSnackbar from "./NotificationSnackbar";
 import SidebarItem from "./SidebarItem";
 import Button from "@material-ui/core/Button/Button";
 import Box from "@material-ui/core/Box/Box";
+import {ListItemIcon} from "@material-ui/core";
+import {ExitToApp} from "@material-ui/icons";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -147,12 +149,15 @@ function Sidebar(props) {
                             },
                         }}
                     >
+                        <ListItemIcon style={{color: 'white'}}>
+                            {data.icon}
+                        </ListItemIcon>
                         <ListItemText primary={data.name}/>
                     </ListItem>
                 ))}
                 <div style={{position: 'fixed', bottom: 10, width: drawerWidth}}>
                     <Box component="div" display="flex" justifyContent="center">
-                        <Button variant="contained" color="secondary"
+                        <Button startIcon={<ExitToApp/>} variant="contained" color="secondary"
                                 onClick={logout}>Logout</Button>
                     </Box>
                 </div>
@@ -171,7 +176,8 @@ function Sidebar(props) {
                     display: 'flex',
                 }}
             >
-                <h2 style={{color: 'white'}}>E-library</h2>
+                <img src={drawerLogo} alt="logo" width="200"/>
+                {/*<h2 style={{color: 'white'}}>E-library</h2>*/}
             </div>
             <Divider/>
 
@@ -212,13 +218,15 @@ function Sidebar(props) {
                                     width: '100%',
                                     paddingRight: '30px',
                                     display: 'flex',
-                                    justifyContent: 'center',
+                                    justifyContent: 'flex-start',
                                 }}
                             >
-                                <Typography variant="h6" noWrap>
-                                    E-library
-                                </Typography>
+                                {/*<Typography variant="h6" noWrap>*/}
+                                {/*    E-library*/}
+                                {/*</Typography>*/}
                             </div>
+                            <SidebarItem/>
+
                         </Hidden>
                     </Toolbar>
                 </AppBar>

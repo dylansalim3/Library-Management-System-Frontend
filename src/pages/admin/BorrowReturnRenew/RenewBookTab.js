@@ -6,7 +6,7 @@ import EnhancedTable from "../../../components/EnhancedTable";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {useSnackbar} from "notistack";
-import RenewBookRequest from "./RenewBookRequest";
+import PendingRenewBookRequest from "./PendingRenewBookRequest";
 import CustomModal from "../../../components/CustomModal";
 
 const RenewBookTab = () => {
@@ -90,7 +90,7 @@ const RenewBookTab = () => {
         <div>
             <form onSubmit={handleSubmit(fetchBorrowBookDetails)} autoComplete="off">
                 <Grid container direction="row" justify="center" spacing={3}>
-                    <Grid item xs={5} md={3}>
+                    <Grid item xs={12} md={5}>
                         <TextField
                             autoFocus
                             label="Book ID"
@@ -105,7 +105,7 @@ const RenewBookTab = () => {
                         />
                     </Grid>
 
-                    <Grid item xs={5} md={3}>
+                    <Grid item xs={12} md={5}>
                         <TextField
                             label="User ID"
                             name="userId"
@@ -145,7 +145,7 @@ const RenewBookTab = () => {
                 </MuiPickersUtilsProvider>
             </form>
 
-            <RenewBookRequest/>
+            <PendingRenewBookRequest/>
         </div>
     );
 };

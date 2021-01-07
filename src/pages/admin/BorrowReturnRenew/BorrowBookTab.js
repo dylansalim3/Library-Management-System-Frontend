@@ -129,7 +129,7 @@ class BorrowBookTab extends Component {
 
                         <div>
                             <Grid container direction="row" justify="center">
-                                <Grid item md={8} lg={5}>
+                                <Grid item xs={8} md={8} lg={5}>
                                     <ValidationField
                                         autoFocus
                                         label="Book ID"
@@ -146,7 +146,7 @@ class BorrowBookTab extends Component {
                                 </Grid>
                             </Grid>
                             <Grid container direction="row" justify="center">
-                                <Grid item md={8} lg={5} style={{marginTop: 15}}>
+                                <Grid item xs={8} md={8} lg={5} style={{marginTop: 15}}>
                                     <TextField
                                         label="Student Libary ID"
                                         name="userId"
@@ -161,7 +161,7 @@ class BorrowBookTab extends Component {
                             </Grid>
                             <Grid container direction="row" justify="center">
 
-                                <Grid item md={8} lg={5}>
+                                <Grid item xs={8} md={8} lg={5}>
                                     <KeyboardDatePicker
                                         maxDate={this.state.endDate ? new Date(new Date(this.state.endDate).getTime() - 1000 * 60 * 60 * 24) : null}
                                         disablePast
@@ -182,7 +182,7 @@ class BorrowBookTab extends Component {
                                 </Grid>
                             </Grid>
                             <Grid container direction="row" justify="center">
-                                <Grid item md={8} lg={5}>
+                                <Grid item xs={8} md={8} lg={5}>
                                     <KeyboardDatePicker
                                         minDate={new Date(new Date(this.state.startDate).getTime() + 1000 * 60 * 60 * 24)}
                                         disablePast

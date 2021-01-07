@@ -2,6 +2,20 @@ import React, {Component} from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Grid} from '@material-ui/core';
 import BookDetailModal from "./BookDetailModal";
 import BookReservationModal from "./BookReservationModal";
+import {BASE_URL} from "../../../constant/route.constant";
+import Typography from "@material-ui/core/Typography";
+import {withStyles} from "@material-ui/core/styles";
+
+const StyledCardContent = withStyles({
+    MuiCardContent: {
+        root: {
+            padding: 0,
+            "&:last-child": {
+                paddingBottom: 0,
+            },
+        },
+    },
+})(CardContent);
 
 class BookSearchResult extends Component {
   constructor(props) {
@@ -86,50 +100,30 @@ class BookSearchResult extends Component {
     let imageLink = bookDetail.bookimg;
     console.log(typeof allbook);
 
+
     return (
-      <Card style={{ padding: 10, margin: 10 }}>
-        <CardContent className="flexGrow">
-          <CardActionArea
-            onClick={() => this.onBookSelected(bookDetail, allbook)}
-          >
-            <Grid
-              container
-              spacing={0}
-              direction="column"
-              alignItems="center"
-              justify="center"
-            >
-              <CardMedia
-                className="center"
-                src={imageLink}
-                height={140}
-                alt="book img"
-                title={title}
-                onError={(this.src = '/mainlogo.png')}
-              >
-                <img
-                  style={{
-                    height: 200,
-                    width: 200,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                  }}
-                  src={imageLink}
-                  alt="a"
-                  onError={
-                    (imageLink =
-                      'https://static.observableusercontent.com/thumbnail/6c9fd0747972d30c17c9f46f63840f1ff998330a22f170b3727bbd023d5d0f6c.jpg')
-                  }
-                />
-              </CardMedia>
-            </Grid>
-            <h3 className="textCenter">{title}</h3>
-            <p className="textCenter">
-              {desc.length > 100 ? desc.slice(0, 100) + '...' : desc}
-            </p>
-          </CardActionArea>
-        </CardContent>
-      </Card>
+             <Card style={{margin: 10}}>
+                <CardContent style={{padding: 0}}>
+                    <CardActionArea onClick={() => this.onBookSelected(bookDetail, allbook)}>
+                        <CardMedia
+                            component="img"
+                            src={BASE_URL + imageLink}
+                            height={200}
+                            alt="book img"
+                            title={title}
+                            onError={this.src = "/mainlogo.png"}/>
+
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="h3">
+                                    {title}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {desc.length > 100 ? desc.slice(0, 100) + '...' : desc}
+                                </Typography>
+                            </CardContent>
+                    </CardActionArea>
+                </CardContent>
+            </Card>
     );
   };
 
@@ -146,6 +140,7 @@ class BookSearchResult extends Component {
       },
     });
   };
+
 
   onChangeShowBookReservationModal = (show) => {
     console.log('here');

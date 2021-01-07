@@ -11,6 +11,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import BookSearchResult from './BookSearchResult';
+import BookRecommendation from "../../../components/BookRecommendation";
+import NewArrivalBook from "../../../components/NewArrivalBook";
 import LatestBookResult from './LatestBookResult';
 const _ = require('underscore');
 
@@ -156,61 +158,47 @@ class SearchBook extends Component {
 
     render() {
         return (
-          <div>
-            <StudentBoilerplate page={'searchbook'} />
-            <div className="content">
-              <h2>Library Catalog</h2>
-              <Card style={{ padding: 10 }}>
-                <CardContent className="flexGrow">
-                  <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-                    <Grid container spacing={1}>
-                      <Grid item xs={8}>
-                        {this.displaySearchCriteria()}
-                      </Grid>
-                      <Grid item xs={4}>
-                        {this.displaySearchCriteriaType()}
-                      </Grid>
-                    </Grid>
-                    {this.displayGenre()}
-                    <Box component="div" mt={2}>
-                      <Box component="div" display="inline">
-                        <Button
-                          variant="contained"
-                          type="submit"
-                          color="primary"
-                        >
-                          Search
-                        </Button>
-                      </Box>
-                      <Box component="div" display="inline" ml={1}>
-                        <Button
-                          variant="contained"
-                          onClick={this.resetForm}
-                          color="secondary"
-                        >
-                          Reset
-                        </Button>
-                      </Box>
-                    </Box>
-                  </form>
-                </CardContent>
-              </Card>
-              {this.state.showBookSearchResult ? (
-                <BookSearchResult
-                  title="Search Result"
-                  result={this.state.bookSearchResult}
-                />
-              ) : (
-                ''
-              )}
-              {this.state.latestBooks ? (
-                <LatestBookResult
-                  title="New Arrival"
-                  result={this.state.latestBooks}
-                />
-              ) : (
-                ''
-              )}
+            <div>
+                <StudentBoilerplate page={'searchbook'}/>
+                <div className='content'>
+                    <h2>Library Catalog</h2>
+                    <Card style={{padding: 10}}>
+                        <CardContent className="flexGrow">
+                            <form onSubmit={this.onSubmit} noValidate autoComplete="off">
+                                <Grid container spacing={1}>
+                                    <Grid item xs={8}>
+                                        {this.displaySearchCriteria()}
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        {this.displaySearchCriteriaType()}
+                                    </Grid>
+                                </Grid>
+                                {this.displayGenre()}
+                                <Box component="div" mt={2}>
+                                    <Box component="div" display="inline">
+                                        <Button
+                                            variant="contained"
+                                            type="submit"
+                                            color="primary">
+                                            Search
+                                        </Button>
+                                    </Box>
+                                    <Box component="div" display="inline" ml={1}>
+                                        <Button variant="contained" onClick={this.resetForm}
+                                                color="secondary">Reset</Button>
+                                    </Box>
+                                </Box>
+                            </form>
+                        </CardContent>
+                    </Card>
+                    {this.state.showBookSearchResult ? (
+                        <BookSearchResult title="Search Result" result={this.state.bookSearchResult}/>
+                    ) : ""
+                    }
+                    <NewArrivalBook/>
+                    <BookRecommendation/>
+                </div>
+
             </div>
           </div>
         );

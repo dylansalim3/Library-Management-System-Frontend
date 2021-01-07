@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Badge from "@material-ui/core/Badge/Badge";
-import {Mail, Notifications, PhotoCamera} from "@material-ui/icons";
+import {ExitToApp, Notifications, PhotoCamera} from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Popover from "@material-ui/core/Popover/Popover";
 import Box from "@material-ui/core/Box/Box";
@@ -25,6 +25,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
 import withRouter from "react-router-dom/es/withRouter";
+import {useSnackbar} from "notistack";
+import {PROFILE} from './../constant/route.constant';
 
 
 const SidebarItem = (props) => {
@@ -57,16 +59,19 @@ const SidebarItem = (props) => {
     }));
 
     const classes = useStyles();
+    const [userId, setUserId] = React.useState(-1);
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [unreadNotificationCount, setUnreadNotificationCount] = React.useState(0);
     const [notifications, setNotifications] = React.useState([]);
+    const {enqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
         if (localStorage.usertoken) {
             const token = localStorage.usertoken;
             const decoded = jwt_decode(token);
             const userId = decoded.id;
+            setUserId(userId);
             setEmail(decoded.email);
             setFirstName(decoded.first_name);
             axios.post('/notification/get-unread-notification-count', {userId}).then(result => {
@@ -96,11 +101,19 @@ const SidebarItem = (props) => {
     };
 
     const goToManageProfile = () => {
-        console.log("go to manage profile");
+        window.location.href = PROFILE;
     };
 
     const openNotificationMenu = (event) => {
         setAnchorElNotification(event.target);
+        // Set all unread notifications count to zero
+        if (unreadNotificationCount > 0) {
+            const initialUnreadNotificationCount = unreadNotificationCount;
+            setUnreadNotificationCount(0);
+            axios.post('/notification/update-all-notifications-to-read', {userId}).catch(err => {
+                setUnreadNotificationCount(initialUnreadNotificationCount);
+            });
+        }
     };
 
     const closeNotificationMenu = () => {
@@ -125,8 +138,13 @@ const SidebarItem = (props) => {
     };
 
     const deleteNotificationItem = (id) => {
+        const selectedNotification = notifications.find(element => element.id === id);
         setNotifications(notifications.filter(element => element.id !== id));
-        setUnreadNotificationCount(unreadNotificationCount - 1);
+        axios.post('/notification/delete-notification', {id}).catch(err => {
+            setNotifications([...notifications, selectedNotification]);
+            enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+        });
+        setUnreadNotificationCount(selectedNotification.unread === true ? unreadNotificationCount - 1 : unreadNotificationCount);
     };
 
 
@@ -176,11 +194,6 @@ const SidebarItem = (props) => {
 
             }}
         >
-            {/*<IconButton aria-label="show 4 new mails" color="inherit">*/}
-                {/*<Badge badgeContent={4} color="secondary">*/}
-                    {/*<Mail/>*/}
-                {/*</Badge>*/}
-            {/*</IconButton>*/}
             <IconButton aria-label="notifications" color="inherit"
                         onClick={openNotificationMenu}>
                 <Badge badgeContent={unreadNotificationCount} color="secondary">
@@ -263,10 +276,16 @@ const SidebarItem = (props) => {
                             </IconButton>
                             }
                         >
+
                             <Avatar
                                 className={[classes.purpleAvatar, classes.largeAvatar]}>
                                 {`${firstName ? firstName.charAt(0) : 'U'}`}
                             </Avatar>
+                            {/*<Avatar*/}
+                            {/*    alt="profileimg"*/}
+                            {/*    src={state.profileimg}*/}
+                            {/*    className={[classes.purpleAvatar, classes.largeAvatar]*/}
+                            {/*/>*/}
                         </Badge>
                     </Box>
                     <Box component="div" display="flex" flexDirection="column">
@@ -277,14 +296,15 @@ const SidebarItem = (props) => {
                     </Box>
                     <Box display="flex" justifyContent="center" pt={1}>
                         <Chip size="medium" style={{fontWeight: 'bold'}} label="Manage Profile"
-                              variant="outlined" onClick={goToManageProfile}/>
+                              onClick={goToManageProfile}
+                              variant="outlined"/>
                     </Box>
                 </Box>
 
                 <Divider variant="fullWidth" light/>
                 <Box display="flex" justifyContent="center" flexDirection="column" mx={6} my={3}>
                     <Box component="div" display="flex" justifyContent="center">
-                        <Button variant="contained" color="secondary"
+                        <Button startIcon={<ExitToApp/>} variant="contained" color="secondary"
                                 onClick={logout}>Logout</Button>
                     </Box>
                 </Box>

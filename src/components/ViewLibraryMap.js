@@ -32,13 +32,13 @@ const ViewLibraryMap = () => {
         }).catch(err => {
             console.log(err.toString());
         })
-    }
+    };
 
     let imageModal = useRef(null);
 
     const openImageModal = (index) => {
         imageModal.current.open(index);
-    }
+    };
 
     return !loading ? (
         <Box width="100%">

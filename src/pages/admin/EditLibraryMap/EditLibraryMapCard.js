@@ -1,5 +1,5 @@
-import React, {useRef, useState, lazy, Suspense} from 'react';
-import {CardActionArea, Grid} from "@material-ui/core";
+import React, {lazy, Suspense, useRef, useState} from 'react';
+import {CardActionArea, Grid, TextField} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import * as axios from "axios";
 import Card from "@material-ui/core/Card";
@@ -7,15 +7,12 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import {Clear, Publish} from "@material-ui/icons";
+import {Clear, Edit, Publish} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
 import PropTypes from 'prop-types';
+import CustomModal from "../../../components/CustomModal";
+import {useForm} from "react-hook-form";
 
 const ImageModal = lazy(() => import("../../../components/imageViewer/ImageModal"));
 
@@ -23,18 +20,25 @@ const ImageModal = lazy(() => import("../../../components/imageViewer/ImageModal
 const EditLibraryMapCard = props => {
     const {libraryMaps} = props;
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
     const [selectedLibraryMap, setSelectedLibraryMap] = useState({});
-    // const [imageModalVisible, setImageModalVisible] = useState(false);
+    const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
+
     let imageModal = useRef(null);
 
     const openImageModal = (index) => {
         imageModal.current.open(index);
-    }
+    };
 
     const onDeleteLibraryMap = (libraryMap) => {
         setSelectedLibraryMap(libraryMap);
         setOpenConfirmationDialog(true);
-    }
+    };
+
+    const onEditLibraryMap = (libraryMap) => {
+        setSelectedLibraryMap(libraryMap);
+        setOpenEditDialog(true);
+    };
 
     const confirmRemoveMap = () => {
         setOpenConfirmationDialog(false);
@@ -44,12 +48,25 @@ const EditLibraryMapCard = props => {
         }).catch(err => {
             props.onShowErrorSnackbar(true);
         });
-    }
+    };
+
+    const confirmEditMap = () => {
+        setOpenConfirmationDialog(false);
+        const data = getValues();
+        axios.post('library-maps/update-library-map-detail', data).then(result => {
+            props.onShowSuccessSnackbar(true);
+            props.onUpdateLibraryMap();
+            onCloseDialog();
+        }).catch(err => {
+            props.onShowErrorSnackbar(true);
+        });
+    };
 
     const onCloseDialog = () => {
         setSelectedLibraryMap({});
         setOpenConfirmationDialog(false);
-    }
+        setOpenEditDialog(false);
+    };
 
     const onChangeFile = (e, libraryMap) => {
         if (e.target.files) {
@@ -72,7 +89,8 @@ const EditLibraryMapCard = props => {
                 props.onShowErrorSnackbar(true);
             });
         }
-    }
+    };
+
 
     const displayLibraryCard = (libraryMap, index, lastFloor) => {
         return (
@@ -80,12 +98,21 @@ const EditLibraryMapCard = props => {
                 <h2>{lastFloor !== libraryMap.floor_name ? `Floor ${libraryMap.floor_name}` : ''}</h2>
                 <Card>
                     <CardHeader title={libraryMap.name} action={
-                        <Tooltip title="Delete" aria-label="delete">
-                            <IconButton aria-label="deleteForever"
-                                        onClick={() => onDeleteLibraryMap(libraryMap)}>
-                                <Clear/>
-                            </IconButton>
-                        </Tooltip>
+                        <div>
+
+                            <Tooltip title="Edit" aria-label="Edit">
+                                <IconButton aria-label="editLibraryFloor"
+                                            onClick={() => onEditLibraryMap(libraryMap)}>
+                                    <Edit/>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete" aria-label="delete">
+                                <IconButton aria-label="deleteForever"
+                                            onClick={() => onDeleteLibraryMap(libraryMap)}>
+                                    <Clear/>
+                                </IconButton>
+                            </Tooltip>
+                        </div>
                     }/>
                     <CardActionArea onClick={() => openImageModal(index)}>
                         <CardMedia style={{
@@ -118,7 +145,7 @@ const EditLibraryMapCard = props => {
             </Grid>
         );
         // })
-    }
+    };
 
     let lastFloorName = '-';
 
@@ -146,27 +173,64 @@ const EditLibraryMapCard = props => {
                     ref={imageModal}/>
             </Suspense>
 
-            <Dialog
-                open={openConfirmationDialog}
-                onClose={onCloseDialog}
-            >
-                <DialogTitle>
-                    Are you sure you want to delete the map?
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        This operation cannot be undone
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={onCloseDialog} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={confirmRemoveMap} color="secondary">
-                        Delete
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <CustomModal
+                showAlertModal={openConfirmationDialog}
+                onSuccessButtonPressed={confirmRemoveMap}
+                onCloseConfirmationModal={onCloseDialog}
+                title={"Are you sure you want to delete the map?"}
+                desc={"This operation cannot be undone"}
+                confirmationText={"Delete"}
+            />
+
+            <CustomModal showAlertModal={openEditDialog}
+                         title={"Edit Library Map"}
+                         desc={
+                             <form id="editLibraryMapForm" onSubmit={handleSubmit(confirmEditMap)} noValidate
+                                   autoComplete="off">
+                                 <TextField name="id"
+                                            value={selectedLibraryMap.id}
+                                            inputRef={register()}
+                                            style={{display: "none"}}/>
+                                 <Grid container direction="row" justify="center">
+                                     <Grid item xs={12} md={8}>
+                                         <TextField
+                                             label="Floor"
+                                             name="floorName"
+                                             type="number"
+                                             defaultValue={selectedLibraryMap?.floor_name}
+                                             inputRef={register({required: true})}
+                                             error={errors?.floorName}
+                                             helperText={errors?.floorName && "Invalid floor value"}
+                                             fullWidth
+                                             required
+                                             variant="outlined"
+                                         />
+                                     </Grid>
+                                 </Grid>
+                                 <Grid container direction="row" justify="center" style={{marginTop: 10}}>
+                                     <Grid item xs={12} md={8}>
+                                         <TextField
+                                             label="Map name"
+                                             name="name"
+                                             defaultValue={selectedLibraryMap?.name}
+                                             inputRef={register({required: true})}
+                                             error={errors?.name}
+                                             helperText={errors?.name && "Invalid name value"}
+                                             fullWidth
+                                             required
+                                             variant="outlined"
+                                         />
+                                     </Grid>
+                                 </Grid>
+                             </form>
+                         }
+                         customActions={[
+                             <Button onClick={onCloseDialog} color="warning">
+                                 Close
+                             </Button>,
+                             <Button form="editLibraryMapForm" type="submit" color="primary">
+                                 Submit
+                             </Button>]}/>
 
         </Box>
     );

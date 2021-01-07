@@ -49,9 +49,13 @@ import {
     VIEW_LIBRARY_MAP,
     SETTING
 } from "./constant/route.constant";
+
+
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL;
+
 import { topgreen } from './style/Color';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-axios.defaults.baseURL = 'http://localhost:5000';
+
 
 const theme = createMuiTheme({
   palette: {
