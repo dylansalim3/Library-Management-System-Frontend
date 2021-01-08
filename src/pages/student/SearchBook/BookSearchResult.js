@@ -76,7 +76,7 @@ class BookSearchResult extends Component {
           const allbook = searchResults[result];
           var jsonBook = [];
           allbook.forEach(book=>{
-            jsonBook.push({bookid:book.id,location:book.location});
+            jsonBook.push({bookid:book.id,location:book.location,status:book.status});
           });
           console.log(jsonBook);
             return (
@@ -161,6 +161,7 @@ class BookSearchResult extends Component {
           openModal={this.state.showBookDetailModal}
           book={this.state.selectedBookDetail}
           allBook={this.state.allBookDetail}
+          reserve={this.props.reserve}
           onChangeShowDetailModal={(e) => {
             this.onChangeShowDetailModal(e);
           }}

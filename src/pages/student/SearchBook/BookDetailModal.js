@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import {formatDate} from "../../../util/DateUtils";
 import BookReservationModal from './BookReservationModal';
+import { BASE_URL } from '../../../constant/route.constant';
 
 class BookDetailModal extends Component {
 
@@ -27,9 +28,6 @@ class BookDetailModal extends Component {
   }
   onCloseModal = () => {
     this.props.onChangeShowDetailModal(false);
-    // this.setState({
-    //   reservationModal:false
-    // })
   };
 
   onReserveBook = (bookId) => {
@@ -42,45 +40,80 @@ class BookDetailModal extends Component {
   };
 
   returnBook = () => {
-    var arr = [];
-    var allBook = this.props.allBook;
-    for (var i in allBook) {
-      arr.push(allBook[i]);
-    }
-    if (arr.length == 1) {
-      var location = null;
-      for (var i in arr) {
-        console.log(arr[i].location);
-        location = arr[i].location;
-      }
-      return (
-        <p
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span>Location</span>
-          <span>{location}</span>
-        </p>
-      );
-    } else {
-      return arr.map((book) => {
-        return (
-          <div>
-            <p>
-              {book.bookid}: {book.location}
+    if (this.props.reserve) {
+      if (this.props.allBook) {
+        var arr = [];
+        var allBook = this.props.allBook;
+        for (var i in allBook) {
+          arr.push(allBook[i]);
+        }
+        if (arr.length == 1) {
+          var location = null;
+          var singleId = null;
+          for (var i in arr) {
+            console.log(arr[i].location);
+            location = arr[i].location;
+            singleId = arr[i].bookid;
+          }
+          return (
+            <p
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>Location</span>
+              <span>{location}</span>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.onReserveBook(singleId)}
+              >
+                RESERVE
+              </Button>
             </p>
+          );
+        } else {
+          return arr.map((book) => {
+            // const bookStatus = book.status==='available'?false:true;
+            // console.log(book.status);
+            return (
+              <div>
+                <p>
+                  {book.bookid}: {book.location}
+                </p>
+                <Button
+                  // disabled={bookStatus}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.onReserveBook(book.bookid)}
+                >
+                  RESERVE
+                </Button>
+              </div>
+            );
+          });
+        }
+      } else {
+        return (
+          <p
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>Location</span>
+            <span>{this.props.book.location}</span>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => this.onReserveBook(book.bookid)}
+              onClick={() => this.onReserveBook(this.props.book.id)}
             >
               RESERVE
             </Button>
-          </div>
+          </p>
         );
-      });
+      }
     }
   };
 
@@ -135,7 +168,7 @@ class BookDetailModal extends Component {
                 <Grid item md={4} xs={12}>
                   <img
                     style={{ height: 128, width: 128 }}
-                    src={this.props.book.bookimg}
+                    src={BASE_URL + this.props.book.bookimg}
                     alt="book_img"
                   />
                 </Grid>
@@ -225,20 +258,8 @@ class BookDetailModal extends Component {
                     <span>Publisher</span>
                     <span>{publisher ? publisher : '-'}</span>
                   </p>
-
-                  {/* // <p
-                      //   style={{
-                      //     display: 'flex',
-                      //     justifyContent: 'space-between',
-                      //   }}
-                      // >
-                      //   <span>Location</span>
-                      //   <span>{location ? location : '-'}</span>
-                      // </p> */}
                   {this.returnBook()}
-                  {/* {this.props.allBook.forEach(book=>{
-                        return(<p>Location</p>)
-                      })} */}
+
                 </Grid>
               </Grid>
               {this.props.book.type === 'digital' ? (
@@ -303,8 +324,8 @@ class BookDetailModal extends Component {
           selectedbook={this.state.selectedbook}
           onChangeShowBookReservationModal={() => {
             this.setState({
-              reservationModal: false
-            })
+              reservationModal: false,
+            });
           }}
         />
       </div>

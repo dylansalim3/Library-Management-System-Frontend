@@ -113,6 +113,7 @@ class LatestBookResult extends Component {
                 <BookDetailModal
                     openModal={this.state.showBookDetailModal}
                     book={this.state.selectedBookDetail}
+                    reserve={this.props.reserve}
                     onChangeShowDetailModal={(e) => {
                         this.onChangeShowDetailModal(e);
                     }}
