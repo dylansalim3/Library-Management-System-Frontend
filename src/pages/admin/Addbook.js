@@ -661,7 +661,7 @@ export default class Addbook extends Component {
                   </Grid>
                 </Grid>
                 <Grid item sm={4} xs={12}>
-                  <Grid item xs={12}>
+                  <Grid style={{ marginBottom: '25px' }} item xs={12}>
                     <FormControl
                       required
                       className={'gridWidth gridmargin'}
@@ -684,7 +684,7 @@ export default class Addbook extends Component {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid style={{ marginBottom: '10px' }} item xs={12}>
                     <h3>Select and upload Ebook</h3>
                     <input
                       required

@@ -7,7 +7,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import CustomModal from "../../../components/CustomModal";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {TextField} from "@material-ui/core";
-
+import { BASE_URL } from '../../../constant/route.constant';
 
 const RequestType = {
     ACCEPT: 'accept',
@@ -17,6 +17,7 @@ const RequestType = {
 const CompletedBookReservation = () => {
     const [bookRequests, setBookRequests] = React.useState([]);
     const {enqueueSnackbar} = useSnackbar();
+
 
     React.useEffect(() => {
         retrieveData();
@@ -35,21 +36,26 @@ const CompletedBookReservation = () => {
 
     const retrieveData = () => {
         axios.post('book-request/find-all-completed-book-reservations').then(result => {
+            result.data.forEach(res=>{
+                const img = res.bookimg;
+                res.bookimg = BASE_URL + img;
+            })
             setBookRequests(result.data);
+            console.log(result.data);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });
     };
 
     return (
-        <div>
-            <h2>Completed Book Reservation</h2>
-            <EnhancedTable
-                headCells={headCells}
-                rows={bookRequests}
-                disableToolbar
-            />
-        </div>
+      <div>
+        <h2 style={{ marginTop: '20px',marginBottom: '20px' }}>Completed Book Reservation</h2>
+        <EnhancedTable
+          headCells={headCells}
+          rows={bookRequests}
+          disableToolbar
+        />
+      </div>
     );
 };
 
@@ -80,9 +86,12 @@ const BookReservationPage = () => {
     ];
 
     const retrieveData = () => {
+        console.log("retrieving data");
         axios.post('book-request/find-all-pending-book-reservations').then(result => {
+            console.log(result);
             setBookRequests(result.data);
         }).catch(err => {
+            console.log(err);
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });
     };
@@ -175,7 +184,7 @@ const BookReservationPage = () => {
                 await axios.post('book-request/reject-book-reservation-request', {
                     bookRequestId: selectedBookRequestId,
                     rejectReason
-                }).then(result => {
+                }).then(async result => {
                     enqueueSnackbar('The book reservation has been rejected', {
                         variant: 'success',
                         transitionDuration: 1000
@@ -184,10 +193,12 @@ const BookReservationPage = () => {
                 })
             }
         } catch (err) {
+            console.log(err);
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         }
         resetAlertModal();
         retrieveData();
+        window.location.reload(false);
     };
 
     const actionAreaHeadCells = [
@@ -212,30 +223,35 @@ const BookReservationPage = () => {
     ];
 
     return (
-        <div>
-            <AdminBoilerplate page={'reservebook'}/>
-            <div className="content">
-                <h2>Pending Book Reservation</h2>
-                <EnhancedTable
-                    headCells={headCells}
-                    rows={bookRequests}
-                    disableToolbar
-                    actionAreaHeadCells={actionAreaHeadCells}
-                />
+      <div>
+        <AdminBoilerplate page={'reservebook'} />
+        <div className="content">
+          <h2 style={{ marginBottom: '20px' }}>Pending Book Reservation</h2>
+          <EnhancedTable
+            headCells={headCells}
+            rows={bookRequests}
+            disableToolbar
+            actionAreaHeadCells={actionAreaHeadCells}
 
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <CustomModal
-                        showAlertModal={showAlertModal}
-                        title="Insert Expiry Date to Continue"
-                        desc={requestType === RequestType.ACCEPT ? InsertDateModalContent : InsertRejectReasonModalContent}
-                        onCloseConfirmationModal={resetAlertModal}
-                        onSuccessButtonPressed={onSuccessButtonPressed}
-                    />
-                </MuiPickersUtilsProvider>
+          />
 
-                <CompletedBookReservation/>
-            </div>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <CustomModal
+              showAlertModal={showAlertModal}
+              title="Insert Expiry Date to Continue"
+              desc={
+                requestType === RequestType.ACCEPT
+                  ? InsertDateModalContent
+                  : InsertRejectReasonModalContent
+              }
+              onCloseConfirmationModal={resetAlertModal}
+              onSuccessButtonPressed={onSuccessButtonPressed}
+            />
+          </MuiPickersUtilsProvider>
+
+          <CompletedBookReservation />
         </div>
+      </div>
     );
 };
 

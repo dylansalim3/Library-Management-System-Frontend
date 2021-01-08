@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Grid} from '@material-ui/core';
 import BookEditDeleteModal from "./BookEditDeleteModal";
+import { BASE_URL } from '../../../constant/route.constant';
 
 class AdminBookSearchResult extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class AdminBookSearchResult extends Component {
                     <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
                         <CardMedia
                             component="img" className="center"
-                            src={imageLink}
+                            src={BASE_URL+ imageLink}
                             height={140}
                             alt="book img"
                             title={title}/>
