@@ -66,7 +66,7 @@ export default class Setting extends Component {
       axios
         .get('/setting/retrieve')
         .then((res) => {
-          const returned = res.data.result[0];
+          const returned = res.data.result;
           console.log(returned);
           
           this.setState({
