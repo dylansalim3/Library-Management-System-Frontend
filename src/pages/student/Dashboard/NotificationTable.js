@@ -44,11 +44,15 @@ const NotificationTable = () => {
         },
     ];
     return (
-        <div>
-            <h1>Notifications</h1>
-            <EnhancedTable headCells={headCells} rows={notifications} actionAreaHeadCells={actionAreaHeadCells}
-                           disableToolbar/>
-        </div>
+      <div>
+        <h1 style={{ marginBottom: '20px' }}>Notifications</h1>
+        <EnhancedTable
+          headCells={headCells}
+          rows={notifications}
+          actionAreaHeadCells={actionAreaHeadCells}
+          disableToolbar
+        />
+      </div>
     );
 };
 

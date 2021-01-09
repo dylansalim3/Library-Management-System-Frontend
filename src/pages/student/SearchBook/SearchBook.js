@@ -231,10 +231,10 @@ class SearchBook extends Component {
             disabledReservation={this.state.disabledReservation}
             reserve={true}
           />
-          {/* <BookRecommendation
+          <BookRecommendation
             disabledReservation={this.state.disabledReservation}
             reserve={true}
-          /> */}
+          />
         </div>
       </div>
     );

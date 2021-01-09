@@ -47,7 +47,7 @@ class BookDetailModal extends Component {
   returnTable = (books) =>{
 
     return (
-      <TableContainer component={Paper}>
+      <TableContainer style={{ marginTop: '20px' }} component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -320,7 +320,7 @@ class BookDetailModal extends Component {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      marginBottom:'20px'
+
                     }}
                   >
                     <h4>Publisher</h4>

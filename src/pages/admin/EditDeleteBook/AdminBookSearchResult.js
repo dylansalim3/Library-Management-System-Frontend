@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Grid} from '@material-ui/core';
 import BookEditDeleteModal from "./BookEditDeleteModal";
 import { BASE_URL } from '../../../constant/route.constant';
+import Typography from '@material-ui/core/Typography';
 
 class AdminBookSearchResult extends Component {
     constructor(props) {
@@ -40,20 +41,31 @@ class AdminBookSearchResult extends Component {
         const desc = bookDetail.summary;
         const imageLink = bookDetail.bookimg;
         return (
-            <Card style={{padding: 10,margin:10}}>
-                <CardContent className="flexGrow">
-                    <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
-                        <CardMedia
-                            component="img" className="center"
-                            src={BASE_URL+ imageLink}
-                            height={140}
-                            alt="book img"
-                            title={title}/>
-                        <h3 className="textCenter">{title}</h3>
-                        <p className="textCenter">{desc.length>100?desc.slice(0,100)+'...':desc}</p>
-                    </CardActionArea>
+          <Card style={{ margin: 10 }}>
+            <CardContent style={{ padding: 0 }}>
+              <CardActionArea onClick={() => this.onBookSelected(bookDetail)}>
+                <CardMedia
+                  component="img"
+                  src={BASE_URL + imageLink}
+                  height={200}
+                  alt="book img"
+                  title={title}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h3">
+                    {title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {desc.length > 100 ? desc.slice(0, 100) + '...' : desc}
+                  </Typography>
                 </CardContent>
-            </Card>
+              </CardActionArea>
+            </CardContent>
+          </Card>
         );
     };
 

@@ -99,6 +99,7 @@ class BookSearchResult extends Component {
                     </CardActionArea>
                 </CardContent>
             </Card>
+            
     );
   };
 
