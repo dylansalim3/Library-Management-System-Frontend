@@ -23,6 +23,7 @@ import Button from "@material-ui/core/Button/Button";
 import TextField from "@material-ui/core/TextField/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import {Search} from "@material-ui/icons";
+import NoImagePlaceholder from "./../images/No-Image-Placeholder.png";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -67,7 +68,21 @@ const AutoDetectButton = React.forwardRef((props, ref) => {
 
 
 const EnhancedTableHead = (props) => {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells, disableCheckbox, disableActionButton, disableDefaultIndex, actionButtonText, actionAreaHeadCells} = props;
+    const {
+        classes,
+        onSelectAllClick,
+        order,
+        orderBy,
+        numSelected,
+        rowCount,
+        onRequestSort,
+        headCells,
+        disableCheckbox,
+        disableActionButton,
+        disableDefaultIndex,
+        actionButtonText,
+        actionAreaHeadCells
+    } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -169,7 +184,15 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const {numSelected, onDeleteSelection, actionButtonText, actionButtonIcon, enableSearch, searchText, onSearchTextChanged} = props;
+    const {
+        numSelected,
+        onDeleteSelection,
+        actionButtonText,
+        actionButtonIcon,
+        enableSearch,
+        searchText,
+        onSearchTextChanged
+    } = props;
 
     return (
         <Toolbar
@@ -247,7 +270,17 @@ const useStyles = makeStyles((theme) => ({
 
 const EnhancedTable = (props) => {
     const classes = useStyles();
-    const {headCells, rows, onDeleteSelection, disableToolbar, disableDefaultIndex, actionAreaHeadCells, actionButtonText, actionButtonIcon, searchCriteria} = props;
+    const {
+        headCells,
+        rows,
+        onDeleteSelection,
+        disableToolbar,
+        disableDefaultIndex,
+        actionAreaHeadCells,
+        actionButtonText,
+        actionButtonIcon,
+        searchCriteria
+    } = props;
     const [disableSelection, setDisableSelection] = React.useState(true);
     const [filteredRows, setFilteredRows] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
@@ -349,7 +382,9 @@ const EnhancedTable = (props) => {
         if (!row[headCell.id]) {
             return '-';
         } else if (headCell.type === 'img') {
-            return (<img src={row[headCell.id]} alt="img" style={{width: '120px', height: '120px'}}/>);
+            return (<img src={row[headCell.id]} alt="img" onError={(e)=>{e.target.onerror = null; e.target.src=NoImagePlaceholder}}
+
+                         style={{width: '120px', height: '120px'}}/>);
         } else if (headCell.type === 'date') {
             return moment(row[headCell.id]).format("DD-MMM-YYYY");
         } else {

@@ -11,6 +11,7 @@ export const PROFILE = "/profile";
 export const ADMIN_DASHBOARD = "/admindashboard";
 export const ADD_BOOK = "/add_book";
 export const BORROW_BOOK = "/borrowbook/:id?";
+export const VIEW_BORROW_HISTORY = "/view-borrow-history";
 export const RESERVE_BOOK = "/reservebook";
 export const SEARCH_BOOK = "/searchbook";
 export const REGISTRATION = "/registration";

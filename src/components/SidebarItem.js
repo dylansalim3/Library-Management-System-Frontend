@@ -26,7 +26,7 @@ import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
 import withRouter from "react-router-dom/es/withRouter";
 import {useSnackbar} from "notistack";
-import {PROFILE} from './../constant/route.constant';
+import {BASE_URL, PROFILE} from './../constant/route.constant';
 
 
 const SidebarItem = (props) => {
@@ -62,6 +62,7 @@ const SidebarItem = (props) => {
     const [userId, setUserId] = React.useState(-1);
     const [email, setEmail] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
+    const [profileImg, setProfileImg] = React.useState('');
     const [unreadNotificationCount, setUnreadNotificationCount] = React.useState(0);
     const [notifications, setNotifications] = React.useState([]);
     const {enqueueSnackbar} = useSnackbar();
@@ -74,6 +75,8 @@ const SidebarItem = (props) => {
             setUserId(userId);
             setEmail(decoded.email);
             setFirstName(decoded.first_name);
+            setProfileImg(decoded.profileimg);
+            console.log(decoded);
             axios.post('/notification/get-unread-notification-count', {userId}).then(result => {
                 const {count} = result.data;
                 setUnreadNotificationCount(count);
@@ -208,9 +211,8 @@ const SidebarItem = (props) => {
                 onClick={openAvatarMenu}
                 color="inherit"
             >
-                <Avatar
-                    className={classes.purpleAvatar}>{`${firstName ? firstName.charAt(0) : 'U'}`}
-                </Avatar>
+                <Avatar className={profileImg ?? classes.purpleAvatar} src={BASE_URL + profileImg}
+                        alt={firstName ? firstName.charAt(0) : 'U'}/>
             </IconButton>
 
             <Popover
@@ -230,6 +232,7 @@ const SidebarItem = (props) => {
             >
                 <Box display="flex" justifyContent="center" flexDirection="column">
                     <div className={classes.navigationList}>
+                        <h2 style={{marginLeft: "20px", margin: "15px"}}>Notifications</h2>
                         {notifications.length !== 0 ? (
                             <FixedSizeList key={1} outerElementType={CustomScrollbarsVirtualList} height={400}
                                            width={300}
@@ -238,7 +241,7 @@ const SidebarItem = (props) => {
                             </FixedSizeList>
 
 
-                        ) : " No notification found"}
+                        ) : <div style={{margin: '20px'}}>No notification found</div>}
                     </div>
 
                 </Box>
@@ -276,16 +279,9 @@ const SidebarItem = (props) => {
                             </IconButton>
                             }
                         >
-
-                            <Avatar
-                                className={[classes.purpleAvatar, classes.largeAvatar]}>
-                                {`${firstName ? firstName.charAt(0) : 'U'}`}
-                            </Avatar>
-                            {/*<Avatar*/}
-                            {/*    alt="profileimg"*/}
-                            {/*    src={state.profileimg}*/}
-                            {/*    className={[classes.purpleAvatar, classes.largeAvatar]*/}
-                            {/*/>*/}
+                            <Avatar className={profileImg ?? [classes.purpleAvatar, classes.largeAvatar]}
+                                    src={BASE_URL + profileImg}
+                                    alt={firstName ? firstName.charAt(0) : 'U'}/>
                         </Badge>
                     </Box>
                     <Box component="div" display="flex" flexDirection="column">

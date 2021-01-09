@@ -1,232 +1,131 @@
-import React, {Component} from 'react';
-import {Button, Grid, InputAdornment, TextField} from '@material-ui/core';
+import React, {useState} from 'react';
+import {Button, Grid, TextField} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import {Error as ErrorIcon} from '@material-ui/icons';
 import axios from 'axios';
-import AlertDialog from "../../../components/AlertDialog";
-import {isEmpty} from '../../../util/StringUtils'
+import {useForm} from "react-hook-form";
+import AutocompleteEmailField from "../AutocompleteEmailField";
+import {useSnackbar} from "notistack";
 
-const ValidationField = props => {
-    const {isValid, ...rest} = props;
-    const empty = props.value === '';
-    const valid = isValid(props.value);
-    let startAdornment;
-    if (empty) {
-        startAdornment = null;
-    } else if (!valid) {
-        startAdornment = (
-            <InputAdornment position="start">
-                <ErrorIcon color="error"/>
-            </InputAdornment>
-        );
-    }
-    return (
-        <TextField
-            {...rest}
-            error={!empty && !valid}
-            InputProps={{startAdornment}}
-        />
-    );
-};
+const BorrowBookTab = () => {
+    const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
+    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(null);
+    const [selectedProfile, setSelectedProfile] = useState({});
+    const {enqueueSnackbar} = useSnackbar();
 
-class BorrowBookTab extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            bookId: '',
-            userId: '',
-            startDate: null,
-            endDate: null,
-            errorDialog: {
-                showErrorDialog: false,
-                errorMessage: '',
-            },
-            successDialog: {
-                showSuccessDialog: false,
-            }
-        };
-    }
 
-    onChangeForm = (name, value) => {
-        if (isEmpty(value)) {
-
-        }
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        if (this.isFormValid()) {
-            this.submitBorrowRequest();
-        } else {
-            this.setState({
-                errorDialog: {
-                    showErrorDialog: true,
-                    errorMessage: "Please fill in all the fields"
-                }
-            })
-        }
-    };
-
-    submitBorrowRequest = () => {
-        axios.post('borrow-books/add-borrow-book', {
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
-            bookId: this.state.bookId,
-            userId: this.state.userId,
-        }).then(res => {
+    const submitBorrowRequest = () => {
+        const {bookId, email} = getValues();
+        axios.post('borrow-books/add-borrow-book', {bookId, email, startDate, endDate}).then(res => {
             if (res.data) {
-                this.setState({
-                    successDialog: {
-                        showSuccessDialog: true,
-                    }
+                // show success msg
+                enqueueSnackbar('Borrow book request success', {
+                    variant: 'success',
+                    transitionDuration: 1000
                 });
+                setValue("bookId",'');
+                setValue('email','');
+                setStartDate(null);
+                setEndDate(null);
             }
         })
             .catch(err => {
-                if (err) {
-                    this.setState({
-                        errorDialog: {
-                            showErrorDialog: true,
-                            errorMessage: err.response.data.message,
-                        }
-                    });
+                if (err && err.response?.data?.message) {
+                    enqueueSnackbar(err.response.data.message, {variant: 'error', transitionDuration: 1000});
                 }
             });
     };
 
-    onCloseErrorDialog = () => {
-        this.setState({
-            errorDialog: {
-                showErrorDialog: false,
-                errorMessage: '',
-            }
-        });
-    };
+    return (
+        <div>
+            <form id="borrowBookForm" onSubmit={handleSubmit(submitBorrowRequest)} noValidate autoComplete="off">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
-    onCloseSuccessDialog = () => {
-        this.setState({
-            successDialog: {
-                showSucessDialog: false,
-            }
-        });
-    };
+                    <Grid container direction="row" justify="center">
+                        <Grid item xs={8} md={8} lg={5}>
+                            <TextField
+                                autoFocus
+                                label="Book ID"
+                                name="bookId"
+                                type="number"
+                                inputRef={register({required: true})}
+                                error={errors?.bookId}
+                                helperText={errors?.bookId && "Invalid book value"}
+                                fullWidth
+                                required
+                                variant="outlined"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container direction="row" justify="center">
+                        <Grid item xs={8} md={8} lg={5} style={{marginTop: 15}}>
+                            <AutocompleteEmailField
+                                name="email"
+                                inputRef={register({required: true})}
+                                label="Student Email"
+                                onProfileSelected={setSelectedProfile}/>
+                        </Grid>
+                    </Grid>
+                    <Grid container direction="row" justify="center">
 
-    isFormValid = () => {
-        return !(isEmpty(this.state.bookId) || isEmpty(this.state.userId) || this.state.startDate == null || this.state.endDate == null);
-    };
-
-
-    render() {
-
-        return (
-            <div>
-                <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
-                        <div>
-                            <Grid container direction="row" justify="center">
-                                <Grid item xs={8} md={8} lg={5}>
-                                    <ValidationField
-                                        autoFocus
-                                        label="Book ID"
-                                        name="bookId"
-                                        value={this.state.bookId}
-                                        isValid={v => /.*\S.*/.test(v)}
-                                        error={v => isEmpty(v) || !(/^(?!\s*$).+/.test(v))}
-                                        helperText={/.*\S.*/.test(this.state.bookId) ? '' : this.state.bookId === '' ? '' : 'Empty Field'}
-                                        fullWidth
-                                        required
-                                        variant="outlined"
-                                        onChange={e => this.onChangeForm(e.target.name, e.target.value)}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justify="center">
-                                <Grid item xs={8} md={8} lg={5} style={{marginTop: 15}}>
-                                    <TextField
-                                        label="Student Libary ID"
-                                        name="userId"
-                                        // error={this.state.formValidation.error && this.state.formValidation.reason !== ''}
-                                        // helperText={this.state.formValidation.reason}
-                                        fullWidth
-                                        required
-                                        variant="outlined"
-                                        onChange={e => this.onChangeForm(e.target.name, e.target.value)}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justify="center">
-
-                                <Grid item xs={8} md={8} lg={5}>
-                                    <KeyboardDatePicker
-                                        maxDate={this.state.endDate ? new Date(new Date(this.state.endDate).getTime() - 1000 * 60 * 60 * 24) : null}
-                                        disablePast
-                                        disableToolbar
-                                        variant="inline"
-                                        inputVariant="outlined"
-                                        format="dd-MM-yyyy"
-                                        fullWidth
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="Start Date"
-                                        value={this.state.startDate}
-                                        onChange={(e, value) => this.onChangeForm('startDate', e)}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid container direction="row" justify="center">
-                                <Grid item xs={8} md={8} lg={5}>
-                                    <KeyboardDatePicker
-                                        minDate={new Date(new Date(this.state.startDate).getTime() + 1000 * 60 * 60 * 24)}
-                                        disablePast
-                                        disableToolbar
-                                        variant="inline"
-                                        inputVariant="outlined"
-                                        format="dd-MM-yyyy"
-                                        fullWidth
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="End Date"
-                                        value={this.state.endDate}
-                                        onChange={(e, value) => this.onChangeForm('endDate', e)}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <div style={{marginTop: 10}} className="flex-justify-center">
-                                <Button
-                                    variant="contained"
-                                    type="submit"
-                                    color="primary"
-                                >Submit</Button>
-                            </div>
-                        </div>
-                    </MuiPickersUtilsProvider>
-                </form>
-                <AlertDialog
-                    showAlertModal={this.state.errorDialog.showErrorDialog}
-                    title={'Error'}
-                    desc={this.state.errorDialog.errorMessage}
-                    onCloseConfirmationModal={this.onCloseErrorDialog}
-                />
-                <AlertDialog
-                    showAlertModal={this.state.successDialog.showSuccessDialog}
-                    title={'Success'}
-                    desc={'Borrow book request success'}
-                    onCloseConfirmationModal={this.onCloseSuccessDialog}
-                />
-            </div>
-        );
-    }
+                        <Grid item xs={8} md={8} lg={5}>
+                            <KeyboardDatePicker
+                                maxDate={endDate ? new Date(new Date(endDate).getTime() - 1000 * 60 * 60 * 24) : null}
+                                disablePast
+                                disableToolbar
+                                variant="inline"
+                                inputVariant="outlined"
+                                format="dd-MM-yyyy"
+                                fullWidth
+                                margin="normal"
+                                id="date-picker-inline"
+                                label="Start Date"
+                                name="startDate"
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                required
+                                value={startDate}
+                                onChange={(e, value) => setStartDate(e)}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container direction="row" justify="center">
+                        <Grid item xs={8} md={8} lg={5}>
+                            <KeyboardDatePicker
+                                minDate={new Date(new Date(startDate).getTime() + 1000 * 60 * 60 * 24)}
+                                disablePast
+                                disableToolbar
+                                variant="inline"
+                                inputVariant="outlined"
+                                format="dd-MM-yyyy"
+                                fullWidth
+                                margin="normal"
+                                id="date-picker-inline"
+                                label="End Date"
+                                name="endDate"
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                required
+                                value={endDate}
+                                onChange={(e, value) => setEndDate(e)}
+                            />
+                        </Grid>
+                    </Grid>
+                    <div style={{marginTop: 10}} className="flex-justify-center">
+                        <Button
+                            form="borrowBookForm"
+                            variant="contained"
+                            type="submit"
+                            color="primary"
+                        >Submit</Button>
+                    </div>
+                </MuiPickersUtilsProvider>
+            </form>
+        </div>
+    );
 }
 
 export default BorrowBookTab;
