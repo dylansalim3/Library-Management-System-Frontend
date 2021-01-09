@@ -107,29 +107,32 @@ class LatestBookResult extends Component {
     render() {
         const searchResults = this.props.result;
         return (
-            <div id="searchResult">
-                <h2>{this.props.title}</h2>
-                <Grid container>{this.displaySearchResult(searchResults)}</Grid>
-                <BookDetailModal
-                    openModal={this.state.showBookDetailModal}
-                    book={this.state.selectedBookDetail}
-                    reserve={this.props.reserve}
-                    onChangeShowDetailModal={(e) => {
-                        this.onChangeShowDetailModal(e);
-                    }}
-                    onChangeShowBookReservationModal={(bookId) => {
-                        this.setSelectedBookId(bookId);
-                        this.onChangeShowBookReservationModal(true);
-                    }}
-                />
-                <BookReservationModal
-                    openModal={this.state.bookReservationModal.showBookReservationModal}
-                    book={this.state.bookReservationModal.bookId}
-                    onChangeShowBookReservationModal={() => {
-                        this.onChangeShowBookReservationModal(false);
-                    }}
-                />
-            </div>
+          <div id="searchResult">
+            <h2>{this.props.title}</h2>
+            <Grid container>{this.displaySearchResult(searchResults)}</Grid>
+            <BookDetailModal
+              disabledReservation={this.props.disabledReservation}
+              openModal={this.state.showBookDetailModal}
+              book={this.state.selectedBookDetail}
+              reserve={this.props.reserve}
+              onChangeShowDetailModal={(e) => {
+                this.onChangeShowDetailModal(e);
+              }}
+              onChangeShowBookReservationModal={(bookId) => {
+                this.setSelectedBookId(bookId);
+                this.onChangeShowBookReservationModal(true);
+              }}
+            />
+            <BookReservationModal
+              openModal={
+                this.state.bookReservationModal.showBookReservationModal
+              }
+              book={this.state.bookReservationModal.bookId}
+              onChangeShowBookReservationModal={() => {
+                this.onChangeShowBookReservationModal(false);
+              }}
+            />
+          </div>
         );
     }
 }

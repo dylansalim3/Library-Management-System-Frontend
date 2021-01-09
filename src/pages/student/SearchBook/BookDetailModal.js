@@ -5,16 +5,11 @@ import {
     DialogContent,
     Grid,
     DialogTitle,
-    TableContainer,
-    Table,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody
 } from '@material-ui/core';
 import {formatDate} from "../../../util/DateUtils";
 import BookReservationModal from './BookReservationModal';
 import { BASE_URL } from '../../../constant/route.constant';
+import axios from 'axios';
 
 class BookDetailModal extends Component {
 
@@ -24,6 +19,7 @@ class BookDetailModal extends Component {
     this.state = {
       reservationModal: false,
       selectedbook: null,
+      disabledReserve: true,
     };
   }
   onCloseModal = () => {
@@ -40,6 +36,7 @@ class BookDetailModal extends Component {
   };
 
   returnBook = () => {
+    // console.log(this.props.disabledReservation);
     if (this.props.reserve) {
       if (this.props.allBook) {
         var arr = [];
@@ -65,6 +62,7 @@ class BookDetailModal extends Component {
               <span>Location</span>
               <span>{location}</span>
               <Button
+                disabled={this.props.disabledReservation}
                 variant="contained"
                 color="primary"
                 onClick={() => this.onReserveBook(singleId)}
@@ -83,7 +81,7 @@ class BookDetailModal extends Component {
                   {book.bookid}: {book.location}
                 </p>
                 <Button
-                  // disabled={bookStatus}
+                  disabled={this.props.disabledReservation}
                   variant="contained"
                   color="primary"
                   onClick={() => this.onReserveBook(book.bookid)}
@@ -105,6 +103,7 @@ class BookDetailModal extends Component {
             <span>Location</span>
             <span>{this.props.book.location}</span>
             <Button
+              disabled={this.props.disabledReservation}
               variant="contained"
               color="primary"
               onClick={() => this.onReserveBook(this.props.book.id)}
@@ -289,33 +288,6 @@ class BookDetailModal extends Component {
                 </div>
               ) : null}
 
-              {/*<TableContainer>*/}
-              {/*    <Table stickyHeader aria-label="books">*/}
-              {/*        <TableHead>*/}
-              {/*            <TableRow>*/}
-              {/*                {columns.map(column=>(*/}
-              {/*                    <TableCell*/}
-              {/*                    key={column.id}*/}
-              {/*                    align="center">*/}
-              {/*                        {column.label}*/}
-              {/*                    </TableCell>*/}
-              {/*                ))}*/}
-              {/*            </TableRow>*/}
-              {/*        </TableHead>*/}
-              {/*        <TableBody>*/}
-              {/*            {books?books.map((book,index)=>(*/}
-              {/*                <TableRow key={book.id}>*/}
-              {/*                    <TableCell align="center">{index+1}</TableCell>*/}
-              {/*                    <TableCell align="center">{book.id}</TableCell>*/}
-              {/*                    <TableCell align="center">{location}</TableCell>*/}
-              {/*                    <TableCell align="center">*/}
-              {/*                        <Button variant="contained" color="primary" onClick={()=>this.onReserveBook(book.id)}>RESERVE</Button>*/}
-              {/*                    </TableCell>*/}
-              {/*                </TableRow>*/}
-              {/*            )):''}*/}
-              {/*        </TableBody>*/}
-              {/*    </Table>*/}
-              {/*</TableContainer>*/}
             </div>
           </DialogContent>
         </Dialog>

@@ -11,11 +11,13 @@ const NewArrivalBook = (props) => {
         });
     }, []);
 
-    console.log(props.reserve);
+    // console.log(props.reserve);
+    // console.log(props.disabledReservation);
     return (
       <div>
         {newArrivalBooks.length > 0 ? (
           <LatestBookResult
+            disabledReservation={props.disabledReservation}
             reserve={props.reserve}
             title="New Arrival"
             result={newArrivalBooks}

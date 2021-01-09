@@ -41,34 +41,9 @@ class BookSearchResult extends Component {
     console.log(typeof allBookDetail);
   };
 
-//   displaySearchResult = (searchResults) => {
-//       if (searchResults) {
-          
-//           return searchResults.map(searchResult => {
-//               return (
-//                   <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
-//                       {this.displayBookDetail(searchResult)}
-//                   </Grid>
-//               );
-//           });
-//       } else {
-//           return (
-//               <p style={{margin: 'auto'}}>No result found</p>
-//           );
-//       }
-//   };
 
   displaySearchResult = (searchResults) => {
     if (searchResults) {
-        // var allBookArr = [];
-        // Object.keys(searchResults).forEach(result=>{
-        //     console.log(searchResults[result]);
-        //     searchResults[result].forEach(all =>{
-                
-        //         allBookArr.push(all);
-        //     })
-        // });
-        // console.log(allBookArr);
 
         return Object.keys(searchResults).map(result=>{
         //   console.log(searchResults[result][0].id);
@@ -153,11 +128,13 @@ class BookSearchResult extends Component {
 
   render() {
     const searchResults = this.props.result;
+    console.log(this.props.disabledReservation);
     return (
       <div id="searchResult">
         <h2>{this.props.title}</h2>
         <Grid container>{this.displaySearchResult(searchResults)}</Grid>
         <BookDetailModal
+          disabledReservation={this.props.disabledReservation}
           openModal={this.state.showBookDetailModal}
           book={this.state.selectedBookDetail}
           allBook={this.state.allBookDetail}

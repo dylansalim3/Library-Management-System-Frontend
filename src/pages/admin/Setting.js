@@ -240,10 +240,10 @@ export default class Setting extends Component {
               <Snackbar
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'center',
+                  horizontal: 'left',
                 }}
                 open={this.state.dialog}
-                autoHideDuration={6000}
+                autoHideDuration={3000}
                 onClose={() => this.setState({ dialog: false })}
                 message={this.state.snackMessage}
                 action={
