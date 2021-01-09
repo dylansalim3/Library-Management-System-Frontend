@@ -157,7 +157,7 @@ class BookReservationModal extends Component {
               <DialogContent dividers>
                 <form onSubmit={this.onSubmit} noValidate autoComplete="off">
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <div className="flex-justify-center">
+                    {/* <div className="flex-justify-center">
                       <KeyboardDatePicker
                         maxDate={
                           new Date(
@@ -181,8 +181,8 @@ class BookReservationModal extends Component {
                         }}
                       />
                     </div>
-                    <div className="flex-justify-center">
-                      <KeyboardDatePicker
+                    <div className="flex-justify-center"> */}
+                    {/* <KeyboardDatePicker
                         minDate={
                           new Date(
                             new Date(this.state.startDate).getTime() +
@@ -202,6 +202,9 @@ class BookReservationModal extends Component {
                           'aria-label': 'change date',
                         }}
                       />
+                    </div> */}
+                    <div className="flex-justify-center" style={{marginBottom:'20px'}}>
+                      <h4>Enter your reason of reservation below.</h4>
                     </div>
 
                     <Grid container direction="row" justify="center">
@@ -249,8 +252,8 @@ class BookReservationModal extends Component {
                 Are you sure you want to make reservation?
               </DialogTitle>
               <DialogContent>
-                Once submitted the process cannot be undone. Reservation will
-                take 1-3 days
+                Once submitted the process cannot be undone. You will receive a
+                notification when your request is accepted/rejected.
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.onCloseConfirmationModal} color="primary">

@@ -888,6 +888,7 @@ export default class Addbook extends Component {
                       src={this.state.bookimg}
                     />
                     <input
+                      required
                       id="uploadField"
                       type="file"
                       onChange={(e) => this.selectImage(e)}
@@ -896,6 +897,7 @@ export default class Addbook extends Component {
                     <TextField
                       required
                       multiline
+                      inputProps={{ maxLength: 190 }}
                       label="Summary"
                       variant="outlined"
                       name="summary"

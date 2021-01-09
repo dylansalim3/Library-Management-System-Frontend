@@ -24,14 +24,36 @@ const CompletedBookReservation = () => {
     }, []);
 
     const headCells = [
-        {id: 'id', numeric: true, disablePadding: false, label: 'Book Request ID'},
-        {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
-        {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
-        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
-        {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
-        {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, type: 'date', disablePadding: false, label: 'Username'},
-        {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+      { id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID' },
+      {
+        id: 'bookimg',
+        numeric: false,
+        type: 'img',
+        disablePadding: false,
+        label: 'Book Cover',
+      },
+      {
+        id: 'title',
+        numeric: false,
+        disablePadding: false,
+        label: 'Book Title',
+      },
+      {
+        id: 'requestCreatedDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Request Date',
+      },
+      { id: 'userId', numeric: true, disablePadding: false, label: 'User ID' },
+      {
+        id: 'username',
+        numeric: false,
+        disablePadding: false,
+        label: 'Username',
+      },
+      { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+      { id: 'rejectReason', numeric: false, disablePadding: false, label: 'Reject Reason' },
     ];
 
     const retrieveData = () => {
@@ -75,20 +97,46 @@ const BookReservationPage = () => {
     }, []);
 
     const headCells = [
-        {id: 'id', numeric: true, disablePadding: false, label: 'Book Request ID'},
-        {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
-        {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
-        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
-        {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
-        {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, type: 'date', disablePadding: false, label: 'Username'},
-        {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+      { id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID' },
+      {
+        id: 'bookimg',
+        numeric: false,
+        type: 'img',
+        disablePadding: false,
+        label: 'Book Cover',
+      },
+      {
+        id: 'title',
+        numeric: false,
+        disablePadding: false,
+        label: 'Book Title',
+      },
+      {
+        id: 'requestCreatedDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Request Date',
+      },
+      { id: 'userId', numeric: true, disablePadding: false, label: 'User ID' },
+      {
+        id: 'username',
+        numeric: false,
+        disablePadding: false,
+        label: 'Username',
+      },
+      {
+        id: 'requestReason',
+        numeric: false,
+        disablePadding: false,
+        label: 'Reason',
+      },
     ];
 
     const retrieveData = () => {
         console.log("retrieving data");
         axios.post('book-request/find-all-pending-book-reservations').then(result => {
-            console.log(result);
+            console.log(result.data);
             setBookRequests(result.data);
         }).catch(err => {
             console.log(err);
@@ -118,6 +166,7 @@ const BookReservationPage = () => {
     const InsertDateModalContent = (
         <div>
             <KeyboardDatePicker
+                disabled={true}
                 disablePast
                 disableToolbar
                 style={{width: '94%'}}
@@ -155,15 +204,18 @@ const BookReservationPage = () => {
     );
 
     const InsertRejectReasonModalContent = (
-        <TextField
-            autoFocus
-            label="Reject Reason"
-            name="rejectReason"
-            value={rejectReason}
-            fullWidth
-            variant="outlined"
-            onChange={e => setRejectReason(e.target.value)}
-        />
+      <TextField
+        required
+        multiline
+        rows={4}
+        autoFocus
+        label="Reject Reason"
+        name="rejectReason"
+        value={rejectReason}
+        fullWidth
+        variant="outlined"
+        onChange={(e) => setRejectReason(e.target.value)}
+      />
     );
 
     const onSuccessButtonPressed = async () => {
@@ -178,27 +230,44 @@ const BookReservationPage = () => {
                         variant: 'success',
                         transitionDuration: 1000
                     });
+                            resetAlertModal();
+                            retrieveData();
+                            window.location.reload(false);
                     return result;
+                    
                 });
             } else {
-                await axios.post('book-request/reject-book-reservation-request', {
-                    bookRequestId: selectedBookRequestId,
-                    rejectReason
-                }).then(async result => {
-                    enqueueSnackbar('The book reservation has been rejected', {
-                        variant: 'success',
-                        transitionDuration: 1000
-                    });
-                    return result;
-                })
+                if(rejectReason){
+                    await axios.post('book-request/reject-book-reservation-request', {
+                        bookRequestId: selectedBookRequestId,
+                        rejectReason
+                    }).then(async result => {
+                        enqueueSnackbar('The book reservation has been rejected', {
+                            variant: 'success',
+                            transitionDuration: 1000
+                        });
+                                resetAlertModal();
+                                retrieveData();
+                                window.location.reload(false);
+                        return result;
+                    })
+                }else{
+                    enqueueSnackbar(
+                        'Field cannot be empty.',
+                        {
+                        variant: 'error',
+                        transitionDuration: 1000,
+                        }
+                    );
+                }
             }
         } catch (err) {
             console.log(err);
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         }
-        resetAlertModal();
-        retrieveData();
-        window.location.reload(false);
+        // resetAlertModal();
+        // retrieveData();
+        // window.location.reload(false);
     };
 
     const actionAreaHeadCells = [
@@ -232,13 +301,16 @@ const BookReservationPage = () => {
             rows={bookRequests}
             disableToolbar
             actionAreaHeadCells={actionAreaHeadCells}
-
           />
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <CustomModal
               showAlertModal={showAlertModal}
-              title="Insert Expiry Date to Continue"
+              title={
+                requestType === RequestType.ACCEPT
+                  ? 'Insert Reservation End Date to Continue'
+                  : 'Please enter reason for rejection.'
+              }
               desc={
                 requestType === RequestType.ACCEPT
                   ? InsertDateModalContent

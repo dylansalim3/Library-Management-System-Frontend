@@ -46,7 +46,7 @@ class SearchBook extends Component {
 
   getSetting = () => {
     axios.get('/setting/retrieve').then((res) => {
-      const returned = res.data.result[0];
+      const returned = res.data.result;
       console.log(returned);
 
       this.setState({
@@ -231,10 +231,10 @@ class SearchBook extends Component {
             disabledReservation={this.state.disabledReservation}
             reserve={true}
           />
-          <BookRecommendation
+          {/* <BookRecommendation
             disabledReservation={this.state.disabledReservation}
             reserve={true}
-          />
+          /> */}
         </div>
       </div>
     );
