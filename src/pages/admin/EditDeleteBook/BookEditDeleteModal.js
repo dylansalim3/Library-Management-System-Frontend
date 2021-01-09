@@ -9,6 +9,7 @@ import AlertDialog from "../../../components/AlertDialog";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import * as html2canvas from 'html2canvas';
+import { BASE_URL } from '../../../constant/route.constant';
 
 var Barcode = require('react-barcode');
 
@@ -200,7 +201,7 @@ class BookEditDeleteModal extends Component {
                       >
                         <img
                           style={{ height: 128, width: 128 }}
-                          src={book.bookimg}
+                          src={BASE_URL + book.bookimg}
                           alt="book_img"
                         />
                       </Button>

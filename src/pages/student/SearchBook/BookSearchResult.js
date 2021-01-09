@@ -43,22 +43,21 @@ class BookSearchResult extends Component {
         console.log(typeof allBookDetail);
     };
 
-//   displaySearchResult = (searchResults) => {
-//       if (searchResults) {
+// <<<<<<< reservation
 
-//           return searchResults.map(searchResult => {
-//               return (
-//                   <Grid item xs={12} sm={6} md={4} key={searchResult.id}>
-//                       {this.displayBookDetail(searchResult)}
-//                   </Grid>
-//               );
+//   displaySearchResult = (searchResults) => {
+//     if (searchResults) {
+
+//         return Object.keys(searchResults).map(result=>{
+//         //   console.log(searchResults[result][0].id);
+//           const firstbook = searchResults[result][0];
+//           const allbook = searchResults[result];
+//           var jsonBook = [];
+//           allbook.forEach(book=>{
+//             jsonBook.push({bookid:book.id,location:book.location,status:book.status});
 //           });
-//       } else {
-//           return (
-//               <p style={{margin: 'auto'}}>No result found</p>
-//           );
-//       }
-//   };
+//           console.log(jsonBook);
+// =======
 
     displaySearchResult = (searchResults) => {
         if (searchResults) {
@@ -91,6 +90,7 @@ class BookSearchResult extends Component {
             })
 
         } else {
+// >>>>>>> master
             return (
                 <p style={{margin: 'auto'}}>No result found</p>
             );
@@ -128,62 +128,125 @@ class BookSearchResult extends Component {
                     </CardActionArea>
                 </CardContent>
             </Card>
-        );
-    };
+// <<<<<<< reservation
+            
+    );
+  };
 
-    onChangeShowDetailModal = (data) => {
-        this.setState({
-            showBookDetailModal: data,
-        });
-    };
+  onChangeShowDetailModal = (data) => {
+    this.setState({
+      showBookDetailModal: data,
+    });
+  };
 
-    setSelectedBookId = (bookId) => {
-        this.setState({
-            bookReservationModal: {
-                bookId: bookId,
-            },
-        });
-    };
+  setSelectedBookId = (bookId) => {
+    this.setState({
+      bookReservationModal: {
+        bookId: bookId,
+      },
+    });
+  };
 
 
-    onChangeShowBookReservationModal = (show) => {
-        console.log('here');
-        this.setState({
-            bookReservationModal: {
-                showBookReservationModal: show,
-            },
-        });
-    };
+  onChangeShowBookReservationModal = (show) => {
+    console.log('here');
+    this.setState({
+      bookReservationModal: {
+        showBookReservationModal: show,
+      },
+    });
+  };
 
-    render() {
-        const searchResults = this.props.result;
-        return (
-            <div id="searchResult">
-                <h2>{this.props.title}</h2>
-                <Grid container>{this.displaySearchResult(searchResults)}</Grid>
-                <BookDetailModal
-                    openModal={this.state.showBookDetailModal}
-                    book={this.state.selectedBookDetail}
-                    allBook={this.state.allBookDetail}
-                    onChangeShowDetailModal={(e) => {
-                        this.onChangeShowDetailModal(e);
-                    }}
-                    onChangeShowBookReservationModal={(bookId) => {
-                        this.setSelectedBookId(bookId);
-                        this.onChangeShowBookReservationModal(true);
-                    }}
-                />
-                <BookReservationModal
-                    openModal={this.state.bookReservationModal.showBookReservationModal}
-                    book={this.state.bookReservationModal.bookId}
-                    allBook={this.state.allBookDetail}
-                    onChangeShowBookReservationModal={() => {
-                        this.onChangeShowBookReservationModal(false);
-                    }}
-                />
-            </div>
-        );
-    }
+  render() {
+    const searchResults = this.props.result;
+    console.log(this.props.disabledReservation);
+    return (
+      <div id="searchResult">
+        <h2>{this.props.title}</h2>
+        <Grid container>{this.displaySearchResult(searchResults)}</Grid>
+        <BookDetailModal
+          disabledReservation={this.props.disabledReservation}
+          openModal={this.state.showBookDetailModal}
+          book={this.state.selectedBookDetail}
+          allBook={this.state.allBookDetail}
+          reserve={this.props.reserve}
+          onChangeShowDetailModal={(e) => {
+            this.onChangeShowDetailModal(e);
+          }}
+          onChangeShowBookReservationModal={(bookId) => {
+            this.setSelectedBookId(bookId);
+            this.onChangeShowBookReservationModal(true);
+          }}
+        />
+        <BookReservationModal
+          openModal={this.state.bookReservationModal.showBookReservationModal}
+          book={this.state.bookReservationModal.bookId}
+          allBook={this.state.allBookDetail}
+          onChangeShowBookReservationModal={() => {
+            this.onChangeShowBookReservationModal(false);
+          }}
+        />
+      </div>
+    );
+  }
+// ======= master starts reservation ends
+//         );
+//     };
+
+//     onChangeShowDetailModal = (data) => {
+//         this.setState({
+//             showBookDetailModal: data,
+//         });
+//     };
+
+//     setSelectedBookId = (bookId) => {
+//         this.setState({
+//             bookReservationModal: {
+//                 bookId: bookId,
+//             },
+//         });
+//     };
+
+
+//     onChangeShowBookReservationModal = (show) => {
+//         console.log('here');
+//         this.setState({
+//             bookReservationModal: {
+//                 showBookReservationModal: show,
+//             },
+//         });
+//     };
+
+//     render() {
+//         const searchResults = this.props.result;
+//         return (
+//             <div id="searchResult">
+//                 <h2>{this.props.title}</h2>
+//                 <Grid container>{this.displaySearchResult(searchResults)}</Grid>
+//                 <BookDetailModal
+//                     openModal={this.state.showBookDetailModal}
+//                     book={this.state.selectedBookDetail}
+//                     allBook={this.state.allBookDetail}
+//                     onChangeShowDetailModal={(e) => {
+//                         this.onChangeShowDetailModal(e);
+//                     }}
+//                     onChangeShowBookReservationModal={(bookId) => {
+//                         this.setSelectedBookId(bookId);
+//                         this.onChangeShowBookReservationModal(true);
+//                     }}
+//                 />
+//                 <BookReservationModal
+//                     openModal={this.state.bookReservationModal.showBookReservationModal}
+//                     book={this.state.bookReservationModal.bookId}
+//                     allBook={this.state.allBookDetail}
+//                     onChangeShowBookReservationModal={() => {
+//                         this.onChangeShowBookReservationModal(false);
+//                     }}
+//                 />
+//             </div>
+//         );
+//     }
+// >>>>>>> master
 }
 
 export default BookSearchResult;

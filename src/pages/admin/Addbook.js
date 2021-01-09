@@ -22,6 +22,8 @@ import AdminBoilerplate from "./AdminBoilerplate";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import addIcon from '../../images/add_blue.png';
+import deleteIcon from '../../images/delete.png';
 import * as html2canvas from 'html2canvas';
 
 var Barcode = require('react-barcode');
@@ -71,6 +73,7 @@ const defaultState = {
   genreData: [],
   categoryData: [],
   authorData: [],
+  deleteValue: '',
 };
 
 
@@ -254,24 +257,6 @@ export default class Addbook extends Component {
               dialogopen: true,
             });
 
-          // const input = document.getElementById('testbarcode');
-          // html2canvas(input)
-          //   .then((canvas)=>{
-          //   const imgData = canvas.toDataURL('image/png');
-          //   axios
-          //     .post('/file-barcode', {
-          //       img: imgData,
-          //       id: '1001',
-          //     })
-          //     .then((data) => {
-          //       console.log(data.data);
-          //     })
-          //     .catch((err) => {
-          //       console.log(err);
-          //       return;
-          //     });
-          // });
-
         })
           .catch((err) => {
             console.log(err);
@@ -308,6 +293,13 @@ export default class Addbook extends Component {
     });
   };
 
+  openDeleteDialog = (type) => {
+    this.setState({
+      deleteFieldText: type,
+      dialogDelete: true,
+    });
+  }
+
   closeSecDialog = () => {
     this.setState({ dialogAddNew: false });
   };
@@ -323,6 +315,10 @@ export default class Addbook extends Component {
       this.setState({ toastMessageText: 'New category added.' });
     } else if (type === 'genre') {
       this.setState({ toastMessageText: 'New genre added.' });
+    } else if (type === 'deletecategory') {
+      this.setState({ toastMessageText: 'Category successfully deleted.' });
+    } else if (type === 'deletegenre') {
+      this.setState({ toastMessageText: 'Genre successfully deleted.' });
     }
     this.setState({ toastMessage: true });
   };
@@ -330,6 +326,52 @@ export default class Addbook extends Component {
   closeToastMessage = () => {
     this.setState({ toastMessage: false });
   };
+
+  deleteField = () => {
+    let deleteType = this.state.deleteFieldText;
+    try{
+    if (deleteType === 'category') {
+        console.log(this.state.deleteValue);
+        axios
+          .post('/bookCategory/delete', {
+            deleteFieldName: this.state.deleteValue,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeThirdDialog();
+            this.openToastMessage("delete"+deleteType);
+          });
+      } else if (deleteType === 'genre') {
+        axios
+          .post('/genres/delete', {
+            deleteFieldName: this.state.deleteValue,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.retrieveData();
+            this.closeThirdDialog();
+            this.openToastMessage('delete' + deleteType);
+          });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      // this.setState({ newFieldName: '' });
+      // dont modify the code here first, bugs will appear
+    }
+  }
+  
 
   addNewField = () => {
     let newType = this.state.newFieldText;
@@ -435,13 +477,6 @@ export default class Addbook extends Component {
           message={this.state.toastMessageText}
           action={
             <React.Fragment>
-              <Button
-                color="secondary"
-                size="small"
-                onClick={this.closeToastMessage}
-              >
-                UNDO
-              </Button>
               <IconButton
                 size="small"
                 aria-label="close"
@@ -504,16 +539,27 @@ export default class Addbook extends Component {
                   flexDirection: 'column',
                 }}
               >
-                <TextField
-                  label="Type in value"
-                  variant="outlined"
-                  name="newFieldName"
-                  value={this.state.newFieldName}
-                  onChange={this.onChange}
-                />
+                <FormControl variant="outlined">
+                  <InputLabel htmlFor="deleteField">
+                    {this.state.deleteFieldText}
+                  </InputLabel>
+                  <Select
+                    native
+                    required
+                    value={this.state.deleteValue}
+                    onChange={this.onChange}
+                    inputProps={{
+                      name: 'deleteValue',
+                      id: 'deleteField',
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    {this.retrieveOptions(this.state.deleteFieldText)}
+                  </Select>
+                </FormControl>
                 <Button
                   variant="contained"
-                  onClick={this.addNewField}
+                  onClick={this.deleteField}
                   style={{
                     marginTop: '20px',
                     backgroundColor: 'red',
@@ -661,7 +707,7 @@ export default class Addbook extends Component {
                   </Grid>
                 </Grid>
                 <Grid item sm={4} xs={12}>
-                  <Grid item xs={12}>
+                  <Grid style={{ marginBottom: '25px' }} item xs={12}>
                     <FormControl
                       required
                       className={'gridWidth gridmargin'}
@@ -685,7 +731,9 @@ export default class Addbook extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={12}>
-                    <h3>Select and upload Ebook</h3>
+                    <h3 style={{ marginBottom: '10px' }}>
+                      Select and upload Ebook
+                    </h3>
                     <input
                       required
                       disabled={this.state.ebookdisabled}
@@ -730,7 +778,24 @@ export default class Addbook extends Component {
                         onClick={() => this.openSecDialog('category')}
                         style={{ color: 'red' }}
                       >
-                        Add
+                        <img
+                          src={addIcon}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                      </Link>
+                    </div>
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={() => this.openDeleteDialog('category')}
+                        style={{ color: 'red' }}
+                      >
+                        <img
+                          src={deleteIcon}
+                          style={{ width: '22px', height: '22px' }}
+                        />
                       </Link>
                     </div>
                   </Grid>
@@ -767,9 +832,26 @@ export default class Addbook extends Component {
                     >
                       <Link
                         onClick={() => this.openSecDialog('genre')}
+                        style={{ color: 'blue' }}
+                      >
+                        <img
+                          src={addIcon}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                      </Link>
+                    </div>
+                    <div
+                      style={{ marginLeft: '15px' }}
+                      className={'gridmargin'}
+                    >
+                      <Link
+                        onClick={() => this.openDeleteDialog('genre')}
                         style={{ color: 'red' }}
                       >
-                        Add
+                        <img
+                          src={deleteIcon}
+                          style={{ width: '22px', height: '22px' }}
+                        />
                       </Link>
                     </div>
                   </Grid>
@@ -795,7 +877,7 @@ export default class Addbook extends Component {
                       alignItems: 'center',
                     }}
                   >
-                    <h3>Book Cover</h3>
+                    <h3 style={{ marginBottom: '20px' }}>Book Cover</h3>
                     <img
                       // alt="book cover"
                       style={{
@@ -806,13 +888,16 @@ export default class Addbook extends Component {
                       src={this.state.bookimg}
                     />
                     <input
+                      required
                       id="uploadField"
                       type="file"
                       onChange={(e) => this.selectImage(e)}
+                      style={{ marginBottom: '20px' }}
                     />
                     <TextField
                       required
                       multiline
+                      inputProps={{ maxLength: 190 }}
                       label="Summary"
                       variant="outlined"
                       name="summary"
@@ -840,7 +925,6 @@ export default class Addbook extends Component {
                 >
                   Add Book
                 </Button>
-                <img id="testimage"></img>
               </Grid>
             </form>
           </Grid>

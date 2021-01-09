@@ -38,14 +38,16 @@ const StudentDashboardContent = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Overview</h1>
-            <DashboardCards overviewItems={overviewItems}/>
-            <div style={{paddingTop: '20px'}}>
-                <NewArrivalBook/>
-            </div>
-            <BookRecommendation/>
+      <div>
+        <h1 style={{ marginBottom: '20px' }}>Overview</h1>
+        <div style={{ marginBottom: '20px' }}>
+          <DashboardCards overviewItems={overviewItems} />
         </div>
+        {/* <div style={{ paddingTop: '20px' }}>
+          <NewArrivalBook reserve={true} />
+        </div>
+        <BookRecommendation reserve={true} /> */}
+      </div>
     );
 };
 
