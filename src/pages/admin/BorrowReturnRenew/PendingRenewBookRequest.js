@@ -7,6 +7,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import {TextField} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {BORROW_HISTORY} from "../../../constant/route.constant";
+import {Check, Delete} from "@material-ui/icons";
 
 const RequestType = {
     ACCEPT: 'accept',
@@ -30,7 +31,6 @@ const CompletedRenewBookRequest = () => {
     }, []);
 
     const headCells = [
-        {id: 'borrowBookId', numeric: true, disablePadding: false, label: 'Borrowed Book ID'},
         {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
         {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
         {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
@@ -39,6 +39,8 @@ const CompletedRenewBookRequest = () => {
         {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
         {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
         {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
+        {id: 'reason', numeric: false, disablePadding: false, label: 'Reason'},
+        {id: 'rejectReason', numeric: false, disablePadding: false, label: 'Reject Reason'},
         {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
     ];
 
@@ -116,7 +118,6 @@ const PendingRenewBookRequest = () => {
     }, []);
 
     const headCells = [
-        {id: 'borrowBookId', numeric: true, disablePadding: false, label: 'Borrowed Book ID'},
         {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
         {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
         {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
@@ -125,6 +126,7 @@ const PendingRenewBookRequest = () => {
         {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
         {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
         {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
+        {id: 'reason', numeric: false, disablePadding: false, label: 'Reason'},
         {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
     ];
 
@@ -182,6 +184,7 @@ const PendingRenewBookRequest = () => {
             text: 'Accept',
             color: 'primary',
             disable: {id: 'status', criteria: 'ne', value: 'PROCESSING'},
+            icon:<Check/>,
             action: acceptRenewRequest
         },
         {
@@ -191,6 +194,7 @@ const PendingRenewBookRequest = () => {
             text: 'Reject',
             color: 'secondary',
             disable: {id: 'status', criteria: 'ne', value: 'PROCESSING'},
+            icon:<Delete/>,
             action: rejectRenewRequest
         },
     ];

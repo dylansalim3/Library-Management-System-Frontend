@@ -9,7 +9,7 @@ import {
     Map,
     Person,
     PersonAdd,
-    Redeem
+    Redeem, Settings
 } from "@material-ui/icons";
 import React from 'react';
 
@@ -18,13 +18,14 @@ export const SIDEBAR_ROUTE_ADMIN = [
     {name: 'Add book', route: 'add_book', icon: <Add/>},
     {name: 'Edit/Delete book', route: 'edit_book', icon: <Edit/>},
     {name: 'Borrow/Return/Renew', route: 'borrowbook', icon: <Autorenew/>},
+    {name: 'View Borrow History', route: 'view-borrow-history', icon: <History/>},
     {name: 'Book Reservation', route: 'reservebook', icon: <Redeem/>},
     {name: 'Library Map', route: 'library_map', icon: <Map/>},
     {name: 'Data Backup', route: 'backup_data', icon: <Backup/>},
     {name: 'Account Registration', route: 'registration', icon: <PersonAdd/>},
     {name: 'Profile', route: 'profile', icon: <Person/>},
     {name: 'Role Assignment', route: 'role_assignment', icon: <GroupAdd/>},
-    {name: 'Setting', route:'setting'}
+    {name: 'Setting', route: 'setting', icon: <Settings/>}
 ];
 
 export const SIDEBAR_ROUTE_STUDENT = [
@@ -53,6 +54,7 @@ export const SIDEBAR_ROUTE_LIBRARIAN = [
     {name: 'Add book', route: 'add_book', icon: <Add/>},
     {name: 'Edit/Delete book', route: 'edit_book', icon: <Edit/>},
     {name: 'Borrow/Return/Renew', route: 'borrowbook', icon: <Autorenew/>},
+    {name: 'View Borrow History', route: 'view-borrow-history', icon: <History/>},
     {name: 'Book Reservation', route: 'reservebook', icon: <Redeem/>},
     {name: 'Library Map', route: 'view_library_map', icon: <Map/>},
     {name: 'Profile', route: 'profile', icon: <Person/>},

@@ -1,118 +1,84 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {Button, Grid, TextField} from "@material-ui/core";
 import axios from 'axios';
-import AlertDialog from "../../../components/AlertDialog";
+import {useForm} from "react-hook-form";
+import {useSnackbar} from "notistack";
+import CustomModal from "../../../components/CustomModal";
 
-class ReturnBookTab extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            bookId: '',
-            errorDialog: {
-                showErrorDialog: false,
-                errorMessage: '',
-            },
-            successDialog: {
-                showSuccessDialog: false,
-            }
-        }
-    }
+const ReturnBookTab = () => {
+    const [openExpiredModal, setOpenExpiredModal] = useState(false);
+    const [expiredModalDesc, setExpiredModalDesc] = useState('');
+    const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
+    const {enqueueSnackbar} = useSnackbar();
 
-    onChangeForm = (name, value) => {
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.submitReturnBookRequest();
-    };
-
-    submitReturnBookRequest = () => {
-        axios.post('borrow-books-history/return-book', {
-            bookId: this.state.bookId
-        }).then(res => {
+    const checkIsExpired = () => {
+        axios.post('borrow-books-history/is-book-expired', getValues()).then(res => {
             if (res.data) {
-                this.setState({
-                    successDialog: {
-                        showSuccessDialog: true,
-                    }
+                const {fine} = res.data;
+                setOpenExpiredModal(true);
+                setExpiredModalDesc(`The book fine is RM ${fine}`);
+            }
+        }).catch(err => {
+            if (err && err.response?.data?.message) {
+                enqueueSnackbar(err.response.data.message, {variant: 'error', transitionDuration: 1000});
+            }
+        })
+    };
+
+
+    const submitReturnBookRequest = () => {
+        axios.post('borrow-books-history/return-book', getValues()).then(res => {
+            if (res.data) {
+                enqueueSnackbar('Return book request success', {
+                    variant: 'success',
+                    transitionDuration: 1000
                 });
+                setValue("bookId", "");
+            }
+        }).catch(err => {
+            if (err && err.response?.data?.message) {
+                enqueueSnackbar(err.response.data.message, {variant: 'error', transitionDuration: 1000});
             }
         })
-            .catch(err => {
-                if (err) {
-                    console.log(err.response.data);
-                    this.setState({
-                        errorDialog: {
-                            showErrorDialog: true,
-                            errorMessage: err.response.data.message,
-                        }
-                    });
-                }
-        })
+        setOpenExpiredModal(false);
     };
 
-    onCloseErrorDialog = () => {
-        this.setState({
-            errorDialog: {
-                showErrorDialog: false,
-                errorMessage: '',
-            }
-        });
-    };
+    return (
+        <div>
+            <form id="returnBookForm" onSubmit={handleSubmit(checkIsExpired)} noValidate autoComplete="off">
 
-    onCloseSuccessDialog = () => {
-        this.setState({
-            successDialog: {
-                showSucessDialog: false,
-            }
-        });
-    };
-
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-
-                    <Grid container direction="row" justify="center">
-                        <Grid item md={8} lg={5} style={{marginTop: 15}}>
-                            <TextField
-                                label="Book ID"
-                                name="bookId"
-                                // error={this.state.formValidation.error && this.state.formValidation.reason !== ''}
-                                // helperText={this.state.formValidation.reason}
-                                fullWidth
-                                required
-                                variant="outlined"
-                                onChange={e => this.onChangeForm(e.target.name, e.target.value)}
-                            />
-                        </Grid>
+                <Grid container direction="row" justify="center">
+                    <Grid item md={8} lg={5} style={{marginTop: 15}}>
+                        <TextField
+                            label="Book ID"
+                            name="bookId"
+                            fullWidth
+                            required
+                            variant="outlined"
+                            inputRef={register({required: true})}
+                            error={errors?.bookId}
+                            helperText={errors?.bookId && "Invalid book value"}
+                        />
                     </Grid>
-                    <div style={{marginTop: 10}} className="flex-justify-center">
-                        <Button
-                            variant="contained"
-                            type="submit"
-                            color="primary"
-                        >Submit</Button>
-                    </div>
-                </form>
-                <AlertDialog
-                    showAlertModal={this.state.errorDialog.showErrorDialog}
-                    title={'Error'}
-                    desc={this.state.errorDialog.errorMessage}
-                    onCloseConfirmationModal={this.onCloseErrorDialog}
-                />
-                <AlertDialog
-                    showAlertModal={this.state.successDialog.showSuccessDialog}
-                    title={'Success'}
-                    desc={'Return book request success'}
-                    onCloseConfirmationModal={this.onCloseSuccessDialog}
-                />
-            </div>
-        );
-    }
+                </Grid>
+                <div style={{marginTop: 10}} className="flex-justify-center">
+                    <Button
+                        form="returnBookForm"
+                        variant="contained"
+                        type="submit"
+                        color="primary"
+                    >Submit</Button>
+                </div>
+            </form>
+            <CustomModal title="Book is Expired"
+                         desc={expiredModalDesc}
+                         showAlertModal={openExpiredModal}
+                         onSuccessButtonPressed={submitReturnBookRequest}
+                         onCloseConfirmationModal={() => setOpenExpiredModal(false)}
+            />
+        </div>
+    );
+
 }
 
 export default ReturnBookTab;

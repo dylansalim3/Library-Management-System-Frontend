@@ -6,16 +6,12 @@ import bookShelfIcon from "../../../images/book-shelf.png";
 import DashboardCards from "../../../components/DashboardCards";
 import axios from "axios";
 
-import LatestBookResult from '../SearchBook/LatestBookResult';
-
 import jwt_decode from "jwt-decode";
 import NewArrivalBook from "../../../components/NewArrivalBook";
 import BookRecommendation from "../../../components/BookRecommendation";
-import {Box} from "@material-ui/core";
 
 
 const StudentDashboardContent = () => {
-    const [newArrivalBooks, setNewArrivalBooks] = React.useState([]);
     const [onLoanBookCount, setOnLoanBookCount] = React.useState(0);
     const [booksBorrowedCount, setBooksBorrowedCount] = React.useState(0);
     const [overdueBookCount, setOverdueBookCount] = React.useState(0);
@@ -32,9 +28,6 @@ const StudentDashboardContent = () => {
     React.useEffect(() => {
         var token = localStorage.usertoken;
         var decoded = jwt_decode(token);
-        axios.get('book-details/get-latest-book').then(result => {
-            setNewArrivalBooks(result.data);
-        });
         axios.post('dashboard/student-dashboard', {userId: decoded.id}).then(result => {
             const apiResult = result.data;
             setOnLoanBookCount(apiResult.onLoanBookCount);

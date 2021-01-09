@@ -164,29 +164,6 @@ class Login extends Component {
                                 </Button>
                             </div>
                         </form>
-
-                        {/*<Snackbar*/}
-                        {/*    anchorOrigin={{*/}
-                        {/*        vertical: 'bottom',*/}
-                        {/*        horizontal: 'center',*/}
-                        {/*    }}*/}
-                        {/*    open={this.state.dialog}*/}
-                        {/*    autoHideDuration={6000}*/}
-                        {/*    onClose={() => this.setState({dialog: false})}*/}
-                        {/*    message={this.state.errormessage}*/}
-                        {/*    action={*/}
-                        {/*        <React.Fragment>*/}
-                        {/*            <IconButton*/}
-                        {/*                size="small"*/}
-                        {/*                aria-label="close"*/}
-                        {/*                color="inherit"*/}
-                        {/*                onClick={() => this.setState({dialog: false})}*/}
-                        {/*            >*/}
-                        {/*                <CloseIcon fontSize="small"/>*/}
-                        {/*            </IconButton>*/}
-                        {/*        </React.Fragment>*/}
-                        {/*    }*/}
-                        {/*/>*/}
                     </Grid>
                 </Grid>
                 <div style={{background: "#d5e0f3", padding: "30px"}}>
