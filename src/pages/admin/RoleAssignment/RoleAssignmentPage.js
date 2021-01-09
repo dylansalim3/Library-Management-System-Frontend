@@ -175,13 +175,6 @@ const RoleAssignmentPage = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container direction="row" justify="center" style={{marginTop: 15}}>
-                            <Button
-                                variant="contained"
-                                type="submit"
-                                color="primary"
-                            >Submit</Button>
-                        </Grid>
                     </form>
 
 
