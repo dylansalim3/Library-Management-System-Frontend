@@ -43,40 +43,16 @@ class BookSearchResult extends Component {
         console.log(typeof allBookDetail);
     };
 
-// <<<<<<< reservation
-
-//   displaySearchResult = (searchResults) => {
-//     if (searchResults) {
-
-//         return Object.keys(searchResults).map(result=>{
-//         //   console.log(searchResults[result][0].id);
-//           const firstbook = searchResults[result][0];
-//           const allbook = searchResults[result];
-//           var jsonBook = [];
-//           allbook.forEach(book=>{
-//             jsonBook.push({bookid:book.id,location:book.location,status:book.status});
-//           });
-//           console.log(jsonBook);
-// =======
 
     displaySearchResult = (searchResults) => {
         if (searchResults) {
-            // var allBookArr = [];
-            // Object.keys(searchResults).forEach(result=>{
-            //     console.log(searchResults[result]);
-            //     searchResults[result].forEach(all =>{
-
-            //         allBookArr.push(all);
-            //     })
-            // });
-            // console.log(allBookArr);
 
             return Object.keys(searchResults).map(result => {
                 //   console.log(searchResults[result][0].id);
                 const firstbook = searchResults[result][0];
                 const allbook = searchResults[result];
                 var jsonBook = [];
-                if (allbook !== undefined && allbook !== null && firstbook !== undefined && typeof allbook === typeof array) {
+                // if (allbook !== undefined && allbook !== null && firstbook !== undefined && typeof allbook === typeof array) {
                     allbook.forEach(book => {
                         jsonBook.push({bookid: book.id, location: book.location});
                     });
@@ -85,7 +61,7 @@ class BookSearchResult extends Component {
                             {this.displayBookDetail(firstbook, jsonBook)}
                         </Grid>
                     );
-                }
+                // }
 
             })
 
