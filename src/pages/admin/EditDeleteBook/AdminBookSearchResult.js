@@ -3,6 +3,7 @@ import {Card, CardActionArea, CardContent, CardMedia, Grid} from '@material-ui/c
 import BookEditDeleteModal from "./BookEditDeleteModal";
 import { BASE_URL } from '../../../constant/route.constant';
 import Typography from '@material-ui/core/Typography';
+import NoBookImagePlaceholder from "../../../images/book-placeholder.jpg";
 
 class AdminBookSearchResult extends Component {
     constructor(props) {
@@ -50,6 +51,7 @@ class AdminBookSearchResult extends Component {
                   height={200}
                   alt="book img"
                   title={title}
+                  onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h3">
