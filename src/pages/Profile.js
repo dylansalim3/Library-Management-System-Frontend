@@ -12,6 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { BASE_URL } from '../constant/route.constant';
 
 const DarkerDisabledTextField = withStyles({
   root: {
@@ -194,7 +195,7 @@ export default class Profile extends Component {
             >
               <Avatar
                 alt="profileimg"
-                src={this.state.profileimg}
+                src={BASE_URL+ this.state.profileimg}
                 style={{ width: '120px', height: '120px' }}
               />
             </Button>
