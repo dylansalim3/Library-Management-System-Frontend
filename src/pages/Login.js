@@ -14,7 +14,7 @@ import homepageLogo from '../images/homepage_background@2x_transparent.png';
 import Footer from "./Footer";
 import NewArrivalBook from "../components/NewArrivalBook";
 import "./../App.css";
-import { withSnackbar } from 'notistack';
+import {withSnackbar} from 'notistack';
 
 const theme = createMuiTheme({
     palette: {
@@ -57,7 +57,10 @@ class Login extends Component {
             })
             .then((res) => {
                 if (res.data.error) {
-                    this.props.enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
+                    this.props.enqueueSnackbar('Error occurred. Please Try Again Later', {
+                        variant: 'error',
+                        transitionDuration: 1000
+                    });
                     console.log('Error : ' + res.data.error);
                 } else {
                     console.log(res.data.token);
@@ -75,8 +78,10 @@ class Login extends Component {
                 }
             })
             .catch((err) => {
-                this.props.enqueueSnackbar('Error occurred. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
-                console.log(err.response);
+                this.props.enqueueSnackbar("Incorrect combination of email and password", {
+                    variant: 'error',
+                    transitionDuration: 1000
+                });
             });
     }
 
