@@ -13,6 +13,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import PropTypes from 'prop-types';
 import CustomModal from "../../../components/CustomModal";
 import {useForm} from "react-hook-form";
+import {BASE_URL} from "../../../constant/route.constant";
+import NoBookImagePlaceholder from "../../../images/book-placeholder.jpg";
 
 const ImageModal = lazy(() => import("../../../components/imageViewer/ImageModal"));
 
@@ -118,8 +120,14 @@ const EditLibraryMapCard = props => {
                         <CardMedia style={{
                             height: 0,
                             paddingTop: '56.25%',
-                        }} image={libraryMap.image_url}
-                                   title={libraryMap.name}/>
+                        }}
+                                   image={BASE_URL + libraryMap.image_url}
+                                   title={libraryMap.name}
+                                   onError={(e) => {
+                                       e.target.onerror = null;
+                                       e.target.src = NoBookImagePlaceholder
+                                   }}
+                        />
                     </CardActionArea>
                     <CardActions>
                         <input
@@ -168,9 +176,10 @@ const EditLibraryMapCard = props => {
                     showIndex
                     activeIndex={0}
                     images={libraryMaps.map(libraryMap => {
-                        return {src: libraryMap.image_url, title: libraryMap.name,}
+                        return {src: BASE_URL + libraryMap.image_url, title: libraryMap.name,}
                     })}
-                    ref={imageModal}/>
+                    ref={imageModal}
+                />
             </Suspense>
 
             <CustomModal

@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import EditLibraryMapCard from "../pages/admin/EditLibraryMap/EditLibraryMapCard";
 import * as axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {BASE_URL} from "../constant/route.constant";
+import NoBookImagePlaceholder from "../images/book-placeholder.jpg";
 
 const ImageModal = lazy(() => import("./imageViewer/ImageModal"));
 
@@ -56,8 +58,9 @@ const ViewLibraryMap = () => {
                                             <CardMedia style={{
                                                 height: 0,
                                                 paddingTop: '56.25%',
-                                            }} image={libraryMap.image_url}
-                                                       title={libraryMap.name}/>
+                                            }} image={BASE_URL + libraryMap.image_url}
+                                                       title={libraryMap.name}
+                                                       onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}/>
                                         </CardActionArea>
                                     </Card>
                                 </Grid>
@@ -74,7 +77,7 @@ const ViewLibraryMap = () => {
                     showIndex
                     activeIndex={0}
                     images={libraryMaps.map(libraryMap => {
-                        return {src: libraryMap.image_url, title: libraryMap.name,}
+                        return {src: BASE_URL + libraryMap.image_url, title: libraryMap.name,}
                     })}
                     ref={imageModal}/>
             </Suspense>
