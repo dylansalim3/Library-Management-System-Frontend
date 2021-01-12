@@ -4,3 +4,4 @@ node_modules
 misc.xml
 workspace.xml
 package-lock.json
+.env

@@ -19,6 +19,7 @@ import { BASE_URL } from '../../../constant/route.constant';
 
 import axios from 'axios';
 import { Fragment } from 'react';
+import NoBookImagePlaceholder from "../../../images/book-placeholder.jpg";
 
 class BookDetailModal extends Component {
   constructor(props) {
@@ -241,6 +242,7 @@ class BookDetailModal extends Component {
                     style={{ height: 128, width: 128 }}
                     src={BASE_URL + this.props.book.bookimg}
                     alt="book_img"
+                    onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
                   />
                 </Grid>
                 <Grid item md={8} xs={12}>

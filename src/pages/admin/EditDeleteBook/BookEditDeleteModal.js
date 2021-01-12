@@ -10,6 +10,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import * as html2canvas from 'html2canvas';
 import { BASE_URL } from '../../../constant/route.constant';
+import NoBookImagePlaceholder from "../../../images/book-placeholder.jpg";
 
 var Barcode = require('react-barcode');
 
@@ -203,6 +204,7 @@ class BookEditDeleteModal extends Component {
                           style={{ height: 128, width: 128 }}
                           src={BASE_URL + book.bookimg}
                           alt="book_img"
+                          onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
                         />
                       </Button>
                       <input
