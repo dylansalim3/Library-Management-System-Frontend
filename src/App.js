@@ -92,14 +92,13 @@ function App() {
                             component={ForgetPasswordPage}
                         />
                         <Route
-                            exact
+
                             path={PASSWORD_RECOVERY}
                             component={ResetPasswordPage}
                         />
 
                         {/*registration*/}
                         <Route
-                            exact
                             path={ACCOUNT_REGISTRATION}
                             component={Registration}
                         />

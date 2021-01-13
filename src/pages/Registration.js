@@ -28,15 +28,19 @@ class Registration extends Component {
                 last_name: "",
                 password: "",
                 verification_hash: null,
-            }
+            },
+            location: props.location,
         }
     }
 
+    useQuery = () =>{
+        return new URLSearchParams(this.state.location.search);
+    }
+
     componentDidMount() {
-        const {match: {params}} = this.props;
-        console.log(params.hash);
+        let hash = new URLSearchParams(this.state.location.search).get('hash');
         axios.post('users/get-user-by-verification-hash', {
-            hash: params.hash,
+            hash: hash,
         }).then(res => {
             if(res.data.user.active){
                 this.setState({

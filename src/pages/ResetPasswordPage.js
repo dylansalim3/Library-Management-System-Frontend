@@ -12,6 +12,7 @@ import Box from "@material-ui/core/Box/Box";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 import {topgreen} from "../style/Color";
 import mainLogo from "../images/mainlogo.png";
+import {useLocation} from "react-router";
 
 const theme = createMuiTheme({
     palette: {
@@ -50,11 +51,16 @@ const ResetPasswordPage = (props) => {
 
     const {enqueueSnackbar} = useSnackbar();
 
+    const useQuery = () =>{
+        return new URLSearchParams(useLocation().search);
+    }
+
+    let query = useQuery();
     useEffect(() => {
-        const {match: {params}} = props;
-        setVerificationHash(params.hash);
+        setVerificationHash(query.get('hash'));
+        console.log(query.hash);
         axios.post('users/get-user-by-verification-hash', {
-            hash: params.hash,
+            hash: query.get('hash'),
         }).then(res => {
             if (res.data.user) {
                 setEmail(res.data.user.email);

@@ -58,7 +58,7 @@ class AccountRegistrationPage extends Component {
 
     fileUpload = () => {
         const url = 'users/register-user';
-        
+
         if (this.state.roles) {
             const allowedRoles = this.state.roles.map(role => {
                 return role.id;
@@ -69,7 +69,7 @@ class AccountRegistrationPage extends Component {
             formData.append('role', this.state.role);
             formData.append('registrationLinkPrefix', window.location.origin + '/account-registration');
             formData.append('allowedRoles', allowedRoles);
-    
+
             const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -94,7 +94,7 @@ class AccountRegistrationPage extends Component {
             })
         }
 
-       
+
     };
 
     onCloseErrorDialog = () => {
@@ -139,7 +139,7 @@ class AccountRegistrationPage extends Component {
                                 </Button>
                             </div>
                             {this.state.file.name ? (<p className="textCenter">Selected file:&nbsp;{this.state.file.name}</p>) : ''}
-                            <p className="textCenter" style={{ color: 'red' }}>*Create accounts for teacher/librarian by uploading CSV
+                            <p className="textCenter" style={{ margin:'10px', color: 'red' }}>*Create accounts for teacher/librarian by uploading CSV
                                 file, a verification link will be sent to the lists of email addresses</p>
                             <p className="flex-justify-center">Download the csv format&nbsp;<a href={this.state.csvFormatLink}>here</a>.</p>
 

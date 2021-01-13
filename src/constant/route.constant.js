@@ -5,8 +5,8 @@ export const BORROW_BOOK_ROUTE = "/borrowbook";
 
 //Routes
 export const FORGET_PASSWORD = "/forget-password";
-export const PASSWORD_RECOVERY = "/password-recovery/:hash";
-export const ACCOUNT_REGISTRATION = "/account-registration/:hash";
+export const PASSWORD_RECOVERY = "/password-recovery";
+export const ACCOUNT_REGISTRATION = "/account-registration";
 export const PROFILE = "/profile";
 export const ADMIN_DASHBOARD = "/admindashboard";
 export const ADD_BOOK = "/add_book";
