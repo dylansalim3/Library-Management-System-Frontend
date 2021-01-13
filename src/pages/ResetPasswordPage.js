@@ -139,6 +139,7 @@ const ResetPasswordPage = (props) => {
                             error={errors?.password != null}
                             helperText={errors?.password && errors.password.message}
                             value={password}
+                            type="password"
                         />
                     </Box>
                     <Box p={1}>
@@ -156,6 +157,7 @@ const ResetPasswordPage = (props) => {
                             // type="password"
                             onChange={(e) => setConfirmationPassword(e.target.value)}
                             required
+                            type="password"
                         />
                     </Box>
 
