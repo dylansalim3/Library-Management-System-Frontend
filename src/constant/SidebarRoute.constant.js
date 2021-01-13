@@ -56,6 +56,6 @@ export const SIDEBAR_ROUTE_LIBRARIAN = [
     {name: 'Borrow/Return/Renew', route: 'borrowbook', icon: <Autorenew/>},
     {name: 'View Borrow History', route: 'view-borrow-history', icon: <History/>},
     {name: 'Book Reservation', route: 'reservebook', icon: <Redeem/>},
-    {name: 'Library Map', route: 'view_library_map', icon: <Map/>},
+    {name: 'Library Map', route: 'library_map', icon: <Map/>},
     {name: 'Profile', route: 'profile', icon: <Person/>},
 ];

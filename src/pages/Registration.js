@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {TextField} from "@material-ui/core";
+import {Paper, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import AlertDialog from "../components/AlertDialog";
+import mainLogo from "../images/mainlogo.png";
+import Box from "@material-ui/core/Box/Box";
 
 const DarkerDisabledTextField = withStyles({
     root: {
@@ -28,24 +30,28 @@ class Registration extends Component {
                 last_name: "",
                 password: "",
                 verification_hash: null,
-            }
+            },
+            location: props.location,
         }
     }
 
+    useQuery = () => {
+        return new URLSearchParams(this.state.location.search);
+    }
+
     componentDidMount() {
-        const {match: {params}} = this.props;
-        console.log(params.hash);
+        let hash = new URLSearchParams(this.state.location.search).get('hash');
         axios.post('users/get-user-by-verification-hash', {
-            hash: params.hash,
+            hash: hash,
         }).then(res => {
-            if(res.data.user.active){
+            if (res.data.user.active) {
                 this.setState({
-                    dialogTitle:'Access Denied',
-                    dialogDesc:'You have completed the registration. Please Log In.',
-                    dialogConfirmationText:'Go to Login',
+                    dialogTitle: 'Access Denied',
+                    dialogDesc: 'You have completed the registration. Please Log In.',
+                    dialogConfirmationText: 'Go to Login',
                     dialog: true,
                 });
-            }else{
+            } else {
                 this.setState({
                     user: {
                         id: res.data.user.id,
@@ -61,9 +67,9 @@ class Registration extends Component {
             }
         }).catch(err => {
             this.setState({
-                dialogTitle:'Access Denied',
-                dialogDesc:'You have completed the registration. Please Log In.',
-                dialogConfirmationText:'Go to Login',
+                dialogTitle: 'Access Denied',
+                dialogDesc: 'You have completed the registration. Please Log In.',
+                dialogConfirmationText: 'Go to Login',
                 dialog: true,
             });
         })
@@ -123,9 +129,9 @@ class Registration extends Component {
             })
             .then((res) => {
                 this.setState({
-                    dialogTitle:'Success',
-                    dialogDesc:'Registration Successful!',
-                    dialogConfirmationText:'Go to Login',
+                    dialogTitle: 'Success',
+                    dialogDesc: 'Registration Successful!',
+                    dialogConfirmationText: 'Go to Login',
                     dialog: true,
                 });
             });
@@ -154,130 +160,158 @@ class Registration extends Component {
         });
     };
 
-    onCloseSuccessfulModal = () =>{
+    onCloseSuccessfulModal = () => {
         this.setState({dialog: false});
         this.props.history.push('/');
     };
 
     render() {
         return (
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+            <Box width="100%" style={{
+                background: "#edeef2"
             }}>
-                <h2 className="textCenter">Account Registration</h2>
-                <p className="textCenter">Please complete your registration</p>
-                <Button
-                    onClick={() => this.refs.fileUploader.click()}
-                >
-                    <Avatar
-                        alt="profileimg"
-                        src={this.state.user.profileimg}
-                        style={{width: '120px', height: '120px'}}
-                    />
-                </Button>
-                <input
-                    type="file"
-                    id="file"
-                    ref="fileUploader"
-                    style={{display: 'none'}}
-                    onChange={(e) => this.selectImage(e)}
-                />
-                <DarkerDisabledTextField
-                    label="Role"
-                    name="role"
-                    value={String(this.state.user.role).charAt(0).toUpperCase() + String(this.state.user.role).slice(1)}
-                    variant="outlined"
-                    disabled
-                    className=" profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="Library ID"
-                    name="userId"
-                    value={String(this.state.user.id)}
-                    variant="outlined"
-                    disabled
-                    className=" profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="First Name"
-                    name="first_name"
-                    value={this.state.user.first_name}
-                    required
-                    variant="outlined"
-                    onChange={e => this.onChange(e)}
-                    className=" profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="Last Name"
-                    name="last_name"
-                    required
-                    value={this.state.user.last_name}
-                    variant="outlined"
-                    onChange={e => this.onChange(e)}
-                    className=" profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="Email"
-                    name="email"
-                    variant="outlined"
-                    value={this.state.user.email}
-                    disabled
-                    className=" profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="Phone number"
-                    variant="outlined"
-                    name="phonenum"
-                    value={this.state.user.phonenum?String(this.state.user.phonenum):null}
-                    onChange={this.onChange}
-                    className="profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    multiline
-                    rows={4}
-                    label="Home Address"
-                    variant="outlined"
-                    name="address"
-                    value={this.state.user.address?String(this.state.user.address):null}
-                    onChange={this.onChange}
-                    className="profileInput gridmargin"
-                />
-                <DarkerDisabledTextField
-                    label="Password"
-                    name="password"
-                    type="password"
-                    required
-                    variant="outlined"
-                    onChange={e => this.onChange(e)}
-                    className=" profileInput gridmargin"
-                />
-                <div
-                    style={{
-                        marginTop: '50px',
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        onClick={() => this.updateProfile()}
-                        style={{width: '40%', maxWidth: '230px', height: '40px'}}
+
+                <div style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    height: '130vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems:'center',
+                    justifyContent: 'flex-start'
+                }}>
+                    <div style={{margin: "20px"}}>
+                        <a href="/">
+                            <img src={mainLogo} alt="logo"/>
+                        </a>
+                    </div>
+
+
+                    <Box display="flex" component={Paper}
+                         container
+                         style={{
+                             width:'70vw',
+                             padding: '20px 50px',
+                             flexDirection: 'column',
+                             alignItems: 'center',
+                             justifyContent: 'space-around',
+                         }}
                     >
-                        Submit
-                    </Button>
+                        <h2 className="textCenter">Account Registration</h2>
+                        <p className="textCenter">Please complete your registration</p>
+                        <Button
+                            onClick={() => this.refs.fileUploader.click()}
+                        >
+                            <Avatar
+                                alt="profileimg"
+                                src={this.state.user.profileimg}
+                                style={{width: '120px', height: '120px'}}
+                            />
+                        </Button>
+                        <input
+                            type="file"
+                            id="file"
+                            ref="fileUploader"
+                            style={{display: 'none'}}
+                            onChange={(e) => this.selectImage(e)}
+                        />
+                        <DarkerDisabledTextField
+                            label="Role"
+                            name="role"
+                            value={String(this.state.user.role).charAt(0).toUpperCase() + String(this.state.user.role).slice(1)}
+                            variant="outlined"
+                            disabled
+                            className=" profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="Library ID"
+                            name="userId"
+                            value={String(this.state.user.id)}
+                            variant="outlined"
+                            disabled
+                            className=" profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="First Name"
+                            name="first_name"
+                            value={this.state.user.first_name}
+                            required
+                            variant="outlined"
+                            onChange={e => this.onChange(e)}
+                            className=" profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="Last Name"
+                            name="last_name"
+                            required
+                            value={this.state.user.last_name}
+                            variant="outlined"
+                            onChange={e => this.onChange(e)}
+                            className=" profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="Email"
+                            name="email"
+                            variant="outlined"
+                            value={this.state.user.email}
+                            disabled
+                            className=" profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="Phone number"
+                            variant="outlined"
+                            name="phonenum"
+                            value={this.state.user.phonenum ? String(this.state.user.phonenum) : null}
+                            onChange={this.onChange}
+                            className="profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            multiline
+                            rows={4}
+                            label="Home Address"
+                            variant="outlined"
+                            name="address"
+                            value={this.state.user.address ? String(this.state.user.address) : null}
+                            onChange={this.onChange}
+                            className="profileInput gridmargin"
+                        />
+                        <DarkerDisabledTextField
+                            label="Password"
+                            name="password"
+                            type="password"
+                            required
+                            variant="outlined"
+                            onChange={e => this.onChange(e)}
+                            className=" profileInput gridmargin"
+                        />
+                        <div
+                            style={{
+                                marginTop: '50px',
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={() => this.updateProfile()}
+                                style={{width: '40%', maxWidth: '230px', height: '40px'}}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+                        <AlertDialog
+                            title={this.state.dialogTitle}
+                            desc={this.state.dialogDesc}
+                            confirmationText={this.state.dialogConfirmationText}
+                            showAlertModal={this.state.dialog}
+                            onCloseConfirmationModal={this.onCloseSuccessfulModal}
+                        />
+                    </Box>
                 </div>
-                <AlertDialog
-                    title={this.state.dialogTitle}
-                    desc={this.state.dialogDesc}
-                    confirmationText={this.state.dialogConfirmationText}
-                    showAlertModal={this.state.dialog}
-                    onCloseConfirmationModal={this.onCloseSuccessfulModal}
-                />
-            </div>
+            </Box>
+
         );
     }
 }
