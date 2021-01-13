@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
 import {useForm} from "react-hook-form";
-import {Button} from "@material-ui/core";
+import {Button, makeStyles, Paper} from "@material-ui/core";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
@@ -11,6 +11,7 @@ import AlertDialog from "../components/AlertDialog";
 import Box from "@material-ui/core/Box/Box";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 import {topgreen} from "../style/Color";
+import mainLogo from "../images/mainlogo.png";
 
 const theme = createMuiTheme({
     palette: {
@@ -20,8 +21,24 @@ const theme = createMuiTheme({
     },
 });
 
-const ResetPasswordPage = (props) => {
+const useStyles = makeStyles((theme) => ({
+    outerContainer: {
+        background: "#edeef2"
+    },
+    mainContainer: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '50vw',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
+}));
 
+const ResetPasswordPage = (props) => {
+    const classes = useStyles();
 
     const [verificationHash, setVerificationHash] = useState(null);
     const [email, setEmail] = useState('');
@@ -66,8 +83,25 @@ const ResetPasswordPage = (props) => {
 
     return (
         <MuiThemeProvider theme={theme}>
+            <Box width="100%" className={classes.outerContainer}>
 
-            <Box display="flex" justifyContent="center">
+                <div className={classes.mainContainer}>
+                    <div style={{margin: "20px"}}>
+
+                        <img src={mainLogo} alt="logo"/>
+                    </div>
+
+
+                    <Box display="flex" component={Paper}
+                         container
+                         style={{
+                             padding: '20px 50px',
+                             flexDirection: 'column',
+                             alignItems: 'center',
+                             justifyContent: 'space-around',
+                             height: '40vh',
+                         }}
+                    >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box>
                         <h1>Password Recovery</h1>
@@ -92,18 +126,13 @@ const ResetPasswordPage = (props) => {
                             name="password"
                             inputRef={register({
                                 // required: 'Field cannot leave blank',
-                                min: {value: 8, message: "Password must contain minimum 8 characters"},
-                                pattern: {
-                                    value: /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/i,
-                                    message: "Password must contain at least 1 letter and 1 number"
-                                }
+                                min: {value: 8, message: "Password must contain minimum 8 characters"}
                             })}
                             required
                             onChange={(e) => setPassword(e.target.value)}
                             error={errors?.password != null}
                             helperText={errors?.password && errors.password.message}
                             value={password}
-                            // type="password"
                         />
                     </Box>
                     <Box p={1}>
@@ -113,7 +142,6 @@ const ResetPasswordPage = (props) => {
                             variant="outlined"
                             name="confirmationPassword"
                             inputRef={register({
-                                required: 'Field cannot leave blank',
                                 validate: {isPasswordEqual: value => isPasswordEqual() || 'Both password must be equal'}
                             })}
                             error={errors?.confirmationPassword != null}
@@ -139,6 +167,8 @@ const ResetPasswordPage = (props) => {
                     showAlertModal={showSuccessDialog}
                     onCloseConfirmationModal={onCloseSuccessfulModal}
                 />
+            </Box>
+                </div>
             </Box>
         </MuiThemeProvider>
     );

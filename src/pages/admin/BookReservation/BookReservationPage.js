@@ -60,7 +60,7 @@ const CompletedBookReservation = () => {
         axios.post('book-request/find-all-completed-book-reservations').then(result => {
             result.data.forEach(res=>{
                 const img = res.bookimg;
-                res.bookimg = BASE_URL + img;
+                res.bookimg = img;
             })
             setBookRequests(result.data);
             console.log(result.data);

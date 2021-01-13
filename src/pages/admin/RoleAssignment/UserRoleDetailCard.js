@@ -1,9 +1,11 @@
 import * as React from 'react';
-import {Box, Grid} from "@material-ui/core";
+import {Box, CardMedia, Grid} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import {formatDate} from "../../../util/DateUtils";
 import * as PropTypes from "prop-types";
+import {BASE_URL} from "../../../constant/route.constant";
+import NoBookImagePlaceholder from "../../../images/book-placeholder.jpg";
 
 
 export function UserDetailCard(props) {
@@ -16,7 +18,8 @@ export function UserDetailCard(props) {
                     <Box p={1}>
                         <Grid container spacing={1}>
                             <Grid item md={4} xs={12}>
-                                <img style={{height: 128, width: 128}} src={profileImg} alt="book_img"/>
+                                <img style={{height: 128, width: 128}} src={BASE_URL + profileImg} alt="book_img"                   onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
+                                />
                             </Grid>
                             <Grid item md={8} xs={12}>
                                 <p style={{display: 'flex', justifyContent: 'space-between',textTransform:'capitalize'}}>
