@@ -15,8 +15,12 @@ const ReturnBookTab = () => {
         axios.post('borrow-books-history/is-book-expired', getValues()).then(res => {
             if (res.data) {
                 const {fine} = res.data;
-                setOpenExpiredModal(true);
-                setExpiredModalDesc(`The book fine is RM ${fine}`);
+                if(fine>0){
+                    setOpenExpiredModal(true);
+                    setExpiredModalDesc(`The book fine is RM ${fine}`);
+                }else{
+                    submitReturnBookRequest();
+                }
             }
         }).catch(err => {
             if (err && err.response?.data?.message) {

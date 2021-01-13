@@ -24,6 +24,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import {Search} from "@material-ui/icons";
 import NoImagePlaceholder from "./../images/No-Image-Placeholder.png";
+import {BASE_URL} from "../constant/route.constant";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -382,7 +383,7 @@ const EnhancedTable = (props) => {
         if (!row[headCell.id]) {
             return '-';
         } else if (headCell.type === 'img') {
-            return (<img src={row[headCell.id]} alt="img" onError={(e)=>{e.target.onerror = null; e.target.src=NoImagePlaceholder}}
+            return (<img src={BASE_URL + row[headCell.id]} alt="img" onError={(e)=>{e.target.onerror = null; e.target.src=NoImagePlaceholder}}
 
                          style={{width: '120px', height: '120px'}}/>);
         } else if (headCell.type === 'date') {
