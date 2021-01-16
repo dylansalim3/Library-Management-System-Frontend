@@ -32,11 +32,16 @@ var month,day="";
 
 if(today.getMonth()+1<10){
   month="0"+(today.getMonth()+1);
+}else{
+  month = today.getMonth()+1;
 }
 if (today.getDate() < 10) {
-      day = '0' + today.getDate();
+  day = '0' + today.getDate();
+}else{
+  day = today.getDate();
 }
 var todayDate = today.getFullYear() +'-' +month +'-' + day;
+
 
 const defaultState = {
   first_name: '',
