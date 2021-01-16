@@ -8,6 +8,7 @@ import CustomModal from "../../../components/CustomModal";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {TextField} from "@material-ui/core";
 import { BASE_URL } from '../../../constant/route.constant';
+import jwt_decode from "jwt-decode";
 
 const RequestType = {
     ACCEPT: 'accept',
@@ -91,6 +92,8 @@ const BookReservationPage = () => {
     const [selectedBookRequestId, setSelectedBookRequestId] = React.useState(-1);
     const [showAlertModal, setShowAlertModal] = React.useState(false);
     const [requestType, setRequestType] = React.useState(RequestType.ACCEPT);
+
+    var myUserId = '';
 
     React.useEffect(() => {
         retrieveData();

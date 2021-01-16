@@ -154,6 +154,7 @@ const PendingRenewBookRequest = () => {
                         variant: 'success',
                         transitionDuration: 1000
                     });
+                    window.location.reload(false);
                     return result;
                 });
             } else {
@@ -166,6 +167,7 @@ const PendingRenewBookRequest = () => {
                         variant: 'success',
                         transitionDuration: 1000
                     });
+                    window.location.reload(false);
                     return result;
                 })
             }

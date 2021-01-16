@@ -93,6 +93,8 @@ const ExtendBorrowPage = () => {
                                      <Grid container direction="row" justify="center">
                                          <Grid item xs={12} md={8}>
                                              <TextField
+                                                 multiline
+                                                 rows={6}
                                                  label="Extend Book Reason"
                                                  name="reason"
                                                  type="text"
