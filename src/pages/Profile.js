@@ -48,6 +48,7 @@ export default class Profile extends Component {
       profileimgpath: null,
       imgchanged: false,
       snackMessage: '',
+      displayImg: null,
     };
   }
 
@@ -88,6 +89,7 @@ export default class Profile extends Component {
               profileimg: res.data.userdata.profileimg,
               address: res.data.userdata.address,
               phonenum: res.data.userdata.phonenum,
+              displayImg: BASE_URL + res.data.userdata.profileimg,
             });
         })
   }
@@ -165,9 +167,10 @@ export default class Profile extends Component {
   selectImage = (e) => {
     console.log(e.target.files[0]);
     this.setState({
+      imgchanged: true,
       uploadprofileimg: e.target.files[0],
       profileimg: URL.createObjectURL(e.target.files[0]),
-      imgchanged: true
+      displayImg: URL.createObjectURL(e.target.files[0]),
     });
   };
 
@@ -195,7 +198,12 @@ export default class Profile extends Component {
             >
               <Avatar
                 alt="profileimg"
-                src={BASE_URL+ this.state.profileimg}
+                // src={
+                //   this.state.imgchanged
+                //     ? BASE_URL + this.state.profileimg
+                //     : this.state.profileimg
+                // }
+                src={this.state.displayImg}
                 style={{ width: '120px', height: '120px' }}
               />
             </Button>

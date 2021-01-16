@@ -236,7 +236,7 @@ export default class Addbook extends Component {
     await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
     console.log(this.state.ebookpath);
-      if (this.state.summary && this.state.location) {
+      // if (this.state.summary && this.state.location) {
         axios
           .post('/books/add', {
             isbn: this.state.isbn,
@@ -266,9 +266,9 @@ export default class Addbook extends Component {
           .catch((err) => {
             console.log(err);
           });
-      } else {
-        console.log('location and summary cannot be empty');
-      }
+      // } else {
+      //   console.log('location and summary cannot be empty');
+      // }
   };
 
   onSubmit = async (e) => {
@@ -324,6 +324,8 @@ export default class Addbook extends Component {
       this.setState({ toastMessageText: 'Category successfully deleted.' });
     } else if (type === 'deletegenre') {
       this.setState({ toastMessageText: 'Genre successfully deleted.' });
+    } else if(type === 'deletefailed'){
+      this.setState({toastMessageText: 'Failed to delete field. Make sure there is no book allocated to this field.'});
     }
     this.setState({ toastMessage: true });
   };
@@ -346,6 +348,7 @@ export default class Addbook extends Component {
           })
           .catch((err) => {
             console.log(err);
+            
           })
           .finally(() => {
             this.retrieveData();
@@ -358,15 +361,22 @@ export default class Addbook extends Component {
             deleteFieldName: this.state.deleteValue,
           })
           .then((res) => {
-            console.log(res);
+                console.log(res);
+                this.retrieveData();
+                this.closeThirdDialog();
+                this.openToastMessage('delete' + deleteType);
           })
           .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            this.retrieveData();
-            this.closeThirdDialog();
-            this.openToastMessage('delete' + deleteType);
+            console.log(err.message);
+            if(err.response.data.message.name==undefined){
+                this.retrieveData();
+                this.closeThirdDialog();
+                this.openToastMessage('delete' + deleteType);
+            }else{
+                this.retrieveData();
+                this.closeThirdDialog();
+                this.openToastMessage('deletefailed');
+            }
           });
       }
     } catch (err) {
@@ -814,6 +824,7 @@ export default class Addbook extends Component {
                     }}
                   >
                     <FormControl
+                      required
                       className={'gridSecWidth gridmargin'}
                       variant="outlined"
                     >
@@ -862,6 +873,7 @@ export default class Addbook extends Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      disabled={!this.state.ebookdisabled}
                       required
                       label="Location"
                       variant="outlined"

@@ -221,6 +221,7 @@ class BookDetailModal extends Component {
     const authors = this.props.book.author;
     const datepublished = this.props.book.datepublished;
     const publisher = this.props.book.publisher;
+    const category = this.props.book.category;
     return (
       <div>
         <Dialog
@@ -242,7 +243,10 @@ class BookDetailModal extends Component {
                     style={{ height: 128, width: 128 }}
                     src={BASE_URL + this.props.book.bookimg}
                     alt="book_img"
-                    onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = NoBookImagePlaceholder;
+                    }}
                   />
                 </Grid>
                 <Grid item md={8} xs={12}>
@@ -272,6 +276,15 @@ class BookDetailModal extends Component {
                   >
                     <h4>Type</h4>
                     <span>{this.props.book.type}</span>
+                  </p>
+                  <p
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <h4>Category</h4>
+                    <span>{category ? category.name : '-'}</span>
                   </p>
                   <p
                     style={{
@@ -322,7 +335,6 @@ class BookDetailModal extends Component {
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-
                     }}
                   >
                     <h4>Publisher</h4>
