@@ -15,6 +15,26 @@ const RequestType = {
     REJECT: 'reject',
 };
 
+var today = new Date();
+var month,
+  day = '';
+
+if (today.getMonth() + 1 < 10) {
+  month = '0' + (today.getMonth() + 1);
+} else {
+  month = today.getMonth() + 1;
+}
+if (today.getDate() < 10) {
+  day = '0' + today.getDate();
+} else {
+  day = today.getDate();
+}
+
+const alphabetmonth = today.toLocaleString('default', { month: 'long' }).substring(0,3);
+console.log(alphabetmonth);
+var todayDate = day + '-' + alphabetmonth + '-' + today.getFullYear(); 
+// var todayDate = today.getFullYear() + '-' + month + '-' + day;
+
 const CompletedBookReservation = () => {
     const [bookRequests, setBookRequests] = React.useState([]);
     const {enqueueSnackbar} = useSnackbar();
@@ -224,21 +244,22 @@ const BookReservationPage = () => {
     const onSuccessButtonPressed = async () => {
         try {
             if (requestType === RequestType.ACCEPT) {
-                await axios.post('book-request/accept-book-reservation-request', {
+                await axios
+                  .post('book-request/accept-book-reservation-request', {
                     bookRequestId: selectedBookRequestId,
-                    startDate,
-                    dueDate: expiryDate
-                }).then(result => {
+                    startDate: todayDate,
+                    dueDate: expiryDate,
+                  })
+                  .then((result) => {
                     enqueueSnackbar('The book reservation has been approved', {
-                        variant: 'success',
-                        transitionDuration: 1000
+                      variant: 'success',
+                      transitionDuration: 1000,
                     });
-                            resetAlertModal();
-                            retrieveData();
-                            window.location.reload(false);
+                    resetAlertModal();
+                    retrieveData();
+                    // window.location.reload(false);
                     return result;
-                    
-                });
+                  });
             } else {
                 if(rejectReason){
                     await axios.post('book-request/reject-book-reservation-request', {

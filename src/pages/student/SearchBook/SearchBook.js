@@ -105,7 +105,7 @@ class SearchBook extends Component {
     const genreList = this.state.genreList;
     return (
       <div>
-        <h2>Genre</h2>
+        <h2 style={{marginBottom:'10px'}}>Genre</h2>
         <ToggleButtonGroup
           value={this.state.genre}
           exclusive
@@ -185,14 +185,14 @@ class SearchBook extends Component {
         <StudentBoilerplate page={'searchbook'} />
         <div className="content">
           <h2>Library Catalog</h2>
-          <Card style={{ padding: 10 }}>
+          <Card style={{ padding: 10, marginBottom: '20px' }}>
             <CardContent className="flexGrow">
               <form onSubmit={this.onSubmit} noValidate autoComplete="off">
                 <Grid container spacing={1}>
                   <Grid item xs={8}>
                     {this.displaySearchCriteria()}
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={4} style={{ marginBottom: '20px' }}>
                     {this.displaySearchCriteriaType()}
                   </Grid>
                 </Grid>
@@ -228,10 +228,12 @@ class SearchBook extends Component {
           ) : (
             ''
           )}
-          <NewArrivalBook
-            disabledReservation={this.state.disabledReservation}
-            reserve={true}
-          />
+          <div style={{marginBottom:'20px'}}>
+            <NewArrivalBook
+              disabledReservation={this.state.disabledReservation}
+              reserve={true}
+            />
+          </div>
           <BookRecommendation
             disabledReservation={this.state.disabledReservation}
             reserve={true}
