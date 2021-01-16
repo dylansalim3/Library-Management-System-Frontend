@@ -45,7 +45,7 @@ class BorrowHistoryPage extends Component {
             <div>
                 <StudentBoilerplate page={'borrowhistory'}/>
                 <div className='content'>
-                    <h2>Borrow History</h2>
+                    <h2 style={{marginBottom:'20px'}}>Borrow History</h2>
                     <EnhancedTable
                         headCells={headCells}
                         rows={borrowBookHistory}

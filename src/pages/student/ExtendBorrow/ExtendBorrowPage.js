@@ -73,51 +73,65 @@ const ExtendBorrowPage = () => {
     const searchCriteria = ['title'];
 
     return (
-        <div>
-            <StudentBoilerplate page={'extendborrow'}/>
-            <div className="content">
-                <h2>Extend Borrow</h2>
-                <EnhancedTable
-                    headCells={headCells}
-                    rows={borrowBooks}
-                    actionButtonText="Extend Borrow"
-                    onDeleteSelection={onExtendBorrowBtnClick}
-                    searchCriteria={searchCriteria}
-                />
+      <div>
+        <StudentBoilerplate page={'extendborrow'} />
+        <div className="content">
+          <h2 style={{ marginBottom: '20px' }}>Extend Borrow</h2>
+          <EnhancedTable
+            headCells={headCells}
+            rows={borrowBooks}
+            actionButtonText="Extend Borrow"
+            onDeleteSelection={onExtendBorrowBtnClick}
+            searchCriteria={searchCriteria}
+          />
 
-                <CustomModal showAlertModal={openExtendBorrowReasonDialog}
-                             title={"What is your reason to extend the book?"}
-                             desc={
-                                 <form id="extendBorrowReasonForm" onSubmit={handleSubmit(submitSelection)} noValidate
-                                       autoComplete="off">
-                                     <Grid container direction="row" justify="center">
-                                         <Grid item xs={12} md={8}>
-                                             <TextField
-                                                 multiline
-                                                 rows={6}
-                                                 label="Extend Book Reason"
-                                                 name="reason"
-                                                 type="text"
-                                                 inputRef={register({required: true})}
-                                                 error={errors?.reason}
-                                                 helperText={errors?.reason && "Invalid value"}
-                                                 fullWidth
-                                                 required
-                                                 variant="outlined"
-                                             />
-                                         </Grid>
-                                     </Grid>
-                                 </form>
-                             }
-                             customActions={[
-                                 <Button onClick={() => setOpenExtendBorrowReasonDialog(false)} color="warning">
-                                     Close
-                                 </Button>,
-                                 <Button form="extendBorrowReasonForm" type="submit" color="primary">
-                                     Submit
-                                 </Button>]}/>
-            </div>
+          <CustomModal
+            showAlertModal={openExtendBorrowReasonDialog}
+            title={'What is your reason to extend the book?'}
+            desc={
+              <form
+                id="extendBorrowReasonForm"
+                onSubmit={handleSubmit(submitSelection)}
+                noValidate
+                autoComplete="off"
+              >
+                <Grid container direction="row" justify="center">
+                  <Grid item xs={12} md={8}>
+                    <TextField
+                      multiline
+                      rows={6}
+                      label="Extend Book Reason"
+                      name="reason"
+                      type="text"
+                      inputRef={register({ required: true })}
+                      error={errors?.reason}
+                      helperText={errors?.reason && 'Invalid value'}
+                      fullWidth
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            }
+            customActions={[
+              <Button
+                onClick={() => setOpenExtendBorrowReasonDialog(false)}
+                color="warning"
+              >
+                Close
+              </Button>,
+              <Button
+                form="extendBorrowReasonForm"
+                type="submit"
+                color="primary"
+              >
+                Submit
+              </Button>,
+            ]}
+          />
         </div>
+      </div>
     );
 };
 

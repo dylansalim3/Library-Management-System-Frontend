@@ -82,7 +82,7 @@ class EditDeleteBookPage extends Component {
         const genreList = this.state.genreList;
         return (
             <div>
-                <h2>Genre</h2>
+                <h2 style={{marginBottom:'20px'}}>Genre</h2>
                 <ToggleButtonGroup
                     value={this.state.genre}
                     exclusive
@@ -151,11 +151,11 @@ class EditDeleteBookPage extends Component {
             <div>
                 <AdminBoilerplate page={'edit_book'}/>
                 <div className='content'>
-                    <h2>Library Catalog</h2>
-                    <Card style={{padding: 10}}>
+                    <h2 style={{marginBottom:'20px'}}>Library Catalog</h2>
+                    <Card style={{padding: 10,marginBottom:'20px'}}>
                         <CardContent className="flexGrow">
                             <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-                                <Grid container spacing={1}>
+                                <Grid container spacing={1} style={{marginBottom:'20px'}}>
                                     <Grid item xs={8}>
                                         {this.displaySearchCriteria()}
                                     </Grid>

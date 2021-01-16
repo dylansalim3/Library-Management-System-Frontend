@@ -148,6 +148,16 @@ class BookEditDeleteModal extends Component {
     });
   };
 
+  downloadBarcodeImg = () => {
+    var a = document.createElement('a');
+    const fileName = String(this.props.book.id) + '.png';
+    console.log(this.props.book);
+    a.setAttribute('download', fileName);
+    a.setAttribute('href', BASE_URL+this.props.book.barcode_path);
+    a.setAttribute('target', BASE_URL + '_blank');
+    a.click();
+  }
+
   downloadBarcode = () => {
     var input = document.getElementById('barcodeField');
     console.log(input);
@@ -204,7 +214,10 @@ class BookEditDeleteModal extends Component {
                           style={{ height: 128, width: 128 }}
                           src={BASE_URL + book.bookimg}
                           alt="book_img"
-                          onError={(e)=>{e.target.onerror = null; e.target.src=NoBookImagePlaceholder}}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = NoBookImagePlaceholder;
+                          }}
                         />
                       </Button>
                       <input
@@ -328,17 +341,26 @@ class BookEditDeleteModal extends Component {
                         className="profileInput gridmargin"
                         style={{ marginBottom: '30px' }}
                       />
-                      <div id="barcodeField" style={{width:"150px",height:"150px",display:'flex',justifyContent:'center',alignItems:'center'}}>
+                      <div
+                        id="barcodeField"
+                        style={{
+                          width: '150px',
+                          height: '150px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
                         <Barcode
                           id="barcode"
                           style={{
                             width: '100%',
-                            backgroundColor: 'red'
+                            backgroundColor: 'red',
                           }}
                           value={String(book.id)}
                         />
                       </div>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         onClick={this.downloadBarcode}
                         style={{
@@ -351,6 +373,20 @@ class BookEditDeleteModal extends Component {
                         }}
                       >
                         Redownload barcode
+                      </Button> */}
+                      <Button
+                        variant="contained"
+                        onClick={this.downloadBarcodeImg}
+                        style={{
+                          backgroundColor: '#1f84ff',
+                          height: '40px',
+                          width: '100%',
+                          marginTop: '30px',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        View Barcode
                       </Button>
                     </Grid>
                   </Grid>
