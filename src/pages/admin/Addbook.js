@@ -236,8 +236,8 @@ export default class Addbook extends Component {
     await this.uploadEbook(ebookFormObj);
     console.log(this.state.bookimgpath);
     console.log(this.state.ebookpath);
-      // if (this.state.summary && this.state.location) {
-        axios
+
+       await axios
           .post('/books/add', {
             isbn: this.state.isbn,
             title: this.state.booktitle,
@@ -262,13 +262,43 @@ export default class Addbook extends Component {
               dialogopen: true,
             });
 
-        })
+            //upload barcode
+            const input = document.getElementById('barcodeField');
+            html2canvas(input).then((canvas) => {
+              const imgData = canvas.toDataURL('image/png');
+              axios
+                .post('/file-barcode', {
+                  img: imgData,
+                  id: this.state.addedBookID,
+                })
+                .then((data) => {
+                  console.log(data.data);
+                  axios
+                    .post('book-details/update-barcodepath', {
+                      bookId: this.state.addedBookID,
+                      barcodePath: data.data,
+                    })
+                    .then((res) => {
+                      console.log(res);
+                    })
+                    .catch(e=>{
+                      console.log(e);
+                    })
+                })
+                .catch((err) => {
+                  console.log(err);
+                  return;
+                });
+            });
+
+
+          })
           .catch((err) => {
             console.log(err);
           });
-      // } else {
-      //   console.log('location and summary cannot be empty');
-      // }
+
+
+
   };
 
   onSubmit = async (e) => {
@@ -593,7 +623,7 @@ export default class Addbook extends Component {
           open={this.state.dialogopen}
           onClose={() => {
             this.setState(Object.assign({}, defaultState));
-            document.getElementById('uploadCaptureInputFile').value = '';
+            // document.getElementById('uploadCaptureInputFile').value = '';
             this.retrieveData();
           }}
         >

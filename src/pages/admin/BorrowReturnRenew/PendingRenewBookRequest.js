@@ -49,7 +49,7 @@ const CompletedRenewBookRequest = () => {
 
     return (
         <div>
-            <h2>Completed Renew Book Request</h2>
+            <h2 style={{ marginBottom: '10px' }}>Completed Renew Book Request</h2>
             <EnhancedTable
                 headCells={headCells}
                 rows={bookRequests}
@@ -205,27 +205,32 @@ const PendingRenewBookRequest = () => {
     const searchCriteria = ['title', 'username'];
 
     return (
-        <div>
-
-            <h2>Pending Renew Book Request</h2>
-            <EnhancedTable
-                headCells={headCells}
-                rows={bookRequests}
-                actionAreaHeadCells={actionAreaHeadCells}
-                searchCriteria={searchCriteria}
-            />
-
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <CustomModal
-                    showAlertModal={showAlertModal}
-                    title="Insert Expiry Date to Continue"
-                    desc={requestType === RequestType.ACCEPT ? InsertDateModalContent : InsertRejectReasonModalContent}
-                    onCloseConfirmationModal={resetAlertModal}
-                    onSuccessButtonPressed={onSuccessButtonPressed}
-                />
-            </MuiPickersUtilsProvider>
-            <CompletedRenewBookRequest/>
+      <div>
+        <h2 style={{ marginBottom: '10px' }}>Pending Renew Book Request</h2>
+        <div style={{ marginBottom: '20px' }}>
+          <EnhancedTable
+            headCells={headCells}
+            rows={bookRequests}
+            actionAreaHeadCells={actionAreaHeadCells}
+            searchCriteria={searchCriteria}
+          />
         </div>
+
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <CustomModal
+            showAlertModal={showAlertModal}
+            title="Insert Expiry Date to Continue"
+            desc={
+              requestType === RequestType.ACCEPT
+                ? InsertDateModalContent
+                : InsertRejectReasonModalContent
+            }
+            onCloseConfirmationModal={resetAlertModal}
+            onSuccessButtonPressed={onSuccessButtonPressed}
+          />
+        </MuiPickersUtilsProvider>
+        <CompletedRenewBookRequest />
+      </div>
     );
 };
 
