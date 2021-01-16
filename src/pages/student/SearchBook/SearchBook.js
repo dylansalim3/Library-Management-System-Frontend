@@ -97,7 +97,7 @@ class SearchBook extends Component {
           // bookSearchResult: results.data,
           bookSearchResult: booksByISBN,
         });
-        console.log(this.state.showBookSearchResult);
+        // console.log(this.state.showBookSearchResult);
       });
   };
 
