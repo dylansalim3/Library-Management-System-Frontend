@@ -226,7 +226,7 @@ class ImageViewer extends Component {
             const isActive = activeIndex === index;
             const itemInvisible = length > constants_1.VISIBLE_INDICATORS_COUNT && (index < Math.min(length - constants_1.VISIBLE_INDICATORS_COUNT - 1, activeIndex - ret) || index > Math.max(activeIndex + ret, constants_1.VISIBLE_INDICATORS_COUNT));
             const itemCls = `indicators-item ${isActive ? 'active' : ''} ${itemInvisible ? 'invisible' : ''} ${this.props.showPreview ? 'preview' : ''}`;
-            console.log(`${axios.defaults.baseURL}/${item.src}`);
+            
             return (
                 <div
                     key={index}

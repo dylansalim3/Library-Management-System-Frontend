@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import studentIcon from "./../../images/student.svg";
 import teacherIcon from "./../../images/teacher.svg";
@@ -28,8 +28,8 @@ const useStyle = makeStyles({
     floatRight: {
         float: 'right',
     },
-    outerContainer:{
-        paddingBottom:'60px',
+    outerContainer: {
+        paddingBottom: '60px',
     }
 });
 
@@ -42,19 +42,18 @@ const AdminDashboardContent = () => {
     const [booksBorrowed, setBooksBorrowed] = React.useState(0);
     const [notifications, setNotifications] = React.useState([]);
     const overviewItems = [
-        {title: 'No. of students', detail: studentCount, icon: studentIcon},
-        {title: 'No. of staff', detail: teacherCount, icon: teacherIcon},
-        {title: 'No. of books overdue', detail: overdueBookCount, icon: expiredBookIcon},
-        {title: 'No. of books borrowed this month', detail: booksBorrowed, icon: returnBookIcon}
+        { title: 'No. of students', detail: studentCount, icon: studentIcon },
+        { title: 'No. of staff', detail: teacherCount, icon: teacherIcon },
+        { title: 'No. of books overdue', detail: overdueBookCount, icon: expiredBookIcon },
+        { title: 'No. of books borrowed this month', detail: booksBorrowed, icon: returnBookIcon }
     ];
 
     const headCells = [
-        {id: 'id', numeric: true, disablePadding: true, label: 'No'},
-        {id: 'title', numeric: false, disablePadding: false, label: 'Message'},
-        {id: 'url', numeric: false, disablePadding: false, label: 'URL'},
-        {id: 'user_id', numeric: false, disablePadding: false, label: 'Receiver'},
-        {id: 'created', numeric: false, type: 'date', disablePadding: false, label: 'Date'},
-        {id: 'unread', numeric: false, disablePadding: false, label: 'Read Status'},
+        { id: 'title', numeric: false, disablePadding: false, label: 'Message' },
+        { id: 'url', numeric: false, disablePadding: false, label: 'URL' },
+        { id: 'user_id', numeric: false, disablePadding: false, label: 'Receiver' },
+        { id: 'created', numeric: false, type: 'date', disablePadding: false, label: 'Date' },
+        { id: 'unread', numeric: false, disablePadding: false, label: 'Read Status' },
     ];
 
 
@@ -71,14 +70,22 @@ const AdminDashboardContent = () => {
         });
     }, []);
 
-    const generateReport = () =>{
-        axios({url: 'report/get-monthly-report', method: 'POST', responseType: 'blob',}).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'report.pdf');
-            document.body.appendChild(link);
-            link.click();
+    const generateReport = () => {
+        axios({ url: 'report/get-monthly-report', method: 'POST' }).then(response => {
+            console.log(response.data)
+            console.log(response.data?.download !== undefined);
+            if (response.data?.download !== undefined) {
+                setTimeout(() => {
+                    window.open(response.data?.download);
+                }, 100
+                )
+            }
+            // const url = window.URL.createObjectURL(new Blob([response.data]));
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', 'report.pdf');
+            // document.body.appendChild(link);
+            // link.click();
         }).catch(err => {
             // setOpenErrorSnackbar(true);
         });
@@ -87,13 +94,13 @@ const AdminDashboardContent = () => {
     return (
         <div className={classes.outerContainer}>
             <h1>Overview</h1>
-            <DashboardCards overviewItems={overviewItems}/>
+            <DashboardCards overviewItems={overviewItems} />
             <h1>Notification & Reminder</h1>
             <EnhancedTable headCells={headCells} rows={notifications}
-                           disableToolbar/>
+                disableToolbar />
 
             <Button className={classes.floatRight} variant="contained" color="primary"
-                    startIcon={<GetAppIcon/>} onClick={generateReport}> Generate PDF Report</Button>
+                startIcon={<GetAppIcon />} onClick={generateReport}> Generate PDF Report</Button>
         </div>
     );
 };

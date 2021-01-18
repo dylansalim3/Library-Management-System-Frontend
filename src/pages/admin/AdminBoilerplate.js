@@ -6,36 +6,37 @@ import {withRouter} from 'react-router-dom';
 class AdminBoilerplate extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = {}
     }
+
     componentDidMount() {
         if (localStorage.usertoken) {
             var token = localStorage.usertoken;
-            var decoded = jwt_decode(token);
+            var decoded = jwt_decode(token, {header: true});
+
             this.setState({
                 first_name: decoded.first_name,
                 last_name: decoded.last_name,
                 email: decoded.email,
                 role: decoded.role,
             });
-            console.log('my role is ' + decoded.role);
-            if(decoded.role==="student"||decoded.role==="teacher"){
+            if (decoded.role === "student" || decoded.role === "teacher") {
                 this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
                 console.log("Students and teachers are not allowed to access this page.");
             }
         } else {
-            this.props.history.push('/');
             console.log('you are not logged in');
         }
     }
+
     render() {
         let innerJSX = this.props.innerJSX;
-        return ( <div>
+        return (<div>
             <Sidebar
                 role={this.state.role}
                 user={this.state.first_name}
                 selected={this.props.page}
-            /> </div> );
+            /></div>);
     }
 }
 

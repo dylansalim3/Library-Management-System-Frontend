@@ -28,6 +28,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.8.2",
+    "react-particles-js": "^3.4.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-window": "^1.8.5",

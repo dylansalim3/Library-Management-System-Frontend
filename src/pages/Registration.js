@@ -84,7 +84,6 @@ class Registration extends Component {
             await axios
                 .post('/file', imageFormObj)
                 .then((data) => {
-                    console.log(data.data);
                     this.setState({
                         user: {
                             ...this.state.user,

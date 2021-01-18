@@ -61,12 +61,8 @@ class Login extends Component {
                         variant: 'error',
                         transitionDuration: 1000
                     });
-                    console.log('Error : ' + res.data.error);
                 } else {
-                    console.log(res.data.token);
                     localStorage.setItem('usertoken', res.data.token);
-                    console.log('Successfully logging in');
-                    console.log(this.state.role);
                     if (this.state.role === 'admin' || this.state.role === 'librarian') {
                         this.props.history.push('/admindashboard');
                     } else if (
