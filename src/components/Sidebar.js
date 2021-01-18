@@ -96,7 +96,6 @@ function Sidebar(props) {
     }, []);
 
     const handleNotification = (result) => {
-        console.log(result, "notification received");
         enqueueSnackbar(
             result
             , {

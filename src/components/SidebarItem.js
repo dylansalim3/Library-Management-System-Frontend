@@ -76,7 +76,6 @@ const SidebarItem = (props) => {
             setEmail(decoded.email);
             setFirstName(decoded.first_name);
             setProfileImg(decoded.profileimg);
-            console.log(decoded);
             axios.post('/notification/get-unread-notification-count', {userId}).then(result => {
                 const {count} = result.data;
                 setUnreadNotificationCount(count);

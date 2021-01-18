@@ -60,14 +60,12 @@ export default class Profile extends Component {
           await axios
             .post('/file', imageFormObj)
             .then((data) => {
-              console.log(data.data);
               this.setState({
                 profileimgpath: data.data,
               });
               return data.data;
             })
             .catch((err) => {
-              console.log(err);
               return;
             });
     }else{
@@ -121,7 +119,6 @@ export default class Profile extends Component {
           phonenum: this.state.phonenum,
         })
         .then((res) => {
-          console.log(res);
         });
 
       this.setState({
@@ -143,7 +140,6 @@ export default class Profile extends Component {
     if (localStorage.usertoken) {
       var token = localStorage.usertoken;
       var decoded = jwt_decode(token);
-      console.log(decoded.id);
       this.setState({
         first_name: decoded.first_name,
         last_name: decoded.last_name,
