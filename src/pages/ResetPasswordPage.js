@@ -58,7 +58,6 @@ const ResetPasswordPage = (props) => {
     let query = useQuery();
     useEffect(() => {
         setVerificationHash(query.get('hash'));
-        console.log(query.hash);
         axios.post('users/get-user-by-verification-hash', {
             hash: query.get('hash'),
         }).then(res => {

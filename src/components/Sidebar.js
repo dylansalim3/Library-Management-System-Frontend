@@ -131,7 +131,6 @@ function Sidebar(props) {
         } else if (role === 'librarian') {
             arr = SIDEBAR_ROUTE_LIBRARIAN;
         }
-
         return (
             <div>
                 {arr.map((data, index) => (

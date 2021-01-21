@@ -51,7 +51,6 @@ const CompletedReservation = () => {
     const retrieveData = (userId) => {
         axios.post('book-request/find-completed-book-reservation-by-user-id', {userId}).then(result => {
             setBookRequests(result.data);
-            console.log(result.data);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });

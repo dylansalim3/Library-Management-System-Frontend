@@ -31,7 +31,6 @@ if (today.getDate() < 10) {
 }
 
 const alphabetmonth = today.toLocaleString('default', { month: 'long' }).substring(0,3);
-console.log(alphabetmonth);
 var todayDate = day + '-' + alphabetmonth + '-' + today.getFullYear(); 
 // var todayDate = today.getFullYear() + '-' + month + '-' + day;
 
@@ -84,7 +83,6 @@ const CompletedBookReservation = () => {
                 res.bookimg = img;
             })
             setBookRequests(result.data);
-            console.log(result.data);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });
@@ -157,9 +155,7 @@ const BookReservationPage = () => {
     ];
 
     const retrieveData = () => {
-        console.log("retrieving data");
         axios.post('book-request/find-all-pending-book-reservations').then(result => {
-            console.log(result.data);
             setBookRequests(result.data);
         }).catch(err => {
             console.log(err);

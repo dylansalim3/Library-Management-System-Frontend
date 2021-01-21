@@ -15,7 +15,7 @@ class BorrowBook extends Component {
             var token = localStorage.usertoken;
             var decoded = jwt_decode(token);
             this.setState({first_name: decoded.first_name, last_name: decoded.last_name, email: decoded.email, role: decoded.role});
-            console.log('my role is ' + decoded.role);
+
             if (decoded.role === 'admin' || decoded.role === 'librarian') {
                 this
                     .props

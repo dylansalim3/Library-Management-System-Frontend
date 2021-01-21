@@ -23,7 +23,6 @@ class LibrarianDashboard extends Component {
                 email: decoded.email,
                 role: decoded.role,
             });
-            console.log('my role is ' + decoded.role);
             if (decoded.role === 'admin' || decoded.role === 'librarian') {
                 this.props.history.push('/admindashboard'); //push to admin dashboard and librarian dashboard
                 console.log(

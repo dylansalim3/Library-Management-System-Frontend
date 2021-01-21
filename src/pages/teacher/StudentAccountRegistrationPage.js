@@ -30,7 +30,6 @@ class StudentAccountRegistrationPage extends Component {
             })
         });
         axios.get('roles/teacher/get-roles').then(res => {
-            console.log(res.data);
             this.setState({
                 role: res.data[0].id,
             });

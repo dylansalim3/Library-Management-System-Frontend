@@ -31,7 +31,6 @@ const ExtendBorrowPage = () => {
         axios.post('book-request/find-all-borrowed-books', {
             userId
         }).then(res => {
-            console.log(res.data);
             setBorrowBooks(res.data);
         }).catch(err => {
             console.log(err.toString);

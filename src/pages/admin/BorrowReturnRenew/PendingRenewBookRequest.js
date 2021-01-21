@@ -21,7 +21,6 @@ const CompletedRenewBookRequest = () => {
     const retrieveData = () => {
         axios.post("book-request/find-all-extend-book-requests").then(result => {
             setBookRequests(result.data?.completedBookRequests);
-            console.log(result.data.completedBookRequests);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
         });

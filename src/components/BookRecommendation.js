@@ -13,7 +13,6 @@ const BookRecommendation = (props) => {
             const decoded = jwt_decode(token);
             const userId = decoded.id;
             axios.post('/book-details/get-book-recommendation', {userId}).then(result => {
-                console.log(result.data);
                 if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                     setBookRecommendations(result.data.slice(0, 3));
                 }

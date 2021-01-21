@@ -19,7 +19,6 @@ class BorrowHistoryPage extends Component {
             axios.post('borrow-books-history/get-book-history', {
                 userId: decoded.id,
             }).then(res => {
-                console.log(res.data);
                 this.setState({
                     borrowBookHistory: res.data
                 });

@@ -1,11 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './404.css';
 import Particles from "react-particles-js";
 
 const FourOFourPage = () => {
-    useEffect(() => {
-        console.log(document.referrer);
-    }, []);
     return (
         <div>
 
