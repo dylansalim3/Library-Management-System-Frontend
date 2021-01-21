@@ -91,7 +91,6 @@ class LatestBookResult extends Component {
     };
 
     onChangeShowBookReservationModal = (show) => {
-        console.log('here');
         this.setState({
             bookReservationModal: {
                 showBookReservationModal: show,

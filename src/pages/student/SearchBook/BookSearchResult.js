@@ -39,8 +39,6 @@ class BookSearchResult extends Component {
             allBookDetail: allBookDetail,
             showBookDetailModal: true,
         });
-        console.log(typeof this.state.allBookDetail);
-        console.log(typeof allBookDetail);
     };
 
 
@@ -78,7 +76,6 @@ class BookSearchResult extends Component {
         const title = bookDetail.title;
         const desc = bookDetail.summary;
         let imageLink = bookDetail.bookimg;
-        console.log(typeof allbook);
 
 
         return (
@@ -125,7 +122,6 @@ class BookSearchResult extends Component {
 
 
   onChangeShowBookReservationModal = (show) => {
-    console.log('here');
     this.setState({
       bookReservationModal: {
         showBookReservationModal: show,
@@ -135,7 +131,6 @@ class BookSearchResult extends Component {
 
   render() {
     const searchResults = this.props.result;
-    console.log(this.props.disabledReservation);
     return (
       <div id="searchResult">
         <h2>{this.props.title}</h2>

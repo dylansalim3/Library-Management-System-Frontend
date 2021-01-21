@@ -36,7 +36,6 @@ class BookDetailModal extends Component {
   };
 
   onReserveBook = (bookId) => {
-    console.log(bookId);
     this.setState({
       reservationModal: true,
       selectedbook: bookId,
@@ -97,7 +96,6 @@ class BookDetailModal extends Component {
             var location = null;
             var singleId = null;
             for (var i in arr) {
-              console.log(arr[i].location);
               location = arr[i].location;
               singleId = arr[i].bookid;
             }

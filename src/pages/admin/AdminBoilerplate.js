@@ -10,9 +10,10 @@ class AdminBoilerplate extends Component {
     }
 
     componentDidMount() {
+
         if (localStorage.usertoken) {
             var token = localStorage.usertoken;
-            var decoded = jwt_decode(token, {header: true});
+            var decoded = jwt_decode(token);
 
             this.setState({
                 first_name: decoded.first_name,
@@ -20,6 +21,7 @@ class AdminBoilerplate extends Component {
                 email: decoded.email,
                 role: decoded.role,
             });
+
             if (decoded.role === "student" || decoded.role === "teacher") {
                 this.props.history.push('/studentdashboard'); //push to teacher dashboard and student dashboard
                 console.log("Students and teachers are not allowed to access this page.");

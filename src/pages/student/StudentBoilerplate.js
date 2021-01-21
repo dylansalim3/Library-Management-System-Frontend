@@ -13,7 +13,7 @@ class StudentBoilerplate extends Component {
     componentDidMount() {
         if (localStorage.usertoken) {
             var token = localStorage.usertoken;
-            var decoded = jwt_decode(token, {header: true});
+            var decoded = jwt_decode(token);
 
             this.setState({
                 first_name: decoded.first_name,
@@ -21,8 +21,6 @@ class StudentBoilerplate extends Component {
                 email: decoded.email,
                 role: decoded.role,
             });
-            console.log(decoded);
-            console.log('my role is ' + decoded.role);
             if (decoded.role === 'admin' || decoded.role === 'librarian') {
                 this.props.history.push('/admindashboard'); //push to admin dashboard and librarian dashboard
                 console.log(

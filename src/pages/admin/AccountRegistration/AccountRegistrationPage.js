@@ -30,7 +30,6 @@ class AccountRegistrationPage extends Component {
             })
         });
         axios.get('roles/admin/get-roles').then(res => {
-            console.log(res.data);
             this.setState({
                 roles: res.data,
             });

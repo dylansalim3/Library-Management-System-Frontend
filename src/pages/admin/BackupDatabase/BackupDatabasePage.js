@@ -85,7 +85,6 @@ const BackupDatabasePage = () => {
                                         // acceptedFiles={['application/x-sql','text/octet-stream','application/sql','file' ,'text/sql', 'text/x-sql', 'text/plain'] }
                                         dropzoneText={"Drag and drop the SQL file here"}
                                         onChange={(files) => {
-                                            console.log(files)
                                             setSQLFile(files)
                                         }}
                                         filesLimit={1}

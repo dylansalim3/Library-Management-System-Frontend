@@ -73,7 +73,6 @@ async function createNotificationSubscription() {
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(pushServerPublicKey)
     }).then(function(pushSubscription) {
-        console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
         return pushSubscription;
     });
 }

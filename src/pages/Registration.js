@@ -105,17 +105,14 @@ class Registration extends Component {
     updateProfile = async () => {
         //upload img if changed
         await this.uploadImage();
-        console.log(this.state);
 
         //update user profile
         let uploadprofileimgpath;
         if (this.state.user.imgchanged) {
-            console.log('imgchangedhere')
             uploadprofileimgpath = this.state.user.profileimgpath
         } else {
             uploadprofileimgpath = this.state.user.profileimg
         }
-        console.log(uploadprofileimgpath);
         axios
             .post('/users/complete-registration', {
                 first_name: this.state.user.first_name,
@@ -148,7 +145,6 @@ class Registration extends Component {
     };
 
     selectImage = (e) => {
-        console.log(e.target.files[0]);
         this.setState({
             user: {
                 ...this.state.user,

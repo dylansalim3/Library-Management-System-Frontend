@@ -101,9 +101,6 @@ export default function usePushNotifications() {
     const onClickSendSubscriptionToPushServer = (currentSub) => {
         setLoading(true);
         setError(false);
-        console.log("call this function");
-
-        console.log(currentSub)
 
         return axios
             .post("/subscription/init", currentSub)
@@ -140,7 +137,6 @@ export default function usePushNotifications() {
         if (pushNotificationSupported && !isConsentGranted) {
             await onClickAskUserPermission();
         }
-        console.log(!userSubscription);
         if (!userSubscription) {
             await onClickSubscribeToPushNotification().then(async subscription=>{
                 if (!pushServerSubscriptionId) {

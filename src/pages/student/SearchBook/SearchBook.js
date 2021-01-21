@@ -47,12 +47,10 @@ class SearchBook extends Component {
   getSetting = () => {
     axios.get('/setting/retrieve').then((res) => {
       const returned = res.data.result;
-      console.log(returned);
 
       this.setState({
         disabledReservation: returned.reservation_function == 0 ? true : false,
       });
-      console.log(this.state.disabledReservation);
     });
   };
 
@@ -87,11 +85,9 @@ class SearchBook extends Component {
         genre: this.state.genre,
       })
       .then((results) => {
-        console.log(results.data);
         const Array = results.data;
         const Property = 'isbn';
         const booksByISBN = _.groupBy(Array, Property);
-        console.log(booksByISBN);
         this.setState({
           showBookSearchResult: true,
           // bookSearchResult: results.data,

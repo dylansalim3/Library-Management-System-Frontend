@@ -67,7 +67,6 @@ export default class Setting extends Component {
         .get('/setting/retrieve')
         .then((res) => {
           const returned = res.data.result;
-          console.log(returned);
           
           this.setState({
             schoolName: returned.school_name,
@@ -98,7 +97,6 @@ export default class Setting extends Component {
           reservation_function: this.state.bookReservation == false ? 0 : 1,
         })
         .then((res) => {
-          console.log(res);
           this.getSetting();
         });
 

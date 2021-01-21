@@ -107,10 +107,6 @@ class BookReservationModal extends Component {
     };
 
     submitReservation = async() => {
-        console.log('submit to backend');
-        console.log(this.props.selectedbook);
-        console.log(this.state.userId);
-        console.log(this.state.reason);
         await axios
             .post('book-request/add-reserve-book-request', {
                 userId: this.state.userId,
@@ -123,7 +119,6 @@ class BookReservationModal extends Component {
                     snackColor: 'green',
                     snackDialog: true
                 })
-                console.log(results.data);
             })
             .catch(e => {
                 this.setState({
@@ -132,7 +127,6 @@ class BookReservationModal extends Component {
                   snackColor: 'red',
                   snackDialog: true,
                 });
-                console.log(e);
             });
             this.onCloseModal();
             this.onCloseConfirmationModal();

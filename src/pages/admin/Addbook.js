@@ -97,43 +97,34 @@ export default class Addbook extends Component {
     axios
       .get('/genres/get-all-genre')
       .then((res) => {
-        console.log(res.data[0]);
-        console.log(typeof res.data);
         this.setState({ genreData: res.data });
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        console.log(this.state.genreData);
       });
 
     axios
       .get('/bookCategory/get-all-category')
       .then((res) => {
-        console.log(res.data[0]);
-        console.log(typeof res.data);
         this.setState({ categoryData: res.data });
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        console.log(this.state.categoryData);
       });
 
     axios
       .get('/author/get-all-authors')
       .then((res) => {
-        console.log(res.data[0]);
-        console.log(typeof res.data);
         this.setState({ authorData: res.data });
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        console.log(this.state.authorData);
       });
   };
 
@@ -164,7 +155,6 @@ export default class Addbook extends Component {
     html2canvas(input)
       .then((canvas)=>{
         const imgData = canvas.toDataURL('image/png');
-        console.log('imgdata is ' + imgData);
         var a = document.createElement('a');
         const fileName = String(this.state.addedBookID) + ".png";
         a.setAttribute('download', fileName);
@@ -176,7 +166,6 @@ export default class Addbook extends Component {
 
 
   selectEbook = (e) => {
-    console.log(e.target.files[0]);
     this.setState({
       ebook: e.target.files[0],
       // bookimg: URL.createObjectURL(e.target.files[0]),
@@ -184,7 +173,6 @@ export default class Addbook extends Component {
   };
 
   selectImage = (e) => {
-    console.log(e.target.files[0]);
     this.setState({
       bookcover: e.target.files[0],
       bookimg: URL.createObjectURL(e.target.files[0]),
@@ -196,7 +184,6 @@ export default class Addbook extends Component {
       await axios
         .post('/file-ebook', ebookFormObj)
         .then((data) => {
-          console.log(data.data);
           this.setState({
             ebookpath: data.data,
           });
@@ -216,7 +203,6 @@ export default class Addbook extends Component {
       await axios
         .post('/file', imageFormObj)
         .then((data) => {
-          console.log(data.data);
           this.setState({
             bookimgpath: data.data,
           });
@@ -234,8 +220,6 @@ export default class Addbook extends Component {
   uploadBook = async (imageFormObj, ebookFormObj) => {
     await this.uploadImage(imageFormObj);
     await this.uploadEbook(ebookFormObj);
-    console.log(this.state.bookimgpath);
-    console.log(this.state.ebookpath);
 
        await axios
           .post('/books/add', {
@@ -254,8 +238,6 @@ export default class Addbook extends Component {
             author: this.state.author,
           })
           .then((res) => {
-            console.log(res);
-            console.log(res.data.bookdetail.id);
 
             this.setState({
               addedBookID: res.data.bookdetail.id,
@@ -272,7 +254,6 @@ export default class Addbook extends Component {
                   id: this.state.addedBookID,
                 })
                 .then((data) => {
-                  console.log(data.data);
                   axios
                     .post('book-details/update-barcodepath', {
                       bookId: this.state.addedBookID,
@@ -368,13 +349,11 @@ export default class Addbook extends Component {
     let deleteType = this.state.deleteFieldText;
     try{
     if (deleteType === 'category') {
-        console.log(this.state.deleteValue);
         axios
           .post('/bookCategory/delete', {
             deleteFieldName: this.state.deleteValue,
           })
           .then((res) => {
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -391,7 +370,6 @@ export default class Addbook extends Component {
             deleteFieldName: this.state.deleteValue,
           })
           .then((res) => {
-                console.log(res);
                 this.retrieveData();
                 this.closeThirdDialog();
                 this.openToastMessage('delete' + deleteType);
@@ -420,7 +398,6 @@ export default class Addbook extends Component {
 
   addNewField = () => {
     let newType = this.state.newFieldText;
-    console.log(typeof this.state.newFieldName);
     try {
       if (newType === 'author') {
         axios
@@ -444,7 +421,6 @@ export default class Addbook extends Component {
             newFieldName: this.state.newFieldName,
           })
           .then((res) => {
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -460,7 +436,6 @@ export default class Addbook extends Component {
             newFieldName: this.state.newFieldName,
           })
           .then((res) => {
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);

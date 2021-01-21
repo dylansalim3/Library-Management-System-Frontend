@@ -75,7 +75,6 @@ class BookEditDeleteModal extends Component {
       await axios
         .post('/file', imageFormObj)
         .then((data) => {
-          console.log(data.data);
           var bookDetail = Object.assign({}, this.props.book);
           bookDetail = {
             ...bookDetail,
@@ -151,7 +150,6 @@ class BookEditDeleteModal extends Component {
   downloadBarcodeImg = () => {
     var a = document.createElement('a');
     const fileName = String(this.props.book.id) + '.png';
-    console.log(this.props.book);
     a.setAttribute('download', fileName);
     a.setAttribute('href', BASE_URL+this.props.book.barcode_path);
     a.setAttribute('target', BASE_URL + '_blank');
@@ -160,12 +158,10 @@ class BookEditDeleteModal extends Component {
 
   downloadBarcode = () => {
     var input = document.getElementById('barcodeField');
-    console.log(input);
     html2canvas(input)
       .then((canvas) => {
         // var img = canvas;
         const imgData = canvas.toDataURL('image/png');
-        console.log('imgdata is ' + imgData);
         var a = document.createElement('a');
         const fileName = String(this.props.book.id) + '.png';
         a.setAttribute('download', fileName);

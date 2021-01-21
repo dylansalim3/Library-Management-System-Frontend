@@ -297,7 +297,6 @@ const EnhancedTable = (props) => {
     }, [rows]);
 
     React.useEffect(() => {
-        console.log(actionButtonText);
         setDisableSelection(actionButtonText === undefined);
     }, []);
 

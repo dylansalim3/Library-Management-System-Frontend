@@ -72,7 +72,6 @@ const EditLibraryMapCard = props => {
 
     const onChangeFile = (e, libraryMap) => {
         if (e.target.files) {
-            console.log(libraryMap);
             const uploadedImageFile = e.target.files[0];
             const formData = new FormData();
             formData.append('file', uploadedImageFile);

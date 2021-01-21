@@ -72,8 +72,6 @@ const AdminDashboardContent = () => {
 
     const generateReport = () => {
         axios({ url: 'report/get-monthly-report', method: 'POST' }).then(response => {
-            console.log(response.data)
-            console.log(response.data?.download !== undefined);
             if (response.data?.download !== undefined) {
                 setTimeout(() => {
                     window.open(response.data?.download);

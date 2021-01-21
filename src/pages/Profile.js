@@ -80,7 +80,6 @@ export default class Profile extends Component {
             userid: userid
         })
         .then(res=>{
-            console.log(res.data.userdata);
             this.setState({
               first_name: res.data.userdata.first_name,
               last_name: res.data.userdata.last_name,
@@ -149,7 +148,6 @@ export default class Profile extends Component {
         
       });
       this.getProfile(decoded.id);
-      console.log('my role is ' + decoded.role);
     } else {
       this.props.history.push('/');
       console.log('you are not logged in');
@@ -161,7 +159,6 @@ export default class Profile extends Component {
   };
 
   selectImage = (e) => {
-    console.log(e.target.files[0]);
     this.setState({
       imgchanged: true,
       uploadprofileimg: e.target.files[0],
