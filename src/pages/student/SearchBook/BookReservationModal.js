@@ -76,6 +76,7 @@ class BookReservationModal extends Component {
         this.setState({
             [name]: value,
         });
+        console.log(this.state.endDate)
     };
 
     onSubmit = (e) => {
@@ -107,11 +108,27 @@ class BookReservationModal extends Component {
     };
 
     submitReservation = async() => {
+      
+      var desiredEndDate = this.state.endDate;
+      var month,
+        day = '';
+      if (desiredEndDate.getMonth() + 1 < 10) {
+        month = '0' + (desiredEndDate.getMonth() + 1);
+      } else {
+        month = desiredEndDate.getMonth() + 1;
+      }
+      if (desiredEndDate.getDate() < 10) {
+        day = '0' + desiredEndDate.getDate();
+      } else {
+        day = desiredEndDate.getDate();
+      }
+      var formattedEndDate = day + '-' + month + '-' + desiredEndDate.getFullYear();
+
         await axios
             .post('book-request/add-reserve-book-request', {
                 userId: this.state.userId,
                 bookId: this.props.selectedbook,
-                reason: this.state.reason,
+                reason: `${formattedEndDate}${this.state.reason}`,
             })
             .then((results) => {
                 this.setState({
@@ -174,9 +191,16 @@ class BookReservationModal extends Component {
                           'aria-label': 'change date',
                         }}
                       />
-                    </div>
-                    <div className="flex-justify-center"> */}
-                    {/* <KeyboardDatePicker
+                    </div>*/}
+                    <div
+                      style={{
+                        marginBottom: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <KeyboardDatePicker
                         minDate={
                           new Date(
                             new Date(this.state.startDate).getTime() +
@@ -189,17 +213,27 @@ class BookReservationModal extends Component {
                         format="dd-MM-yyyy"
                         margin="normal"
                         id="date-picker-inline"
-                        label="End Date"
+                        label="Desired End Date"
                         value={this.state.endDate}
                         onChange={(e, value) => this.onChangeForm('endDate', e)}
                         KeyboardButtonProps={{
                           'aria-label': 'change date',
                         }}
                       />
-                    </div> */}
-                    <div className="flex-justify-center" style={{marginBottom:'20px'}}>
-                      <h4>Enter your reason of reservation below.</h4>
+                      <h5> #actual end date will be decided by librarians</h5>
                     </div>
+
+                    {/* <div
+                      // className="flex-justify-center"
+                      style={{
+                        marginBottom: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <h3>Enter your reason of reservation below. </h3>
+                    </div> */}
 
                     <Grid container direction="row" justify="center">
                       <Grid item md={5}>

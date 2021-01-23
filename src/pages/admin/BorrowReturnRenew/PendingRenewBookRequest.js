@@ -19,7 +19,13 @@ const CompletedRenewBookRequest = () => {
     const {enqueueSnackbar} = useSnackbar();
 
     const retrieveData = () => {
-        axios.post("book-request/find-all-extend-book-requests").then(result => {
+        axios.post("book-request/find-all-extend-book-requests").then(async result => {
+                if(result.data.completedBookRequests){
+                    await result.data.completedBookRequests.forEach((result) => {
+                    result['desiredEndDate'] = result['reason'].substring( 0, 10 );
+                    result['reason'] = result['reason'].substring(10);
+                });
+            }
             setBookRequests(result.data?.completedBookRequests);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
@@ -31,17 +37,56 @@ const CompletedRenewBookRequest = () => {
     }, []);
 
     const headCells = [
-        {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
-        {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
-        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
-        {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
-        {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
-        {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
-        {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
-        {id: 'reason', numeric: false, disablePadding: false, label: 'Reason'},
-        {id: 'rejectReason', numeric: false, disablePadding: false, label: 'Reject Reason'},
-        {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+      { id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID' },
+      {
+        id: 'bookimg',
+        numeric: false,
+        type: 'img',
+        disablePadding: false,
+        label: 'Book Cover',
+      },
+      {
+        id: 'title',
+        numeric: false,
+        disablePadding: false,
+        label: 'Book Title',
+      },
+      {
+        id: 'requestCreatedDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Created Date',
+      },
+      { id: 'userId', numeric: true, disablePadding: false, label: 'User ID' },
+      {
+        id: 'username',
+        numeric: false,
+        disablePadding: false,
+        label: 'Username',
+      },
+      // {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
+      {
+        id: 'dueDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Due Date',
+      },
+      {
+        id: 'desiredEndDate',
+        numeric: false,
+        disablePadding: false,
+        label: 'Desired End Date',
+      },
+      { id: 'reason', numeric: false, disablePadding: false, label: 'Reason' },
+      {
+        id: 'rejectReason',
+        numeric: false,
+        disablePadding: false,
+        label: 'Reject Reason',
+      },
+      { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
     ];
 
     const searchCriteria = ['title', 'username'];
@@ -68,7 +113,13 @@ const PendingRenewBookRequest = () => {
     const {enqueueSnackbar} = useSnackbar();
 
     const retrieveData = () => {
-        axios.post("book-request/find-all-extend-book-requests").then(result => {
+        axios.post("book-request/find-all-extend-book-requests").then(async result => {
+            if(result.data.pendingBookRequests){
+                await result.data.pendingBookRequests.forEach((result) => {
+                  result['desiredEndDate'] = result['reason'].substring( 0, 10 );
+                  result['reason'] = result['reason'].substring(10);
+                });
+            }
             setBookRequests(result.data?.pendingBookRequests);
         }).catch(err => {
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});
@@ -120,16 +171,56 @@ const PendingRenewBookRequest = () => {
     }, []);
 
     const headCells = [
-        {id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID'},
-        {id: 'bookimg', numeric: false, type: 'img', disablePadding: false, label: 'Book Cover'},
-        {id: 'title', numeric: false, disablePadding: false, label: 'Book Title'},
-        {id: 'requestCreatedDate', numeric: false, type: 'date', disablePadding: false, label: 'Created Date'},
-        {id: 'userId', numeric: true, disablePadding: false, label: 'User ID'},
-        {id: 'username', numeric: false, disablePadding: false, label: 'Username'},
-        {id: 'startDate', numeric: false, type: 'date', disablePadding: false, label: 'Start Date'},
-        {id: 'dueDate', numeric: false, type: 'date', disablePadding: false, label: 'Due Date'},
-        {id: 'reason', numeric: false, disablePadding: false, label: 'Reason'},
-        {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+      { id: 'bookId', numeric: true, disablePadding: false, label: 'Book ID' },
+      {
+        id: 'bookimg',
+        numeric: false,
+        type: 'img',
+        disablePadding: false,
+        label: 'Book Cover',
+      },
+      {
+        id: 'title',
+        numeric: false,
+        disablePadding: false,
+        label: 'Book Title',
+      },
+      {
+        id: 'requestCreatedDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Created Date',
+      },
+      { id: 'userId', numeric: true, disablePadding: false, label: 'User ID' },
+      {
+        id: 'username',
+        numeric: false,
+        disablePadding: false,
+        label: 'Username',
+      },
+    //   {
+    //     id: 'startDate',
+    //     numeric: false,
+    //     type: 'date',
+    //     disablePadding: false,
+    //     label: 'Start Date',
+    //   },
+      {
+        id: 'dueDate',
+        numeric: false,
+        type: 'date',
+        disablePadding: false,
+        label: 'Due Date',
+      },
+      {
+        id: 'desiredEndDate',
+        numeric: false,
+        disablePadding: false,
+        label: 'Desired End Date',
+      },
+      { id: 'reason', numeric: false, disablePadding: false, label: 'Reason' },
+      { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
     ];
 
     const acceptRenewRequest = (bookRequestId) => {
