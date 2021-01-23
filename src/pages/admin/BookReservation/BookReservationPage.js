@@ -152,11 +152,23 @@ const BookReservationPage = () => {
         disablePadding: false,
         label: 'Reason',
       },
+      {
+        id: 'desiredEndDate',
+        numeric: false,
+        disablePadding: false,
+        label: 'Desired end date',
+      },
     ];
 
     const retrieveData = () => {
-        axios.post('book-request/find-all-pending-book-reservations').then(result => {
-            setBookRequests(result.data);
+        axios.post('book-request/find-all-pending-book-reservations').then(async result => {
+          
+          await result.data.forEach(result=>{
+            result['desiredEndDate']=result['requestReason'].substring(0,10);
+            result['requestReason'] = result['requestReason'].substring(10);
+          })
+          setBookRequests(result.data);
+
         }).catch(err => {
             console.log(err);
             enqueueSnackbar('Error occured. Please Try Again Later', {variant: 'error', transitionDuration: 1000});

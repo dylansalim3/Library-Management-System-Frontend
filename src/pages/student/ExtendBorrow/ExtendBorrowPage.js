@@ -9,14 +9,23 @@ import CustomModal from "../../../components/CustomModal";
 import {Grid, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {useForm} from "react-hook-form";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const ExtendBorrowPage = () => {
     const [borrowBooks, setBorrowBooks] = React.useState([]);
     const [userId, setUserId] = React.useState(-1);
+    const [endDate, setEndDate] = React.useState(
+      new Date(new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24)
+    );
     const [openExtendBorrowReasonDialog, setOpenExtendBorrowReasonDialog] = React.useState(false);
     const [extendBorrowBookIdList, setExtendBorrowBookIdList] = React.useState([]);
     const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
     const {enqueueSnackbar} = useSnackbar();
+    
 
     React.useEffect(() => {
         if (localStorage.usertoken) {
@@ -53,12 +62,28 @@ const ExtendBorrowPage = () => {
     };
 
     const submitSelection = () => {
+
+      var desiredEndDate = endDate;
+      var month,day = '';
+      if (desiredEndDate.getMonth() + 1 < 10) {
+        month = '0' + (desiredEndDate.getMonth() + 1);
+      } else {
+        month = desiredEndDate.getMonth() + 1;
+      }
+      if (desiredEndDate.getDate() < 10) {
+        day = '0' + desiredEndDate.getDate();
+      } else {
+        day = desiredEndDate.getDate();
+      }
+      var formattedEndDate = day + '-' + month + '-' + desiredEndDate.getFullYear();
+
         const reason = getValues("reason");
         axios.post('book-request/add-extend-book-request', {
             userId: userId,
             borrowBookIdList: extendBorrowBookIdList,
-            url: BORROW_BOOK_ROUTE + "/2",
-            reason,
+            url: BORROW_BOOK_ROUTE,
+            reason: `${formattedEndDate}${reason}`,
+            // reason,
         }).then(result => {
             enqueueSnackbar('Extend Borrow Request Sent', {variant: 'success', transitionDuration: 1000});
             retrieveData(userId);
@@ -70,6 +95,7 @@ const ExtendBorrowPage = () => {
     };
 
     const searchCriteria = ['title'];
+
 
     return (
       <div>
@@ -96,9 +122,41 @@ const ExtendBorrowPage = () => {
               >
                 <Grid container direction="row" justify="center">
                   <Grid item xs={12} md={8}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <div
+                        style={{
+                          marginBottom: '20px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <KeyboardDatePicker
+                        minDate={
+                          new Date(
+                            new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24
+                          )
+                        }
+                        disablePast
+                        disableToolbar
+                        variant="inline"
+                        format="dd-MM-yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Desired End Date"
+                        value={endDate}
+                        onChange={e=>setEndDate(e)}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                        <h5> #actual end date will be decided by librarians</h5>
+                      </div>
+                    </MuiPickersUtilsProvider>
+
                     <TextField
                       multiline
-                      rows={6}
+                      rows={10}
                       label="Extend Book Reason"
                       name="reason"
                       type="text"

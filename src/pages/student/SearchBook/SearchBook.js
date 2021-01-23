@@ -170,6 +170,9 @@ class SearchBook extends Component {
           <MenuItem key={'Publisher'} value={'publisher'}>
             Publisher
           </MenuItem>
+          <MenuItem key={'Author'} value={'author'}>
+            Author
+          </MenuItem>
         </Select>
       </FormControl>
     );
@@ -181,7 +184,7 @@ class SearchBook extends Component {
         <StudentBoilerplate page={'searchbook'} />
         <div className="content">
           <h2>Library Catalog</h2>
-          <Card style={{ padding: 10, marginBottom: '20px' }}>
+          <Card style={{ padding: 10, marginBottom: '20px',marginTop:'15px' }}>
             <CardContent className="flexGrow">
               <form onSubmit={this.onSubmit} noValidate autoComplete="off">
                 <Grid container spacing={1}>

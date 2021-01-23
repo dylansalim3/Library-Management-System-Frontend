@@ -131,18 +131,26 @@ class EditDeleteBookPage extends Component {
     displaySearchCriteriaType = (() => {
         //ref error here
         return (
-            <FormControl variant="outlined" fullWidth>
-                <Select
-                    name="searchCriteriaType"
-                    value={this.state.searchCriteriaType}
-                    onChange={this.onChange}
-                >
-                    <MenuItem key={"Title"} value={"title"}>Title</MenuItem>
-                    <MenuItem key={"ISBN"} value={"isbn"}>ISBN</MenuItem>
-                    <MenuItem key={"Publisher"} value={"publisher"}>Publisher</MenuItem>
-
-                </Select>
-            </FormControl>
+          <FormControl variant="outlined" fullWidth>
+            <Select
+              name="searchCriteriaType"
+              value={this.state.searchCriteriaType}
+              onChange={this.onChange}
+            >
+              <MenuItem key={'Title'} value={'title'}>
+                Title
+              </MenuItem>
+              <MenuItem key={'ISBN'} value={'isbn'}>
+                ISBN
+              </MenuItem>
+              <MenuItem key={'Publisher'} value={'publisher'}>
+                Publisher
+              </MenuItem>
+              <MenuItem key={'Author'} value={'author'}>
+                Author
+              </MenuItem>
+            </Select>
+          </FormControl>
         );
     });
 

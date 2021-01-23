@@ -34,36 +34,50 @@ const EditLibraryMapPage = () => {
     }
 
     return (
-        <div>
-            <AdminBoilerplate page={'library_map'}/>
-            <div className="content">
-                <Paper style={{padding: 20}}>
-                    {!loading ? <EditLibraryMapCard
-                            libraryMaps={libraryMaps}
-                            onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-                            onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-                            onUpdateLibraryMap={getLibraryMaps}
-                        /> :
-                        <Box width="100%" display="flex" justifyContent="center">
-                            <CircularProgress color="inherit" size={20}/>
-                        </Box>
-                    }
+      <div>
+        <AdminBoilerplate page={'library_map'} />
+        <div className="content">
+          <Paper style={{ padding: 20 }}>
+            {!loading ? (
+              <EditLibraryMapCard
+                libraryMaps={libraryMaps}
+                onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+                onShowSuccessSnackbar={(status) =>
+                  setOpenSuccessSnackbar(status)
+                }
+                onUpdateLibraryMap={getLibraryMaps}
+              />
+            ) : (
+              <Box width="100%" display="flex" justifyContent="center">
+                <CircularProgress color="inherit" size={20} />
+              </Box>
+            )}
+            <div style={{marginTop:20}}>
+              <UploadLibraryMapForm
+                onUpdateLibraryMap={getLibraryMaps}
+                onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
+                onShowSuccessSnackbar={(status) =>
+                  setOpenSuccessSnackbar(status)
+                }
+              />
+            </div>
 
-            <UploadLibraryMapForm
-              onUpdateLibraryMap={getLibraryMaps}
-              onShowErrorSnackbar={(status) => setOpenErrorSnackbar(status)}
-              onShowSuccessSnackbar={(status) => setOpenSuccessSnackbar(status)}
-            />
-
-                    <Snackbar open={openErrorSnackbar} autoHideDuration={3000} onClose={() => {
-                        setOpenErrorSnackbar(false)
-                    }}>
-                        <Alert onClose={() => {
-                            setOpenErrorSnackbar(false)
-                        }} severity="error">
-                            Error occurred. Please try again later
-                        </Alert>
-                    </Snackbar>
+            <Snackbar
+              open={openErrorSnackbar}
+              autoHideDuration={3000}
+              onClose={() => {
+                setOpenErrorSnackbar(false);
+              }}
+            >
+              <Alert
+                onClose={() => {
+                  setOpenErrorSnackbar(false);
+                }}
+                severity="error"
+              >
+                Error occurred. Please try again later
+              </Alert>
+            </Snackbar>
 
             <Snackbar
               open={openSuccessSnackbar}
