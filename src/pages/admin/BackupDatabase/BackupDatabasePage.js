@@ -69,10 +69,10 @@ const BackupDatabasePage = () => {
             <div className="content">
                 <Paper style={{padding: 20}}>
                     <h2 className="textCenter">One-click Database Backup</h2>
-                    <div className="flex-justify-center" style={{marginTop: 15}}>
+                    <div className="flex-justify-center" style={{marginTop: 10,marginBottom: 5}}>
                         <Button color="primary" variant="contained" onClick={backupData}>Download Backup Data</Button>
                     </div>
-                    <p className="textCenter">Click the above button to download database backup in SQL Format</p>
+                    <p className="textCenter" style={{marginBottom: 20}}>Click the above button to download database backup in SQL Format</p>
 
                     <h2 className="textCenter">Database Restore</h2>
                     <form onSubmit={onSubmit} noValidate autoComplete="off">

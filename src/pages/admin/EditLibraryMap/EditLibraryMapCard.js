@@ -96,7 +96,7 @@ const EditLibraryMapCard = props => {
     const displayLibraryCard = (libraryMap, index, lastFloor) => {
         return (
             <Grid key={index} item xs={12} md={6}>
-                <h2>{lastFloor !== libraryMap.floor_name ? `Floor ${libraryMap.floor_name}` : ''}</h2>
+                <h2 >{lastFloor !== libraryMap.floor_name ? `Floor ${libraryMap.floor_name}` : ''}</h2>
                 <Card>
                     <CardHeader title={libraryMap.name} action={
                         <div>

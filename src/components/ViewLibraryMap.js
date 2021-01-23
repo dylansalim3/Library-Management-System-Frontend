@@ -53,7 +53,7 @@ const ViewLibraryMap = () => {
                             return (
                                 <Grid key={libraryMap.id} item xs={12} md={6}>
                                     <Card>
-                                        <CardHeader title={libraryMap.name}/>
+                                        <CardHeader title={`Floor ${libraryMap.floor_name} - ` +libraryMap.name}/>
                                         <CardActionArea onClick={() => openImageModal(index)}>
                                             <CardMedia style={{
                                                 height: 0,

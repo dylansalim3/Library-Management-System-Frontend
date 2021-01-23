@@ -97,6 +97,8 @@ const PendingRenewBookRequest = () => {
 
     const InsertRejectReasonModalContent = (
         <TextField
+            multiline
+            rows={4}
             autoFocus
             label="Reject Reason"
             name="rejectReason"
@@ -218,7 +220,11 @@ const PendingRenewBookRequest = () => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <CustomModal
             showAlertModal={showAlertModal}
-            title="Insert Expiry Date to Continue"
+            title={
+              requestType === RequestType.ACCEPT
+                ? 'Insert Expiry Date to Continue'
+                : "Please insert the reject reason"
+            }
             desc={
               requestType === RequestType.ACCEPT
                 ? InsertDateModalContent

@@ -91,9 +91,9 @@ const AdminDashboardContent = () => {
 
     return (
         <div className={classes.outerContainer}>
-            <h1>Overview</h1>
+            <h1 style={{marginBottom:10}}>Overview</h1>
             <DashboardCards overviewItems={overviewItems} />
-            <h1>Notification & Reminder</h1>
+            <h1 style={{marginTop:25,marginBottom:10}}>Notification & Reminder</h1>
             <EnhancedTable headCells={headCells} rows={notifications}
                 disableToolbar />
 

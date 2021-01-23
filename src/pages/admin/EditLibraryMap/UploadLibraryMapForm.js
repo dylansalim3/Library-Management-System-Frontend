@@ -57,7 +57,7 @@ const UploadLibraryMapForm = (props) => {
 
     return (
         <div>
-            <h2 className="textCenter">Add New Map</h2>
+            <h2 className="textCenter" style={{marginBottom:10}}>Add New Map</h2>
             <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
                 <Grid container direction="row" justify="center">
                     <Grid item xs={12} md={8}>
