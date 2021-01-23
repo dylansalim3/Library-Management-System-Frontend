@@ -25,6 +25,7 @@ const ExtendBorrowPage = () => {
     const [extendBorrowBookIdList, setExtendBorrowBookIdList] = React.useState([]);
     const {register, handleSubmit, watch, setValue, getValues, errors} = useForm();
     const {enqueueSnackbar} = useSnackbar();
+    
 
     React.useEffect(() => {
         if (localStorage.usertoken) {
@@ -95,8 +96,6 @@ const ExtendBorrowPage = () => {
 
     const searchCriteria = ['title'];
 
-    // var startDate = Date.now();
-    // var endDate = new Date( new Date(Date.now()).getTime() + 1000 * 60 * 60 * 24);
 
     return (
       <div>

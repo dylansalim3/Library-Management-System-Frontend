@@ -170,6 +170,9 @@ class SearchBook extends Component {
           <MenuItem key={'Publisher'} value={'publisher'}>
             Publisher
           </MenuItem>
+          <MenuItem key={'Author'} value={'author'}>
+            Author
+          </MenuItem>
         </Select>
       </FormControl>
     );
