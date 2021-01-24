@@ -27,6 +27,7 @@ class AdminBoilerplate extends Component {
                 console.log("Students and teachers are not allowed to access this page.");
             }
         } else {
+            this.props.history.push('/');
             console.log('you are not logged in');
         }
     }
