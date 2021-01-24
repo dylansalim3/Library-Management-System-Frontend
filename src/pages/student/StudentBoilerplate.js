@@ -28,6 +28,7 @@ class StudentBoilerplate extends Component {
                 );
             }
         } else {
+            this.props.history.push('/');
             console.log('you are not logged in');
         }
 
