@@ -74,9 +74,9 @@ class Login extends Component {
                 }
             })
             .catch((err) => {
-                this.props.enqueueSnackbar("Incorrect combination of email and password", {
+                this.props.enqueueSnackbar("Incorrect combination of email and password or wrong role selected", {
                     variant: 'error',
-                    transitionDuration: 1000
+                    transitionDuration: 3000
                 });
             });
     }
