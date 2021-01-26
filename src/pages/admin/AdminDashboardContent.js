@@ -66,6 +66,14 @@ const AdminDashboardContent = () => {
             setBooksBorrowed(apiResult.booksCurrentBorrowed);
         });
         axios.post('/notification/get-all-notifications').then(result => {
+            console.log(result.data);
+            result.data.forEach(r=>{
+                if(r.unread===false){
+                    r.unread="True";
+                }else{
+                    r.unread="False"
+                }
+            })
             setNotifications(result.data);
         });
     }, []);
