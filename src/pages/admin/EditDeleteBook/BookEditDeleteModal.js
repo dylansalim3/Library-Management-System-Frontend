@@ -33,6 +33,7 @@ class BookEditDeleteModal extends Component {
     this.state = Object.assign({}, initialState);
   }
 
+
   onCloseModal = () => {
     this.onCloseConfirmationModal();
     this.props.onChangeShowDetailModal(false);
@@ -62,9 +63,13 @@ class BookEditDeleteModal extends Component {
       ...bookDetail,
       uploadbookimg: e.target.files[0],
       bookimg: URL.createObjectURL(e.target.files[0]),
+      displayimg: URL.createObjectURL(e.target.files[0]),
       imgchanged: true,
     };
     this.props.onEditBookDetail(bookDetail);
+    this.setState({
+      displayimg: URL.createObjectURL(e.target.files[0]),
+    });
   };
 
   uploadImage = async () => {
@@ -208,7 +213,8 @@ class BookEditDeleteModal extends Component {
                       >
                         <img
                           style={{ height: 128, width: 128 }}
-                          src={BASE_URL + book.bookimg}
+                          // src={BASE_URL + book.bookimg}
+                          src={this.state.displayimg==null?BASE_URL + book.bookimg:this.state.displayimg}
                           alt="book_img"
                           onError={(e) => {
                             e.target.onerror = null;
@@ -328,7 +334,7 @@ class BookEditDeleteModal extends Component {
                       />
                       <DarkerDisabledTextField
                         fullWidth
-                        disabled={!this.state.editing}
+                        disabled={book.type == 'digital' || !this.state.editing}
                         label="Location"
                         variant="outlined"
                         name="location"
