@@ -48,7 +48,7 @@ const ForgetPasswordPage = () => {
     const onSubmit = () => {
         axios.post("users/password-recovery", {
             email: recoveryEmail,
-            resetPasswordLinkPrefix: process.env.REACT_APP_WEB_BASE_URL + '/password-recovery'
+            resetPasswordLinkPrefix: process.env.REACT_APP_WEB_BASE_URL + 'password-recovery'
         }).then(result => {
             setOpenSuccessSnackbar(true);
         }).catch(err => {
