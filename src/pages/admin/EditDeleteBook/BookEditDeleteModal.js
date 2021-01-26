@@ -35,6 +35,9 @@ class BookEditDeleteModal extends Component {
 
 
   onCloseModal = () => {
+    this.setState({
+      displayimg: null
+    })
     this.onCloseConfirmationModal();
     this.props.onChangeShowDetailModal(false);
   };
@@ -63,7 +66,7 @@ class BookEditDeleteModal extends Component {
       ...bookDetail,
       uploadbookimg: e.target.files[0],
       bookimg: URL.createObjectURL(e.target.files[0]),
-      displayimg: URL.createObjectURL(e.target.files[0]),
+      // displayimg: URL.createObjectURL(e.target.files[0]),
       imgchanged: true,
     };
     this.props.onEditBookDetail(bookDetail);
