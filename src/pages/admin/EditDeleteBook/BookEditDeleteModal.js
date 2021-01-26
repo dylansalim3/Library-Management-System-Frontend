@@ -33,11 +33,11 @@ class BookEditDeleteModal extends Component {
     this.state = Object.assign({}, initialState);
   }
 
-
   onCloseModal = () => {
     this.setState({
-      displayimg: null
-    })
+      displayimg: null,
+      ebook: null,
+    });
     this.onCloseConfirmationModal();
     this.props.onChangeShowDetailModal(false);
   };
@@ -100,10 +100,35 @@ class BookEditDeleteModal extends Component {
     }
   };
 
+  uploadEbook = async () => {
+    console.log(this.state.ebook);
+    if (this.state.ebook) {
+      
+      let ebookFormObj = new FormData();
+      ebookFormObj.append('file', this.state.ebook);
+
+      await axios
+        .post('/file-ebook', ebookFormObj)
+        .then((data) => {
+          this.setState({
+            ebookpath: data.data,
+          });
+          return data.data; 
+        })
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    } else {
+      console.log('ebook is not changed');
+    }
+  };
+
   updateBookDetail = async () => {
     //upload img if changed
     await this.uploadImage();
-
+    await this.uploadEbook();
+    console.log(this.state.ebookpath);
     //update user profile
     let uploadbookimgpath;
     if (this.props.book.imgchanged) {
@@ -111,31 +136,61 @@ class BookEditDeleteModal extends Component {
     } else {
       uploadbookimgpath = this.props.book.bookimg;
     }
-    axios
-      .post('book-details/update-book', {
-        id: this.props.book.id,
-        title: this.props.book.title,
-        isbn: this.props.book.isbn,
-        genreId: this.props.book.genre_id,
-        bookimg: uploadbookimgpath,
-        summary: this.props.book.summary,
-        author: this.props.book.author,
-        datepublished: this.props.book.datepublished,
-        publisher: this.props.book.publisher,
-        location: this.props.book.location,
-      })
-      .then((res) => {
-        this.props.onUpdateBook();
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if(this.state.ebook){
+        axios
+          .post('book-details/update-book', {
+            id: this.props.book.id,
+            title: this.props.book.title,
+            isbn: this.props.book.isbn,
+            genreId: this.props.book.genre_id,
+            bookimg: uploadbookimgpath,
+            summary: this.props.book.summary,
+            author: this.props.book.author,
+            datepublished: this.props.book.datepublished,
+            publisher: this.props.book.publisher,
+            location: this.props.book.location,
+            ebook: this.state.ebookpath,
+          })
+          .then((res) => {
+            this.props.onUpdateBook();
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
-    this.setState({
-      editing: false,
-      dialog: true,
-    });
+        this.setState({
+          editing: false,
+          dialog: true,
+        });
+    }else{
+              axios
+                .post('book-details/update-book', {
+                  id: this.props.book.id,
+                  title: this.props.book.title,
+                  isbn: this.props.book.isbn,
+                  genreId: this.props.book.genre_id,
+                  bookimg: uploadbookimgpath,
+                  summary: this.props.book.summary,
+                  author: this.props.book.author,
+                  datepublished: this.props.book.datepublished,
+                  publisher: this.props.book.publisher,
+                  location: this.props.book.location,
+
+                })
+                .then((res) => {
+                  this.props.onUpdateBook();
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+
+              this.setState({
+                editing: false,
+                dialog: true,
+              });
+    }
   };
 
   deleteBookDetail = () => {
@@ -159,10 +214,10 @@ class BookEditDeleteModal extends Component {
     var a = document.createElement('a');
     const fileName = String(this.props.book.id) + '.png';
     a.setAttribute('download', fileName);
-    a.setAttribute('href', BASE_URL+this.props.book.barcode_path);
+    a.setAttribute('href', BASE_URL + this.props.book.barcode_path);
     a.setAttribute('target', BASE_URL + '_blank');
     a.click();
-  }
+  };
 
   downloadBarcode = () => {
     var input = document.getElementById('barcodeField');
@@ -177,6 +232,13 @@ class BookEditDeleteModal extends Component {
         a.click();
       })
       .catch((e) => console.log(e));
+  };
+
+  selectEbook = (e) => {
+    this.setState({
+      ebook: e.target.files[0],
+    });
+    console.log(this.state.ebook);
   };
 
   render() {
@@ -217,7 +279,11 @@ class BookEditDeleteModal extends Component {
                         <img
                           style={{ height: 128, width: 128 }}
                           // src={BASE_URL + book.bookimg}
-                          src={this.state.displayimg==null?BASE_URL + book.bookimg:this.state.displayimg}
+                          src={
+                            this.state.displayimg == null
+                              ? BASE_URL + book.bookimg
+                              : this.state.displayimg
+                          }
                           alt="book_img"
                           onError={(e) => {
                             e.target.onerror = null;
@@ -283,6 +349,21 @@ class BookEditDeleteModal extends Component {
                           <MenuItem>{null}</MenuItem>
                         )}
                       </DarkerDisabledTextField>
+                      <div style={{alignSelf:'start',marginLeft:'20px',marginTop:'20px'}}>
+                        <h3
+                          style={{ marginBottom: '10px' }}
+                        >
+                          Select and upload Ebook
+                        </h3>
+                        <input
+                          disabled={
+                            book.type == 'physical' || !this.state.editing
+                          }
+                          type="file"
+                          onChange={(e) => this.selectEbook(e)}
+                        />
+                      </div>
+
                       <DarkerDisabledTextField
                         fullWidth
                         disabled={!this.state.editing}

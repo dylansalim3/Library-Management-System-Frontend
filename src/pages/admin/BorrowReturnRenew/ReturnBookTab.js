@@ -17,7 +17,7 @@ const ReturnBookTab = () => {
                 const {fine} = res.data;
                 if(fine>0){
                     setOpenExpiredModal(true);
-                    setExpiredModalDesc(`The book fine is RM ${fine}`);
+                    setExpiredModalDesc(`The book fine is RM ${fine.toFixed(2)}`);
                 }else{
                     submitReturnBookRequest();
                 }
